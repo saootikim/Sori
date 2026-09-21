@@ -17,6 +17,7 @@ import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.db.MusicDatabase
 import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.get
+import com.metrolist.music.sori.SoriWebPlaylist
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -149,6 +150,20 @@ class OnlinePlaylistViewModel @Inject constructor(
                 playlist.value = playlistPage.playlist
                 playlistSongs.value = applySongFilters(playlistPage.songs)
                 continuation = playlistPage.songsContinuation
+                // Sori: where YouTube Music is Premium-only it returns just the first song of a
+                // playlist; load the whole list from youtube.com instead (see SoriWebPlaylist).
+                if (continuation == null && playlistPage.songs.size <= 1) {
+                    SoriWebPlaylist.load(playlistId)
+                        ?.takeIf { it.songs.size > playlistPage.songs.size }
+                        ?.let { web ->
+                            playlistSongs.value = applySongFilters(web.songs)
+                            playlist.value =
+                                playlistPage.playlist.copy(
+                                    title = playlistPage.playlist.title.ifBlank { web.title.orEmpty() },
+                                    thumbnail = web.thumbnail ?: playlistPage.playlist.thumbnail,
+                                )
+                        }
+                }
                 _isLoading.value = false
                 if (continuation != null) {
                     startProactiveBackgroundLoading()
