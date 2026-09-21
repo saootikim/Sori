@@ -28,6 +28,13 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/VideoTitleCleaner.kt`, `sori/VideoArtistTitle.kt` | 영상 제목 정리, "아티스트 - 제목" 분리, 채널명 정리 |
 | `sori/SearchSectionTitle.kt`, `OnlineSearchResult.kt` | 검색 결과 그룹 제목 한국어화 |
 | `sori/ui/CoverGradient.kt`, `OnlinePlaylistScreen.kt`, `AlbumScreen.kt` | 재생목록·앨범 머리를 표지 색으로 물들이기 |
+| `sori/ui/LikedArt.kt`, `ui/component/Items.kt` | 보관함 "좋아요 표시됨" 표지를 보라→코랄 그라데이션 + 흰 하트로 |
+| `MainActivity.kt`, `ui/component/AppNavigation.kt` | 상단 바는 페이지 배경과 같은 색(스크롤 시에만 색), 하단 탐색 바는 거의 검정 |
+| `library/LibraryMixScreen.kt`, `library/LibraryPlaylistsScreen.kt`, `ui/component/HideOnScrollFAB.kt` | FAB를 코랄 원형으로 (화면의 주요 동작) |
+| `sori/ThumbnailLetterbox.kt`, `App.kt` | YouTube hqdefault/sddefault 썸네일에 박힌 검은 띠를 Coil 인터셉터로 잘라내기 (목록·플레이어·알림 전부) |
+| `ui/player/Player.kt`, `ui/player/Queue.kt` | 공유·메뉴 버튼은 반투명, 재생 버튼만 흰색. 수면 타이머 라벨을 "타이머"로 줄임 (길어서 흘러가던 문제) |
+| `sori/ui/KeepAtTop.kt`, `HomeScreen.kt` | 바로가기는 항상 Home 맨 위 (원본은 섹션 순서를 섞음), 섹션이 늦게 와도 Home이 맨 위에서 열림, Home FAB 제거 (셔플 타일과 중복) |
+| `res/values-ko/sori_translations.xml` (신규) | 원본에 한국어가 없는 문자열 번역. 원본이 같은 번역을 추가하면 중복 리소스로 빌드가 실패하니 여기서 지운다 |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 
