@@ -5,9 +5,13 @@
 
 package com.metrolist.music.sori.ui
 
+import android.util.LruCache
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.TopAppBarColors
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.compositeOver
 import androidx.compose.ui.platform.LocalContext
 import coil3.imageLoader
 import coil3.request.ImageRequest
@@ -26,13 +31,18 @@ import com.metrolist.music.ui.theme.extractThemeColor
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+private const val COVER_TINT_ALPHA = 0.55f
+
+// Header and top bar ask for the same cover, and pages are revisited: extract each color once.
+private val coverColors = LruCache<String, Color>(64)
+
 /** The cover's dominant color (null until loaded), for tinting a page header like streaming apps do. */
 @Composable
 fun rememberCoverColor(imageUrl: String?): Color? {
     val context = LocalContext.current
-    var color by remember(imageUrl) { mutableStateOf<Color?>(null) }
+    var color by remember(imageUrl) { mutableStateOf(imageUrl?.let { coverColors.get(it) }) }
     LaunchedEffect(imageUrl) {
-        if (imageUrl.isNullOrBlank()) return@LaunchedEffect
+        if (imageUrl.isNullOrBlank() || color != null) return@LaunchedEffect
         color =
             withContext(Dispatchers.IO) {
                 runCatching {
@@ -45,18 +55,30 @@ fun rememberCoverColor(imageUrl: String?): Color? {
                             .build()
                     context.imageLoader.execute(request).image?.toBitmap()?.extractThemeColor()
                 }.getOrNull()
-            }
+            }?.also { coverColors.put(imageUrl, it) }
     }
     return color
 }
 
-/** Header backdrop fading from the cover color to transparent; fades in once the color is known. */
+/** The translucent cover tint, fading in once the color is known. */
 @Composable
-fun Modifier.coverGradient(color: Color?): Modifier {
-    val animated by animateColorAsState(
-        targetValue = color?.copy(alpha = 0.55f) ?: Color.Transparent,
+private fun animatedCoverTint(color: Color?): Color {
+    val tint by animateColorAsState(
+        targetValue = color?.copy(alpha = COVER_TINT_ALPHA) ?: Color.Transparent,
         animationSpec = tween(durationMillis = 450),
-        label = "coverGradient",
+        label = "coverTint",
     )
-    return background(Brush.verticalGradient(listOf(animated, Color.Transparent)))
+    return tint
+}
+
+/** Header backdrop fading from the cover color to transparent. */
+@Composable
+fun Modifier.coverGradient(color: Color?): Modifier =
+    background(Brush.verticalGradient(listOf(animatedCoverTint(color), Color.Transparent)))
+
+/** Top bar in the color the [coverGradient] header starts with, so bar and header read as one. */
+@Composable
+fun coverTopBarColors(color: Color?): TopAppBarColors {
+    val container = animatedCoverTint(color).compositeOver(MaterialTheme.colorScheme.surface)
+    return TopAppBarDefaults.topAppBarColors(containerColor = container, scrolledContainerColor = container)
 }

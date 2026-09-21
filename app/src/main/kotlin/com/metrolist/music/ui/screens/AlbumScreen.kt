@@ -81,6 +81,7 @@ import com.metrolist.music.constants.HideExplicitKey
 import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.playback.queues.LocalAlbumRadio
+import com.metrolist.music.sori.ui.coverTopBarColors
 import com.metrolist.music.sori.ui.coverGradient
 import com.metrolist.music.sori.ui.rememberCoverColor
 import com.metrolist.music.ui.component.ClickableArtistText
@@ -524,7 +525,9 @@ fun AlbumScreen(
         }
     }
 
+    val soriBarCoverColor = rememberCoverColor(albumWithSongs?.album?.thumbnailUrl) // Sori
     TopAppBar(
+        colors = coverTopBarColors(soriBarCoverColor), // Sori: the bar continues the header's cover tint
         title = {
             if (inSelectMode) {
                 Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size))

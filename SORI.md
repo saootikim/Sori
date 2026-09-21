@@ -27,7 +27,7 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/SongSearchFallback.kt`, `OnlineSearchViewModel.kt` | 노래 검색이 비면 비디오 검색으로 대체 |
 | `sori/VideoTitleCleaner.kt`, `sori/VideoArtistTitle.kt` | 영상 제목 정리, "아티스트 - 제목" 분리, 채널명 정리 |
 | `sori/SearchSectionTitle.kt`, `OnlineSearchResult.kt` | 검색 결과 그룹 제목 한국어화 |
-| `sori/ui/CoverGradient.kt`, `OnlinePlaylistScreen.kt`, `AlbumScreen.kt` | 재생목록·앨범 머리를 표지 색으로 물들이기 |
+| `sori/ui/CoverGradient.kt`, `OnlinePlaylistScreen.kt`, `AlbumScreen.kt` | 재생목록·앨범 머리와 상단 바를 표지 색으로 물들이기 (바와 머리가 이어지게) |
 | `sori/ui/LikedArt.kt`, `ui/component/Items.kt` | 보관함 "좋아요 표시됨" 표지를 보라→코랄 그라데이션 + 흰 하트로 |
 | `MainActivity.kt`, `ui/component/AppNavigation.kt` | 상단 바는 페이지 배경과 같은 색(스크롤 시에만 색), 하단 탐색 바는 거의 검정 |
 | `library/LibraryMixScreen.kt`, `library/LibraryPlaylistsScreen.kt`, `ui/component/HideOnScrollFAB.kt` | FAB를 코랄 원형으로 (화면의 주요 동작) |

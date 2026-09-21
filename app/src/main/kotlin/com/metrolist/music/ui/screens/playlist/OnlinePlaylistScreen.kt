@@ -93,6 +93,7 @@ import com.metrolist.music.db.entities.PlaylistEntity
 import com.metrolist.music.db.entities.PlaylistSongMap
 import com.metrolist.music.models.toMediaMetadata
 import com.metrolist.music.playback.queues.YouTubePlaylistQueue
+import com.metrolist.music.sori.ui.coverTopBarColors
 import com.metrolist.music.sori.ui.coverGradient
 import com.metrolist.music.sori.ui.rememberCoverColor
 import com.metrolist.music.ui.component.ExpandableText
@@ -361,7 +362,9 @@ fun OnlinePlaylistScreen(
             }
         }
 
+        val soriBarCoverColor = rememberCoverColor(playlist?.thumbnail) // Sori
         TopAppBar(
+            colors = coverTopBarColors(soriBarCoverColor), // Sori: the bar continues the header's cover tint
             title = {
                 if (inSelectMode) {
                     Text(
