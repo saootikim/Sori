@@ -13,6 +13,18 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `app/src/main/kotlin/com/metrolist/music/utils/LoginPagePolicy.kt` (신규), `ui/screens/LoginScreen.kt` | 로그인 후 구매 페이지 등 다른 youtube.com 페이지에 멈추는 문제 수정 (Premium 체험 대상 계정) |
 | `ui/screens/settings/AboutScreen.kt`, `res/values{,-ko}/sori_strings.xml` (신규) | 소프트웨어 정보: 개발자 saootikim, "Metrolist 기반"·소스·라이선스 링크 (원작 개발자·기부·커뮤니티 링크 제거) |
 | `res/drawable/small_icon.xml` | 알림바·플레이어 기본 이미지·공유 이미지 로고를 Sori 아이콘으로 |
+| `sori/SoriDefaults.kt` + `App.kt` 한 줄 | Sori 기본값 시딩 (다크, 고정 브랜드 색, 클래식 플레이어, 그라데이션, 정사각 아트, 얇은 진행 막대). 사용자가 바꾼 키는 건드리지 않음 |
+| `ui/theme/SoriColors.kt`, `SoriTypography.kt`, `Theme.kt` | Sori 다크 팔레트(#121212 + 코랄), 글꼴 위계. 기본 색 = Sori 코랄 |
+| `ui/component/NavigationTitle.kt` | 섹션 제목 흰색, 라벨·화살표 회색 |
+| `sori/SoriGreeting.kt`, `sori/ui/QuickAccessTile.kt`, `HomeScreen.kt`, `MainActivity.kt` | Home 인사말, 2열 바로가기 타일 |
+| `sori/SoriHomeShelves.kt`, `sori/ui/HomeShelves.kt`, `HomeScreen.kt` | YouTube 홈 피드가 없을 때 "Sori 추천" 선반 (추천 재생목록 검색, 시간대별 순서) |
+| `sori/SoriBrowse*.kt`, `sori/ui/BrowseAll.kt`, `OnlineSearchScreen.kt` | 검색 "모두 둘러보기" 컬러 타일 (YouTube 장르 → 탐색 → Sori 카탈로그 순) |
+| `sori/SoriWebPlaylist.kt`, `OnlinePlaylistViewModel.kt` | 재생목록이 1곡 이하로 오면 youtube.com에서 전체 불러오기 |
+| `sori/SoriAlbumFallback.kt`, `AlbumViewModel.kt` | 곡이 없는 앨범 페이지를 youtube.com 앨범 재생목록으로 채우기 |
+| `sori/SongSearchFallback.kt`, `OnlineSearchViewModel.kt` | 노래 검색이 비면 비디오 검색으로 대체 |
+| `sori/VideoTitleCleaner.kt`, `sori/VideoArtistTitle.kt` | 영상 제목 정리, "아티스트 - 제목" 분리, 채널명 정리 |
+| `sori/SearchSectionTitle.kt`, `OnlineSearchResult.kt` | 검색 결과 그룹 제목 한국어화 |
+| `sori/ui/CoverGradient.kt`, `OnlinePlaylistScreen.kt`, `AlbumScreen.kt` | 재생목록·앨범 머리를 표지 색으로 물들이기 |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 
@@ -52,9 +64,17 @@ git push origin main
 - 릴리스 APK는 GitHub Secrets에 등록한 키로 서명된다: `KEYSTORE`(base64), `KEY_ALIAS`, `KEYSTORE_PASSWORD`, `KEY_PASSWORD`
 - **`sori-release.jks`를 잃어버리면 친구들이 앱을 업데이트할 수 없다.** 앱을 지우고 새로 설치해야 하고, 그러면 다운로드한 곡과 설정이 사라진다. 저장소 바깥 두 군데 이상에 백업해 둘 것.
 
+## 원본 파일 수정 원칙
+
+- Sori 코드는 `com.metrolist.music.sori` 패키지와 `ui/theme/Sori*.kt` 새 파일에 둔다.
+- 원본 파일에는 호출 한두 줄만 넣고 `// Sori:` 주석을 단다. 원본을 병합할 때 충돌이 나면 이 주석을 찾으면 된다.
+- 기본값은 원본의 `defaultValue`를 고치지 않고 `SoriDefaults`로 시딩한다. 기본값을 추가하려면 `VERSION`을 올린다.
+
 ## 로컬 빌드
 
 JDK 21이 필요하다 (`jvmToolchain(21)`). 사용자 폴더처럼 한글이 들어간 경로는 AGP가 빌드를 막기 때문에, 저장소는 ASCII 경로(`C:\dev\sori`)에 둔다.
+
+단위 테스트는 임시 폴더 경로에 한글이 있으면 Robolectric SQLite가 JVM째 죽는다. `JAVA_TOOL_OPTIONS=-Djava.io.tmpdir=C:/dev/tmp`로 돌린다.
 
 ```bash
 JAVA_HOME="C:/Program Files/Eclipse Adoptium/jdk-21.0.12.101-hotspot" ./gradlew :app:assembleFossDebug
