@@ -146,6 +146,7 @@ import com.metrolist.music.ui.component.SongGridItem
 import com.metrolist.music.ui.component.SongListItem
 import com.metrolist.music.ui.component.SpeedDialGridItem
 import com.metrolist.music.sori.SoriHomeShelvesViewModel
+import com.metrolist.music.sori.ui.KeepAtTopUntilScrolled
 import com.metrolist.music.sori.ui.QuickAccessTileHeight
 import com.metrolist.music.sori.ui.SoriQuickAccessTile
 import com.metrolist.music.sori.ui.SoriShuffleTile
@@ -1150,7 +1151,8 @@ fun HomeScreen(
                     }
                 }
             }
-        }
+        }.sortedByDescending { it == HomeSection.SpeedDial } // Sori: quick access always opens home; the rest may shuffle
+    KeepAtTopUntilScrolled(lazylistState) // Sori: open home at its top while sections load
 
     LaunchedEffect(quickPicks) {
         quickPicksLazyGridState.scrollToItem(0)
@@ -2547,7 +2549,8 @@ fun HomeScreen(
             }
 
             HideOnScrollFAB(
-                visible = allLocalItems.isNotEmpty() || allYtItems.isNotEmpty(),
+                // Sori: no FAB on home; quick access already has a shuffle tile (music recognition stays on search).
+                visible = false && (allLocalItems.isNotEmpty() || allYtItems.isNotEmpty()),
                 lazyListState = lazylistState,
                 icon = R.drawable.shuffle,
                 onClick = {
