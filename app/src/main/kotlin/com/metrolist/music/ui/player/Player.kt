@@ -1261,6 +1261,9 @@ fun BottomSheetPlayer(
                         }
                     }
                 } else {
+                    // Sori: share and menu are quiet ghost buttons; the solid color is kept for play.
+                    val iconButtonColor = textButtonColor
+                    val textButtonColor = textButtonColor.copy(alpha = 0.14f)
                     AnimatedContent(targetState = showInlineLyrics, label = "ShareButton") { showLyrics ->
                         if (showLyrics) {
                             Box(

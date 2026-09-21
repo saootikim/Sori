@@ -67,4 +67,5 @@
     <string name="sori_top_result">상위 검색결과</string>
     <string name="sori_other_results">기타 결과</string>
     <string name="sori_popular_songs">인기곡</string>
+    <string name="sori_sleep_timer_short">타이머</string>
 </resources>

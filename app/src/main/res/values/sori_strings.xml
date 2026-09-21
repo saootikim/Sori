@@ -68,4 +68,5 @@
     <string name="sori_top_result">Top result</string>
     <string name="sori_other_results">Other results</string>
     <string name="sori_popular_songs">Popular</string>
+    <string name="sori_sleep_timer_short">Timer</string>
 </resources>

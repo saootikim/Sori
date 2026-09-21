@@ -5,6 +5,7 @@
 
 package com.metrolist.music
 
+import com.metrolist.music.sori.LetterboxTrimInterceptor
 import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationChannel
@@ -309,6 +310,8 @@ class App :
             .Builder(this)
             .apply {
                 crossfade(true)
+                // Sori: trim the black bars baked into YouTube video thumbnails.
+                components { add(LetterboxTrimInterceptor()) }
                 allowHardware(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 // Memory cache for fast image loading (prevents network requests on recomposition)
                 memoryCache {
