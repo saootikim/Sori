@@ -93,6 +93,8 @@ import com.metrolist.music.db.entities.PlaylistEntity
 import com.metrolist.music.db.entities.PlaylistSongMap
 import com.metrolist.music.models.toMediaMetadata
 import com.metrolist.music.playback.queues.YouTubePlaylistQueue
+import com.metrolist.music.sori.ui.coverGradient
+import com.metrolist.music.sori.ui.rememberCoverColor
 import com.metrolist.music.ui.component.ExpandableText
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.LocalMenuState
@@ -498,11 +500,13 @@ private fun OnlinePlaylistHeader(
     val database = LocalDatabase.current
     val menuState = LocalMenuState.current
     val syncUtils = LocalSyncUtils.current
+    val soriCoverColor = rememberCoverColor(playlist.thumbnail) // Sori
 
     Column(
         modifier =
             modifier
                 .fillMaxWidth()
+                .coverGradient(soriCoverColor) // Sori: tint the header with the cover color
                 .padding(top = 8.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

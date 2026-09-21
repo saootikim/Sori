@@ -11,6 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.AlbumItem
 import com.metrolist.music.db.MusicDatabase
+import com.metrolist.music.sori.SoriAlbumFallback
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -40,7 +41,9 @@ constructor(
             val album = database.album(albumId).first()
             YouTube
                 .album(albumId)
-                .onSuccess {
+                .onSuccess { fetched ->
+                    // Sori: fill song-less album pages (free accounts in Korea) from youtube.com.
+                    val it = SoriAlbumFallback.fill(fetched)
                     playlistId.value = it.album.playlistId
                     otherVersions.value = it.otherVersions
                     database.transaction {
