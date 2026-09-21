@@ -64,4 +64,6 @@
     <string name="sori_shelf_ballad_query">발라드 명곡</string>
     <string name="sori_shelf_party">신나는 파티</string>
     <string name="sori_shelf_party_query">파티 댄스 음악</string>
+    <string name="sori_top_result">상위 검색결과</string>
+    <string name="sori_other_results">기타 결과</string>
 </resources>
