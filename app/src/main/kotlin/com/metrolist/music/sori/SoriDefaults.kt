@@ -15,6 +15,8 @@ import com.metrolist.music.constants.MiniPlayerBackgroundStyle
 import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
+import com.metrolist.music.constants.SliderStyle
+import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
 
@@ -27,7 +29,7 @@ import com.metrolist.music.ui.screens.settings.DarkMode
  */
 object SoriDefaults {
     /** Bump when adding defaults; each version is applied once. */
-    const val VERSION = 3
+    const val VERSION = 4
 
     val VersionKey = intPreferencesKey("sori_defaults_version")
 
@@ -42,6 +44,8 @@ object SoriDefaults {
             Pair(MiniPlayerBackgroundStyleKey, MiniPlayerBackgroundStyle.GRADIENT.name),
             // v3: fill square art slots instead of letterboxing 16:9 video thumbnails.
             Pair(CropAlbumArtKey, true),
+            // v4: thin seek bar.
+            Pair(SliderStyleKey, SliderStyle.SLIM.name),
         )
 
     /** Seeds missing defaults. Returns true when [prefs] was changed. */

@@ -8,6 +8,8 @@ import com.metrolist.music.constants.MiniPlayerBackgroundStyle
 import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
+import com.metrolist.music.constants.SliderStyle
+import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
 import org.junit.Assert.assertEquals
@@ -51,6 +53,7 @@ class SoriDefaultsTest {
         SoriDefaults.applyTo(prefs)
         assertEquals(MiniPlayerBackgroundStyle.GRADIENT.name, prefs[MiniPlayerBackgroundStyleKey])
         assertEquals(true, prefs[CropAlbumArtKey])
+        assertEquals(SliderStyle.SLIM.name, prefs[SliderStyleKey])
     }
 
     @Test
