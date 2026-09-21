@@ -5,4 +5,9 @@
     <string name="sori_source_code">Sori source code</string>
     <string name="sori_based_on_metrolist">Based on Metrolist</string>
     <string name="sori_based_on_metrolist_desc">A modified version of Metrolist (GPL-3.0)</string>
+    <string name="sori_greeting_morning">Good morning</string>
+    <string name="sori_greeting_afternoon">Good afternoon</string>
+    <string name="sori_greeting_evening">Good evening</string>
+    <string name="sori_greeting_night">Good night</string>
+    <string name="sori_shuffle_pick">Shuffle</string>
 </resources>
