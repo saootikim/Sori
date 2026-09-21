@@ -53,7 +53,10 @@ Metrolist에는 이미 필요한 기능이 많다. 다만 **기본값이 Spotify
 | 노래 필터 검색 | 결과 0개 | 비어 있으면 비디오 필터로 재검색 (`searchWithSongFallback`) |
 | 앨범 페이지 | 정상 | 없음 |
 | 아티스트 페이지 | 정상 | 없음 |
-| 라디오/대기열 (`next`) | 요청당 9곡 정도 | 없음 (연속 재생은 됨) |
+| 곡 라디오 (`next` RDAMVM) | 로그인 무료 계정: 몇 곡, 관련 없는 곡(동요 포함), 이어지지 않음 | youtube.com 믹스로 다시 구성, 끝없이 이어감 (`SoriRadioExtender`) |
+| 아티스트 노래 섹션, 라디오/셔플 (RDEM/RDAO) | 노래 섹션 없음, 재생 0곡 | youtube.com 인기 동영상(UULP) 기반 "인기곡"과 곡 라디오 (`SoriArtistFallback`) |
+| 재생목록 재생/셔플 (`next` 재생목록) | 1곡 또는 예외 | youtube.com 재생목록으로 대기열 (`SoriQueueFallback`) |
+| 아티스트 "모두 보기" 목록 | 정상 | 없음 |
 
 설계에 주는 영향:
 - 한국 무료 사용자의 "발견"은 **검색 기반**으로 해야 한다.

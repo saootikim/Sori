@@ -21,6 +21,9 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/SoriBrowse*.kt`, `sori/ui/BrowseAll.kt`, `OnlineSearchScreen.kt` | 검색 "모두 둘러보기" 컬러 타일 (YouTube 장르 → 탐색 → Sori 카탈로그 순) |
 | `sori/SoriWebPlaylist.kt`, `OnlinePlaylistViewModel.kt` | 재생목록이 1곡 이하로 오면 youtube.com에서 전체 불러오기 |
 | `sori/SoriAlbumFallback.kt`, `AlbumViewModel.kt` | 곡이 없는 앨범 페이지를 youtube.com 앨범 재생목록으로 채우기 |
+| `sori/SoriArtistFallback.kt`, `ArtistViewModel.kt`, `artist/ArtistScreen.kt` | 노래 섹션이 없는 아티스트에 "인기곡" (youtube.com UULP 인기 동영상), 전체 재생, 라디오·셔플을 곡 라디오로 |
+| `sori/SoriQueueFallback.kt`, `playback/queues/YouTubeQueue.kt` | 메뉴·카드·위젯의 재생목록 재생/셔플/라디오가 1곡이거나 실패하면 youtube.com 재생목록으로 대기열 구성 |
+| `sori/SoriWebRadio.kt`, `sori/SoriYouTubeWeb.kt`, `YouTubeQueue.kt` | 막힌 곡 라디오를 youtube.com 믹스로 다시 구성하고 끝없이 이어가기. youtube.com 요청과 영상→곡 정리 공용화 |
 | `sori/SongSearchFallback.kt`, `OnlineSearchViewModel.kt` | 노래 검색이 비면 비디오 검색으로 대체 |
 | `sori/VideoTitleCleaner.kt`, `sori/VideoArtistTitle.kt` | 영상 제목 정리, "아티스트 - 제목" 분리, 채널명 정리 |
 | `sori/SearchSectionTitle.kt`, `OnlineSearchResult.kt` | 검색 결과 그룹 제목 한국어화 |
