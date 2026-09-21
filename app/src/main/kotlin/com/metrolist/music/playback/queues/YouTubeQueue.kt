@@ -10,6 +10,7 @@ import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.models.MediaMetadata
+import com.metrolist.music.sori.SoriQueueFallback
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -57,6 +58,12 @@ class YouTubeQueue(
                         }
                     }
 
+                    // Sori: a playlist queue with at most one song is gated (Premium-only for free
+                    // users in Korea); build it from the youtube.com playlist instead.
+                    if (!isRadioRequest && continuation == null && items.size <= 1) {
+                        SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
+                    }
+
                     endpoint = nextResult.endpoint
                     continuation = nextResult.continuation
                     retryCount = 0
@@ -67,6 +74,10 @@ class YouTubeQueue(
                     )
                 } catch (e: Exception) {
                     lastException = e
+                    // Sori: gated playlists can also fail outright; try the youtube.com playlist.
+                    if (!isRadioRequest && attempt == 0) {
+                        SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
+                    }
                     if (
                         e is EmptyRadioQueueException &&
                         endpoint.playlistId?.startsWith("RDAMVM") == true &&
