@@ -46,4 +46,22 @@
     <string name="sori_browse_classical_query">클래식 음악 플레이리스트</string>
     <string name="sori_browse_2000s">2000년대</string>
     <string name="sori_browse_2000s_query">2000년대 가요 플레이리스트</string>
+    <string name="sori_shelf_kpop_hits">요즘 인기 K-POP</string>
+    <string name="sori_shelf_kpop_hits_query">K-POP 히트곡</string>
+    <string name="sori_shelf_chill">잔잔한 감성</string>
+    <string name="sori_shelf_chill_query">잔잔한 노래</string>
+    <string name="sori_shelf_focus">집중이 필요할 때</string>
+    <string name="sori_shelf_focus_query">공부 집중 음악</string>
+    <string name="sori_shelf_workout">운동 에너지</string>
+    <string name="sori_shelf_workout_query">운동 음악</string>
+    <string name="sori_shelf_drive">드라이브</string>
+    <string name="sori_shelf_drive_query">드라이브 음악</string>
+    <string name="sori_shelf_sleep">잠들기 전에</string>
+    <string name="sori_shelf_sleep_query">잠잘 때 듣는 음악</string>
+    <string name="sori_shelf_hiphop">힙합 &amp; R&amp;B</string>
+    <string name="sori_shelf_hiphop_query">힙합 알앤비</string>
+    <string name="sori_shelf_ballad">발라드 명곡</string>
+    <string name="sori_shelf_ballad_query">발라드 명곡</string>
+    <string name="sori_shelf_party">신나는 파티</string>
+    <string name="sori_shelf_party_query">파티 댄스 음악</string>
 </resources>

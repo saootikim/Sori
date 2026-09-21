@@ -47,4 +47,22 @@
     <string name="sori_browse_classical_query">classical music playlist</string>
     <string name="sori_browse_2000s">2000s</string>
     <string name="sori_browse_2000s_query">2000s hits playlist</string>
+    <string name="sori_shelf_kpop_hits">K-Pop right now</string>
+    <string name="sori_shelf_kpop_hits_query">K-pop hits</string>
+    <string name="sori_shelf_chill">Chill vibes</string>
+    <string name="sori_shelf_chill_query">chill vibes</string>
+    <string name="sori_shelf_focus">Focus</string>
+    <string name="sori_shelf_focus_query">focus music</string>
+    <string name="sori_shelf_workout">Workout energy</string>
+    <string name="sori_shelf_workout_query">workout music</string>
+    <string name="sori_shelf_drive">On the road</string>
+    <string name="sori_shelf_drive_query">driving music</string>
+    <string name="sori_shelf_sleep">Before sleep</string>
+    <string name="sori_shelf_sleep_query">sleep music</string>
+    <string name="sori_shelf_hiphop">Hip-hop &amp; R&amp;B</string>
+    <string name="sori_shelf_hiphop_query">hip hop r&amp;b</string>
+    <string name="sori_shelf_ballad">Ballads</string>
+    <string name="sori_shelf_ballad_query">ballads</string>
+    <string name="sori_shelf_party">Party</string>
+    <string name="sori_shelf_party_query">party dance hits</string>
 </resources>

@@ -145,9 +145,11 @@ import com.metrolist.music.ui.component.RandomizeGridItem
 import com.metrolist.music.ui.component.SongGridItem
 import com.metrolist.music.ui.component.SongListItem
 import com.metrolist.music.ui.component.SpeedDialGridItem
+import com.metrolist.music.sori.SoriHomeShelvesViewModel
 import com.metrolist.music.sori.ui.QuickAccessTileHeight
 import com.metrolist.music.sori.ui.SoriQuickAccessTile
 import com.metrolist.music.sori.ui.SoriShuffleTile
+import com.metrolist.music.sori.ui.soriHomeShelves
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.component.shimmer.GridItemPlaceHolder
@@ -684,6 +686,14 @@ fun HomeScreen(
     val episodesForLater by viewModel.episodesForLater.collectAsStateWithLifecycle()
 
     val isLoading: Boolean by viewModel.isLoading.collectAsStateWithLifecycle()
+
+    // Sori: search-backed shelves for when the home feed is unavailable (see SoriHomeShelves).
+    val soriShelvesViewModel: SoriHomeShelvesViewModel = hiltViewModel()
+    val soriShelves by soriShelvesViewModel.shelves.collectAsStateWithLifecycle()
+    val showSoriShelves = selectedChip == null && !isLoading && homePage?.sections.isNullOrEmpty()
+    LaunchedEffect(showSoriShelves) {
+        if (showSoriShelves) soriShelvesViewModel.ensureLoaded()
+    }
     val isMoodAndGenresLoading = isLoading && explorePage?.moodAndGenres == null
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val isRandomizing by viewModel.isRandomizing.collectAsStateWithLifecycle()
@@ -2438,7 +2448,8 @@ fun HomeScreen(
                             if (selectedChip?.title?.contains("Podcast", ignoreCase = true) == true) {
                                 return@forEach
                             }
-                            explorePage?.moodAndGenres?.let { moodAndGenres ->
+                            // Sori: skip the section when the list is empty (it is for free users in Korea).
+                            explorePage?.moodAndGenres?.takeIf { it.isNotEmpty() }?.let { moodAndGenres ->
                                 item(key = "mood_and_genres_title") {
                                     NavigationTitle(
                                         title = stringResource(R.string.mood_and_genres),
@@ -2474,6 +2485,12 @@ fun HomeScreen(
                             }
                         }
                     }
+                }
+
+                // Sori: when YouTube Music's home feed is unavailable (Premium-only for free users in
+                // Korea), fill Home with search-backed shelves of featured playlists.
+                if (showSoriShelves) {
+                    soriHomeShelves(soriShelves, ytGridItem)
                 }
 
                 // Only show shimmer during initial loading, not for pagination
