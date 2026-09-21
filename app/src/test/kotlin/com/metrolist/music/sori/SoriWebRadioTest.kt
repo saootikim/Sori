@@ -40,6 +40,17 @@ class SoriWebRadioTest {
     }
 
     @Test
+    fun seedOnlyRadioIsBuiltFromMixes() {
+        // Anonymous users: YouTube Music answers a song radio with just the seed song (plus a
+        // continuation that leads nowhere useful).
+        val extender = SoriRadioExtender { listOf(song("a"), song("b"), song("c")) }
+
+        val radio = runBlocking { extender.extend(listOf(song("a")), seedVideoId = "a", hasContinuation = true) }
+
+        assertEquals(listOf("a", "b", "c"), radio.map { it.id })
+    }
+
+    @Test
     fun workingRadiosAreLeftAlone() {
         val extender = SoriRadioExtender { error("should not fetch") }
         val items = (1..10).map { song("s$it") }

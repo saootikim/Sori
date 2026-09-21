@@ -48,6 +48,18 @@ class YouTubeQueue(
                     var items = nextResult.items
                     val relEndpoint = nextResult.relatedEndpoint
                     
+                    // Sori: rebuild a gated song radio from youtube.com mixes. Free accounts in Korea
+                    // get a few unrelated songs; anonymous users only the seed song, and the retry
+                    // with a bare video id below fails outright, so this must run before it.
+                    if (isRadioRequest) {
+                        items =
+                            soriRadio.extend(
+                                items,
+                                seedVideoId = endpoint.videoId ?: items.firstOrNull()?.id,
+                                hasContinuation = nextResult.continuation != null,
+                            )
+                    }
+
                     if (isRadioRequest && continuation == null && items.size <= 1) {
                         if (endpoint.playlistId?.startsWith("RDAMVM") == true) {
                             throw EmptyRadioQueueException()
@@ -64,16 +76,6 @@ class YouTubeQueue(
                     // users in Korea); build it from the youtube.com playlist instead.
                     if (!isRadioRequest && continuation == null && items.size <= 1) {
                         SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
-                    }
-
-                    // Sori: rebuild a gated song radio (free accounts in Korea) from youtube.com mixes.
-                    if (isRadioRequest) {
-                        items =
-                            soriRadio.extend(
-                                items,
-                                seedVideoId = endpoint.videoId ?: items.firstOrNull()?.id,
-                                hasContinuation = nextResult.continuation != null,
-                            )
                     }
 
                     endpoint = nextResult.endpoint
