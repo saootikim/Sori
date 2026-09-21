@@ -45,19 +45,22 @@ data class WebPlaylist(
  * videos, so titles are video titles and the "artist" is the uploading channel.
  */
 object SoriWebPlaylist {
-    private const val MAX_PAGES = 5
+    private const val DEFAULT_MAX_PAGES = 5
     private const val ENDPOINT = "https://www.youtube.com/youtubei/v1/browse?prettyPrint=false"
     private const val CLIENT_VERSION = "2.20260915.00.00"
     private const val USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:140.0) Gecko/20100101 Firefox/140.0"
 
-    /** Title, cover and up to [MAX_PAGES] pages of songs, or null if youtube.com gave nothing usable. */
-    suspend fun load(playlistId: String): WebPlaylist? =
+    /** Title, cover and up to [maxPages] pages of songs, or null if youtube.com gave nothing usable. */
+    suspend fun load(
+        playlistId: String,
+        maxPages: Int = DEFAULT_MAX_PAGES,
+    ): WebPlaylist? =
         withContext(Dispatchers.IO) {
             runCatching {
                 val first = parseWebPlaylistPage(post(browseId = "VL$playlistId", continuation = null))
                 val songs = first.songs.toMutableList()
                 var page = first
-                repeat(MAX_PAGES - 1) {
+                repeat(maxPages - 1) {
                     val token = page.continuation ?: return@repeat
                     page = parseWebPlaylistPage(post(browseId = null, continuation = token))
                     songs += page.songs
