@@ -120,6 +120,7 @@ import com.metrolist.music.db.entities.Song
 import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.models.MediaMetadata
 import com.metrolist.music.playback.queues.LocalAlbumRadio
+import com.metrolist.music.sori.ui.SoriLikedArt
 import com.metrolist.music.ui.utils.resize
 import com.metrolist.music.utils.joinByBullet
 import com.metrolist.music.utils.joinToArtistString
@@ -936,7 +937,12 @@ fun PlaylistListItem(
         PlaylistThumbnail(
             thumbnails = playlist.thumbnails,
             size = ListThumbnailSize,
-            placeHolder = {
+            placeHolder = sori@{
+                // Sori: Liked songs get the brand gradient cover.
+                if (playlist.playlist.name == stringResource(R.string.liked)) {
+                    SoriLikedArt(iconSize = ListThumbnailSize / 2)
+                    return@sori
+                }
                 val painter = when (playlist.playlist.name) {
                     stringResource(R.string.liked) -> R.drawable.favorite_border
                     stringResource(R.string.offline) -> R.drawable.offline
@@ -1036,7 +1042,12 @@ fun PlaylistGridItem(
         PlaylistThumbnail(
             thumbnails = playlist.thumbnails,
             size = width,
-            placeHolder = {
+            placeHolder = sori@{
+                // Sori: Liked songs get the brand gradient cover.
+                if (playlist.playlist.name == stringResource(R.string.liked)) {
+                    SoriLikedArt(iconSize = width / 2)
+                    return@sori
+                }
                 val painter = when (playlist.playlist.name) {
                     stringResource(R.string.liked) -> R.drawable.favorite_border
                     stringResource(R.string.offline) -> R.drawable.offline
