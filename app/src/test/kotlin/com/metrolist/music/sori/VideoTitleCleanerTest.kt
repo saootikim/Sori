@@ -35,6 +35,15 @@ class VideoTitleCleanerTest {
     }
 
     @Test
+    fun collapsesAutoTranslatedDuplicates() {
+        // youtube.com auto-translates "블루밍 (Blueming)" for the viewer into "Blueming (Blueming)".
+        check("Blueming (Blueming)", "Blueming")
+        check("strawberry moon (strawberry moon)", "strawberry moon")
+        check("LILAC (lilac)", "LILAC")
+        check("LILAC (라일락)", "LILAC (라일락)")
+    }
+
+    @Test
     fun neverReturnsBlank() {
         check("[MV]", "[MV]")
         check("Official MV", "Official MV")

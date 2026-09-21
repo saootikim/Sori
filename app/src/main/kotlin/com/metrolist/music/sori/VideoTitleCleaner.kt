@@ -21,6 +21,9 @@ private val repeatedSpaces = Regex("""\s{2,}""")
 
 private val onlyTags = Regex("""^(?:(?:$TAG_WORDS)[\s/|·,&-]*)+$""", RegexOption.IGNORE_CASE)
 
+/** "Blueming (Blueming)": youtube.com translated the original half of a bilingual title. */
+private val repeatedTranslation = Regex("""^(.+?)\s*\((\1)\)$""", RegexOption.IGNORE_CASE)
+
 /**
  * Removes music-video noise from a video title for display ("[MV] IU _ Song" → "IU - Song").
  * Meaningful parentheses ("(Live)", translations) are kept; returns [title] unchanged if
@@ -36,6 +39,7 @@ fun cleanVideoTitle(title: String): String {
             .replace(repeatedSpaces, " ")
             .trim()
             .trim('-', '|', '/', '_', ' ')
+            .replace(repeatedTranslation, "$1")
     // Nothing but tag words left (the whole title was e.g. "Official MV"): keep the original.
     return if (cleaned.isBlank() || onlyTags.matches(cleaned)) title else cleaned
 }

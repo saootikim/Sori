@@ -5,6 +5,7 @@
 
 package com.metrolist.music.ui.screens.artist
 
+import androidx.compose.foundation.shape.CircleShape
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -1000,6 +1001,10 @@ fun ArtistScreen(
                     androidx.compose.material3.SmallFloatingActionButton(
                         modifier = Modifier.padding(16.dp).offset(x = (-4).dp), // Align center with standard FAB (56dp vs 48dp)
                         onClick = onPlayAllClick,
+                        // Sori: play is the page's primary action.
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        shape = CircleShape,
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.play),
@@ -1010,6 +1015,10 @@ fun ArtistScreen(
                     androidx.compose.material3.FloatingActionButton(
                         modifier = Modifier.padding(16.dp),
                         onClick = onPlayAllClick,
+                        // Sori: play is the page's primary action.
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        shape = CircleShape,
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.play),
