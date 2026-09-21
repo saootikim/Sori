@@ -1,0 +1,184 @@
+{
+ "contents": {
+  "twoColumnWatchNextResults": {
+   "playlist": {
+    "playlist": {
+     "contents": [
+      {
+       "playlistPanelVideoRenderer": {
+        "videoId": "B76TuNFymjk",
+        "title": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "Starlight Heart (잠들지 않는 별) 4분 3초"
+          }
+         },
+         "simpleText": "Starlight Heart (잠들지 않는 별)"
+        },
+        "shortBylineText": {
+         "runs": [
+          {
+           "text": "BEN",
+           "navigationEndpoint": {
+            "clickTrackingParams": "CJQBEMggGAAiEwjbwon2qYCXAxVZRvUHHXdoFzbKAQRY5S5l",
+            "commandMetadata": {
+             "webCommandMetadata": {
+              "url": "/channel/UCVxIxTDG9sReevpb4ilUU1A",
+              "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+              "rootVe": 3611,
+              "apiUrl": "/youtubei/v1/browse"
+             }
+            },
+            "browseEndpoint": {
+             "browseId": "UCVxIxTDG9sReevpb4ilUU1A",
+             "canonicalBaseUrl": "/channel/UCVxIxTDG9sReevpb4ilUU1A"
+            }
+           }
+          }
+         ]
+        },
+        "lengthText": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "4분 3초"
+          }
+         },
+         "simpleText": "4:03"
+        }
+       }
+      },
+      {
+       "playlistPanelVideoRenderer": {
+        "videoId": "Oo3h88vaDWs",
+        "title": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "I wish (바라고 바라) 4분 2초"
+          }
+         },
+         "simpleText": "I wish (바라고 바라)"
+        },
+        "shortBylineText": {
+         "runs": [
+          {
+           "text": "휘인 Whee In",
+           "navigationEndpoint": {
+            "clickTrackingParams": "CJEBEMggGAEiEwjbwon2qYCXAxVZRvUHHXdoFzbKAQRY5S5l",
+            "commandMetadata": {
+             "webCommandMetadata": {
+              "url": "/channel/UCXOMKEPp0CALdBSPkReI5BQ",
+              "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+              "rootVe": 3611,
+              "apiUrl": "/youtubei/v1/browse"
+             }
+            },
+            "browseEndpoint": {
+             "browseId": "UCXOMKEPp0CALdBSPkReI5BQ",
+             "canonicalBaseUrl": "/channel/UCXOMKEPp0CALdBSPkReI5BQ"
+            }
+           }
+          }
+         ]
+        },
+        "lengthText": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "4분 2초"
+          }
+         },
+         "simpleText": "4:02"
+        }
+       }
+      },
+      {
+       "playlistPanelVideoRenderer": {
+        "videoId": "LswcI2jIciw",
+        "title": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "안갯길 (Prod. By 진영) (B1A4) 3분 59초"
+          }
+         },
+         "simpleText": "안갯길 (Prod. By 진영) (B1A4)"
+        },
+        "shortBylineText": {
+         "runs": [
+          {
+           "text": "BEN",
+           "navigationEndpoint": {
+            "clickTrackingParams": "CI4BEMggGAIiEwjbwon2qYCXAxVZRvUHHXdoFzbKAQRY5S5l",
+            "commandMetadata": {
+             "webCommandMetadata": {
+              "url": "/channel/UCVxIxTDG9sReevpb4ilUU1A",
+              "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+              "rootVe": 3611,
+              "apiUrl": "/youtubei/v1/browse"
+             }
+            },
+            "browseEndpoint": {
+             "browseId": "UCVxIxTDG9sReevpb4ilUU1A",
+             "canonicalBaseUrl": "/channel/UCVxIxTDG9sReevpb4ilUU1A"
+            }
+           }
+          }
+         ]
+        },
+        "lengthText": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "3분 59초"
+          }
+         },
+         "simpleText": "3:59"
+        }
+       }
+      },
+      {
+       "playlistPanelVideoRenderer": {
+        "videoId": "8q85sL9T7YM",
+        "title": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "Lonely night (혼술하고 싶은 밤) 3분 36초"
+          }
+         },
+         "simpleText": "Lonely night (혼술하고 싶은 밤)"
+        },
+        "shortBylineText": {
+         "runs": [
+          {
+           "text": "BEN",
+           "navigationEndpoint": {
+            "clickTrackingParams": "CIUBEMggGAUiEwjbwon2qYCXAxVZRvUHHXdoFzbKAQRY5S5l",
+            "commandMetadata": {
+             "webCommandMetadata": {
+              "url": "/channel/UCVxIxTDG9sReevpb4ilUU1A",
+              "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+              "rootVe": 3611,
+              "apiUrl": "/youtubei/v1/browse"
+             }
+            },
+            "browseEndpoint": {
+             "browseId": "UCVxIxTDG9sReevpb4ilUU1A",
+             "canonicalBaseUrl": "/channel/UCVxIxTDG9sReevpb4ilUU1A"
+            }
+           }
+          }
+         ]
+        },
+        "lengthText": {
+         "accessibility": {
+          "accessibilityData": {
+           "label": "3분 36초"
+          }
+         },
+         "simpleText": "3:36"
+        }
+       }
+      }
+     ]
+    }
+   }
+  }
+ }
+}

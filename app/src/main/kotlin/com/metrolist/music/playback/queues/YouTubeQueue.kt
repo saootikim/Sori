@@ -11,6 +11,7 @@ import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.models.MediaMetadata
 import com.metrolist.music.sori.SoriQueueFallback
+import com.metrolist.music.sori.SoriRadioExtender
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -19,6 +20,7 @@ class YouTubeQueue(
     override val preloadItem: MediaMetadata? = null,
 ) : Queue {
     private var continuation: String? = null
+    private val soriRadio = SoriRadioExtender() // Sori: keeps thin song radios going
     private var retryCount = 0
     private val maxRetries = 3
 
@@ -64,6 +66,16 @@ class YouTubeQueue(
                         SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
                     }
 
+                    // Sori: rebuild a gated song radio (free accounts in Korea) from youtube.com mixes.
+                    if (isRadioRequest) {
+                        items =
+                            soriRadio.extend(
+                                items,
+                                seedVideoId = endpoint.videoId ?: items.firstOrNull()?.id,
+                                hasContinuation = nextResult.continuation != null,
+                            )
+                    }
+
                     endpoint = nextResult.endpoint
                     continuation = nextResult.continuation
                     retryCount = 0
@@ -92,10 +104,13 @@ class YouTubeQueue(
         }
     }
 
-    override fun hasNextPage(): Boolean = continuation != null
+    override fun hasNextPage(): Boolean = soriRadio.hasMore() || continuation != null
 
     override suspend fun nextPage(): List<MediaItem> {
         return withContext(IO) {
+            if (soriRadio.hasMore()) {
+                return@withContext soriRadio.nextPage().map { it.toMediaItem() } // Sori
+            }
             var lastException: Throwable? = null
 
             for (attempt in 0..maxRetries) {
