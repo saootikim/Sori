@@ -150,6 +150,7 @@ import com.metrolist.music.sori.ui.QuickAccessTileHeight
 import com.metrolist.music.sori.ui.SoriQuickAccessTile
 import com.metrolist.music.sori.ui.SoriShuffleTile
 import com.metrolist.music.sori.ui.soriHomeShelves
+import com.metrolist.music.sori.ui.soriHomeShelvesLoading
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.component.shimmer.GridItemPlaceHolder
@@ -690,6 +691,7 @@ fun HomeScreen(
     // Sori: search-backed shelves for when the home feed is unavailable (see SoriHomeShelves).
     val soriShelvesViewModel: SoriHomeShelvesViewModel = hiltViewModel()
     val soriShelves by soriShelvesViewModel.shelves.collectAsStateWithLifecycle()
+    val soriShelvesLoading by soriShelvesViewModel.isLoading.collectAsStateWithLifecycle()
     val showSoriShelves = selectedChip == null && !isLoading && homePage?.sections.isNullOrEmpty()
     LaunchedEffect(showSoriShelves) {
         if (showSoriShelves) soriShelvesViewModel.ensureLoaded()
@@ -2490,7 +2492,7 @@ fun HomeScreen(
                 // Sori: when YouTube Music's home feed is unavailable (Premium-only for free users in
                 // Korea), fill Home with search-backed shelves of featured playlists.
                 if (showSoriShelves) {
-                    soriHomeShelves(soriShelves, ytGridItem)
+                    if (soriShelves.isEmpty() && soriShelvesLoading) soriHomeShelvesLoading() else soriHomeShelves(soriShelves, ytGridItem)
                 }
 
                 // Only show shimmer during initial loading, not for pagination

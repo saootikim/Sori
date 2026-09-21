@@ -69,15 +69,16 @@ class SoriHomeShelvesViewModel
         private val _shelves = MutableStateFlow<List<SoriHomeShelf>>(emptyList())
         val shelves: StateFlow<List<SoriHomeShelf>> = _shelves
 
-        private var loading = false
+        private val _isLoading = MutableStateFlow(false)
+        val isLoading: StateFlow<Boolean> = _isLoading
 
         /** Loads once; later calls are no-ops unless the previous attempt came back empty. */
         fun ensureLoaded() {
-            if (loading || _shelves.value.isNotEmpty()) return
-            loading = true
+            if (_isLoading.value || _shelves.value.isNotEmpty()) return
+            _isLoading.value = true
             viewModelScope.launch(Dispatchers.IO) {
                 _shelves.value = fetch(orderedShelves(greetingPeriod(LocalTime.now().hour)))
-                loading = false
+                _isLoading.value = false
             }
         }
 
