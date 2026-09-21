@@ -150,7 +150,7 @@ private fun JsonObject.toSongItem(): SongItem? {
     }
     return SongItem(
         id = id,
-        title = title,
+        title = cleanVideoTitle(title),
         artists = listOfNotNull(channel?.let { Artist(name = it, id = null) }),
         duration = duration,
         thumbnail = "https://i.ytimg.com/vi/$id/hqdefault.jpg",

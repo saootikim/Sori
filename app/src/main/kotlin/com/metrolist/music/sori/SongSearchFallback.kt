@@ -6,6 +6,7 @@
 package com.metrolist.music.sori
 
 import com.metrolist.innertube.YouTube.SearchFilter
+import com.metrolist.innertube.models.SongItem
 import com.metrolist.innertube.pages.SearchResult
 
 /**
@@ -21,6 +22,9 @@ suspend fun searchWithSongFallback(
 ): Result<SearchResult> {
     val result = search(query, filter)
     if (filter != SearchFilter.FILTER_SONG || result.getOrNull()?.items?.isNotEmpty() == true) return result
-    val videos = search(query, SearchFilter.FILTER_VIDEO)
+    val videos =
+        search(query, SearchFilter.FILTER_VIDEO).map { page ->
+            page.copy(items = page.items.map { item -> if (item is SongItem) item.copy(title = cleanVideoTitle(item.title)) else item })
+        }
     return if (videos.getOrNull()?.items?.isNotEmpty() == true) videos else result
 }
