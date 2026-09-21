@@ -5,6 +5,7 @@
 
 package com.metrolist.music.ui.component
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
@@ -74,6 +75,10 @@ fun BoxScope.HideOnScrollFAB(
             }
             FloatingActionButton(
                 onClick = onClick,
+                // Sori: the screen's primary action wears the accent.
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary,
+                shape = CircleShape,
             ) {
                 Icon(
                     painter = painterResource(icon),
