@@ -8,8 +8,11 @@ package com.metrolist.music.sori
 import androidx.datastore.preferences.core.MutablePreferences
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.metrolist.music.constants.CropAlbumArtKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DynamicThemeKey
+import com.metrolist.music.constants.MiniPlayerBackgroundStyle
+import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
@@ -24,7 +27,7 @@ import com.metrolist.music.ui.screens.settings.DarkMode
  */
 object SoriDefaults {
     /** Bump when adding defaults; each version is applied once. */
-    const val VERSION = 1
+    const val VERSION = 3
 
     val VersionKey = intPreferencesKey("sori_defaults_version")
 
@@ -35,6 +38,10 @@ object SoriDefaults {
             Pair(DynamicThemeKey, false),
             Pair(UseNewPlayerDesignKey, false),
             Pair(PlayerBackgroundStyleKey, PlayerBackgroundStyle.GRADIENT.name),
+            // v2: the mini player takes the album-art color, like the full player.
+            Pair(MiniPlayerBackgroundStyleKey, MiniPlayerBackgroundStyle.GRADIENT.name),
+            // v3: fill square art slots instead of letterboxing 16:9 video thumbnails.
+            Pair(CropAlbumArtKey, true),
         )
 
     /** Seeds missing defaults. Returns true when [prefs] was changed. */
