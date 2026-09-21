@@ -117,3 +117,7 @@ app/src/main/cpp/coverart/
 .cortexkit
 .mcp.json
 *.har
+
+# Sori: never commit release signing keys
+*.jks
+*.keystore
