@@ -27,6 +27,7 @@ import com.metrolist.music.models.ItemsPage
 import com.metrolist.music.utils.SearchRoutes
 import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.get
+import com.metrolist.music.sori.searchWithSongFallback
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -138,8 +139,8 @@ constructor(
                     }
                 } else {
                     if (viewStateMap[filter.value] == null) {
-                        YouTube
-                            .search(query, filter)
+                        // Sori: empty song results fall back to music videos (see SongSearchFallback).
+                        searchWithSongFallback(query, filter) { q, f -> YouTube.search(q, f) }
                             .onSuccess { result ->
                                 val resolvedItems = resolveSearchMetadata(result.items)
                                 val hideExplicit = context.dataStore.get(HideExplicitKey, false)
