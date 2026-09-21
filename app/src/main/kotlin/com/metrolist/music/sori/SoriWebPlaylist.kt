@@ -148,10 +148,15 @@ private fun JsonObject.toSongItem(): SongItem? {
             duration = (obj["thumbnailBadgeViewModel"] as? JsonObject)?.string("text")?.let(::parseDuration)
         }
     }
+    // Music videos are titled "Artist - Song" / "Artist 'Song'" and uploaded by a label or an
+    // "Artist Official" channel; auto-generated "Artist - Topic" tracks are already clean.
+    val cleanTitle = cleanVideoTitle(title)
+    val split = if (isTopicChannel(channel)) null else splitArtistTitle(cleanTitle)
+    val artist = split?.first ?: channel?.let(::cleanChannelName)
     return SongItem(
         id = id,
-        title = cleanVideoTitle(title),
-        artists = listOfNotNull(channel?.let { Artist(name = it, id = null) }),
+        title = split?.second ?: cleanTitle,
+        artists = listOfNotNull(artist?.let { Artist(name = it, id = null) }),
         duration = duration,
         thumbnail = "https://i.ytimg.com/vi/$id/hqdefault.jpg",
     )
