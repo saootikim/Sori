@@ -10,6 +10,7 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `app/src/main/kotlin/com/metrolist/music/utils/Updater.kt` | 업데이트 확인 대상을 `saootikim/Sori`로 변경, `Sori.apk` 인식, Metrolist-KMP 업데이트 안내 끔 |
 | `app/src/main/res/values{,-ko}/metrolist_strings.xml`, `values-ko/strings.xml`, `values/app_name.xml` | 화면에 보이는 "Metrolist"를 "Sori"로 변경 (크레딧은 유지) |
 | `app/src/main/res/drawable*/ic_launcher_*`, `values/colors.xml`, `values/ic_launcher_background.xml` | 아이콘 (음파 막대, 보라→코랄 그라데이션) |
+| `app/src/main/kotlin/com/metrolist/music/utils/LoginPagePolicy.kt` (신규), `ui/screens/LoginScreen.kt` | 로그인 후 구매 페이지 등 다른 youtube.com 페이지에 멈추는 문제 수정 (Premium 체험 대상 계정) |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 

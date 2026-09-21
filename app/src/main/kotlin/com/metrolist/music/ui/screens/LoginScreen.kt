@@ -44,6 +44,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -74,6 +75,8 @@ import com.metrolist.music.constants.InnerTubeCookieKey
 import com.metrolist.music.constants.VisitorDataKey
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.utils.backToMain
+import com.metrolist.music.utils.LoginPageAction
+import com.metrolist.music.utils.LoginPagePolicy
 import com.metrolist.music.utils.reportException
 import com.metrolist.music.utils.safeDataStoreEdit
 import kotlinx.coroutines.CompletableDeferred
@@ -115,6 +118,7 @@ fun LoginScreen(
     var accounts by remember { mutableStateOf<List<YouTubeAccount>>(emptyList()) }
     var selectedAccount by remember { mutableStateOf<YouTubeAccount?>(null) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var redirectsToMusic by remember { mutableIntStateOf(0) }
 
     suspend fun extractAuthData(webView: WebView?): AuthData? {
         val view = webView ?: return null
@@ -333,8 +337,31 @@ fun LoginScreen(
                                 url: String?,
                             ) {
                                 val pageUri = url?.let(Uri::parse)
-                                if (pageUri?.scheme == "https" && pageUri.host == "music.youtube.com") {
-                                    handleAuthenticatedPage()
+                                // Sori: also recovers when a signed-in account lands on another
+                                // youtube.com page (e.g. a Premium trial offer). See LoginPagePolicy.
+                                val signedInDuringLogin =
+                                    !isSwitchingChannel &&
+                                        loginStage == LoginStage.Authenticating &&
+                                        "SAPISID" in
+                                        runCatching {
+                                            parseCookieString(
+                                                CookieManager.getInstance().getCookie("https://music.youtube.com").orEmpty(),
+                                            )
+                                        }.getOrDefault(emptyMap())
+                                when (
+                                    LoginPagePolicy.onPageFinished(
+                                        scheme = pageUri?.scheme,
+                                        host = pageUri?.host,
+                                        hasAuthCookie = signedInDuringLogin,
+                                        redirectsToMusic = redirectsToMusic,
+                                    )
+                                ) {
+                                    LoginPageAction.Extract -> handleAuthenticatedPage()
+                                    LoginPageAction.OpenYouTubeMusic -> {
+                                        redirectsToMusic++
+                                        view.loadUrl("https://music.youtube.com")
+                                    }
+                                    LoginPageAction.Ignore -> Unit
                                 }
                             }
                         }
