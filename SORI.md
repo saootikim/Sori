@@ -32,6 +32,8 @@ Kotlin 패키지(`com.metrolist.music`)는 그대로 둔다. 바꾸면 원본을
 
 수동으로 실행하려면: `gh workflow run release.yml -R saootikim/Sori`
 
+이 포크에서는 push로 워크플로가 자동 실행되지 않은 적이 있다. 버전을 올려 push했는데 Actions 탭에 실행 기록이 없으면 위 명령으로 직접 실행한다.
+
 ## 원본 동기화 (스트림이 안 나오는 등 원본이 수정했을 때)
 
 ```bash
