@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="sori_developer">개발자</string>
+    <string name="sori_source_code">Sori 소스 코드</string>
+    <string name="sori_based_on_metrolist">Metrolist 기반</string>
+    <string name="sori_based_on_metrolist_desc">Metrolist를 수정한 앱입니다 (GPL-3.0)</string>
+</resources>

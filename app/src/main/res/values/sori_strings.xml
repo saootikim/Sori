@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Sori-only strings, kept in their own file so upstream merges don't conflict. -->
+<resources>
+    <string name="sori_developer">Developer</string>
+    <string name="sori_source_code">Sori source code</string>
+    <string name="sori_based_on_metrolist">Based on Metrolist</string>
+    <string name="sori_based_on_metrolist_desc">A modified version of Metrolist (GPL-3.0)</string>
+</resources>
