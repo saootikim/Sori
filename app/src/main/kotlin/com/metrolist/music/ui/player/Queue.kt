@@ -496,7 +496,8 @@ fun Queue(
                                     )
                                 } else {
                                     Text(
-                                        text = stringResource(id = R.string.sleep_timer),
+                                        // Sori: short label, the long one scrolled in a marquee.
+                                        text = stringResource(id = R.string.sori_sleep_timer_short),
                                         color = TextBackgroundColor,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,

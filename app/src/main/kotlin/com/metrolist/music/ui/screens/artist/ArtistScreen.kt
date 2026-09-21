@@ -5,6 +5,7 @@
 
 package com.metrolist.music.ui.screens.artist
 
+import androidx.compose.foundation.shape.CircleShape
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -101,6 +102,7 @@ import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.models.toMediaMetadata
 import com.metrolist.music.playback.queues.ListQueue
 import com.metrolist.music.playback.queues.YouTubeQueue
+import com.metrolist.music.sori.SoriArtistFallback
 import com.metrolist.music.ui.component.AlbumGridItem
 import com.metrolist.music.ui.component.ExpandableText
 import com.metrolist.music.ui.component.HideOnScrollFAB
@@ -675,7 +677,9 @@ fun ArtistScreen(
                                         section.moreEndpoint?.let {
                                             {
                                                 navController.navigate(
-                                                    "artist/${viewModel.artistId}/items?browseId=${it.browseId}?params=${it.params}",
+                                                    // Sori: the popular section opens its full playlist.
+                                                    SoriArtistFallback.moreRoute(it)
+                                                        ?: "artist/${viewModel.artistId}/items?browseId=${it.browseId}?params=${it.params}",
                                                 )
                                             }
                                         },
@@ -683,7 +687,7 @@ fun ArtistScreen(
                             }
                         }
 
-                        if ((section.items.firstOrNull() as? SongItem)?.album != null) {
+                        if (SoriArtistFallback.isSongSection(section)) { // Sori: includes the popular section
                             items(
                                 items = distinctItemsBySection.getOrNull(index) ?: section.items,
                                 key = { "youtube_song_${it.id}" },
@@ -883,7 +887,7 @@ fun ArtistScreen(
                 (showLocal && librarySongs.isNotEmpty()) ||
                     (
                         !showLocal && artistPage?.sections?.any {
-                            (it.items.firstOrNull() as? SongItem)?.album != null
+                            SoriArtistFallback.isSongSection(it) // Sori
                         } == true
                     )
             )
@@ -918,11 +922,26 @@ fun ArtistScreen(
                         } else if (artistPage != null) {
                             val songSection =
                                 artistPage.sections.find { section ->
-                                    (section.items.firstOrNull() as? SongItem)?.album != null
+                                    SoriArtistFallback.isSongSection(section) // Sori
                                 }
 
                             val moreEndpoint = songSection?.moreEndpoint
-                            if (moreEndpoint != null) {
+                            if (songSection != null && SoriArtistFallback.isPopularSection(songSection)) {
+                                // Sori: play the artist's whole popular list.
+                                coroutineScope.launch(kotlinx.coroutines.Dispatchers.IO) {
+                                    val songs = SoriArtistFallback.popularSongs(songSection).map { it.toMediaItem() }
+                                    withContext(kotlinx.coroutines.Dispatchers.Main) {
+                                        if (songs.isNotEmpty()) {
+                                            playerConnection.playQueue(
+                                                ListQueue(
+                                                    title = displayArtistName ?: artistPage.artist.title,
+                                                    items = songs,
+                                                ),
+                                            )
+                                        }
+                                    }
+                                }
+                            } else if (moreEndpoint != null) {
                                 coroutineScope.launch(kotlinx.coroutines.Dispatchers.IO) {
                                     val result = YouTube.artistItems(moreEndpoint).getOrNull()
                                     withContext(kotlinx.coroutines.Dispatchers.Main) {
@@ -982,6 +1001,10 @@ fun ArtistScreen(
                     androidx.compose.material3.SmallFloatingActionButton(
                         modifier = Modifier.padding(16.dp).offset(x = (-4).dp), // Align center with standard FAB (56dp vs 48dp)
                         onClick = onPlayAllClick,
+                        // Sori: play is the page's primary action.
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        shape = CircleShape,
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.play),
@@ -992,6 +1015,10 @@ fun ArtistScreen(
                     androidx.compose.material3.FloatingActionButton(
                         modifier = Modifier.padding(16.dp),
                         onClick = onPlayAllClick,
+                        // Sori: play is the page's primary action.
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary,
+                        shape = CircleShape,
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.play),

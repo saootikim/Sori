@@ -76,6 +76,8 @@ import com.metrolist.music.ui.menu.YouTubeArtistMenu
 import com.metrolist.music.ui.menu.YouTubePlaylistMenu
 import com.metrolist.music.ui.menu.YouTubeSongMenu
 import com.metrolist.music.utils.rememberPreference
+import com.metrolist.music.sori.SoriBrowseViewModel
+import com.metrolist.music.sori.ui.soriBrowseAll
 import com.metrolist.music.viewmodels.OnlineSearchSuggestionViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.collectLatest
@@ -104,6 +106,7 @@ fun OnlineSearchScreen(
     val isPlaying by playerConnection.isEffectivelyPlaying.collectAsStateWithLifecycle()
     val mediaMetadata by playerConnection.mediaMetadata.collectAsStateWithLifecycle()
     val viewState by viewModel.viewState.collectAsStateWithLifecycle()
+    val soriBrowseSections by hiltViewModel<SoriBrowseViewModel>().sections.collectAsStateWithLifecycle()
 
     val lazyListState = rememberLazyListState()
 
@@ -635,6 +638,21 @@ fun OnlineSearchScreen(
                             },
                         ).background(if (pureBlack) Color.Black else MaterialTheme.colorScheme.surface)
                         .animateItem(),
+            )
+        }
+
+        // Sori: while nothing is typed, the search screen doubles as a genre/mood browser.
+        if (query.isEmpty()) {
+            soriBrowseAll(
+                sections = soriBrowseSections,
+                onOpen = { tile ->
+                    val endpoint = tile.endpoint
+                    if (endpoint != null) {
+                        navController.navigate("youtube_browse/${endpoint.browseId}?params=${endpoint.params}")
+                    } else {
+                        tile.query?.let(onSearch)
+                    }
+                },
             )
         }
     }

@@ -10,6 +10,8 @@ import com.metrolist.innertube.YouTube
 import com.metrolist.innertube.models.WatchEndpoint
 import com.metrolist.music.extensions.toMediaItem
 import com.metrolist.music.models.MediaMetadata
+import com.metrolist.music.sori.SoriQueueFallback
+import com.metrolist.music.sori.SoriRadioExtender
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.withContext
 
@@ -18,6 +20,7 @@ class YouTubeQueue(
     override val preloadItem: MediaMetadata? = null,
 ) : Queue {
     private var continuation: String? = null
+    private val soriRadio = SoriRadioExtender() // Sori: keeps thin song radios going
     private var retryCount = 0
     private val maxRetries = 3
 
@@ -45,6 +48,18 @@ class YouTubeQueue(
                     var items = nextResult.items
                     val relEndpoint = nextResult.relatedEndpoint
                     
+                    // Sori: rebuild a gated song radio from youtube.com mixes. Free accounts in Korea
+                    // get a few unrelated songs; anonymous users only the seed song, and the retry
+                    // with a bare video id below fails outright, so this must run before it.
+                    if (isRadioRequest) {
+                        items =
+                            soriRadio.extend(
+                                items,
+                                seedVideoId = endpoint.videoId ?: items.firstOrNull()?.id,
+                                hasContinuation = nextResult.continuation != null,
+                            )
+                    }
+
                     if (isRadioRequest && continuation == null && items.size <= 1) {
                         if (endpoint.playlistId?.startsWith("RDAMVM") == true) {
                             throw EmptyRadioQueueException()
@@ -57,6 +72,12 @@ class YouTubeQueue(
                         }
                     }
 
+                    // Sori: a playlist queue with at most one song is gated (Premium-only for free
+                    // users in Korea); build it from the youtube.com playlist instead.
+                    if (!isRadioRequest && continuation == null && items.size <= 1) {
+                        SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
+                    }
+
                     endpoint = nextResult.endpoint
                     continuation = nextResult.continuation
                     retryCount = 0
@@ -67,6 +88,10 @@ class YouTubeQueue(
                     )
                 } catch (e: Exception) {
                     lastException = e
+                    // Sori: gated playlists can also fail outright; try the youtube.com playlist.
+                    if (!isRadioRequest && attempt == 0) {
+                        SoriQueueFallback.initialStatus(endpoint)?.let { return@withContext it }
+                    }
                     if (
                         e is EmptyRadioQueueException &&
                         endpoint.playlistId?.startsWith("RDAMVM") == true &&
@@ -81,10 +106,13 @@ class YouTubeQueue(
         }
     }
 
-    override fun hasNextPage(): Boolean = continuation != null
+    override fun hasNextPage(): Boolean = soriRadio.hasMore() || continuation != null
 
     override suspend fun nextPage(): List<MediaItem> {
         return withContext(IO) {
+            if (soriRadio.hasMore()) {
+                return@withContext soriRadio.nextPage().map { it.toMediaItem() } // Sori
+            }
             var lastException: Throwable? = null
 
             for (attempt in 0..maxRetries) {

@@ -101,6 +101,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextRange
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.Density
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.fastAny
 import androidx.compose.ui.window.Dialog
@@ -196,6 +197,7 @@ import com.metrolist.music.ui.screens.settings.ChangelogScreen
 import com.metrolist.music.ui.screens.settings.DarkMode
 import com.metrolist.music.ui.screens.settings.NavigationTab
 import com.metrolist.music.ui.theme.ColorSaver
+import com.metrolist.music.sori.soriGreeting
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
 import com.metrolist.music.ui.theme.extractThemeColor
@@ -1034,7 +1036,8 @@ class MainActivity : FragmentActivity() {
                         !(pauseListenHistory && eventCount == 0)
                     }
 
-                val baseBg = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer
+                // Sori: the system bar strip matches the near-black bottom navigation.
+                val baseBg = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainerLowest
                 val artistNameAliases by ArtistNameAliases.aliases.collectAsStateWithLifecycle()
 
                 CompositionLocalProvider(
@@ -1066,8 +1069,16 @@ class MainActivity : FragmentActivity() {
                                     TopAppBar(
                                         title = {
                                             Text(
-                                                text = currentTitleRes?.let { stringResource(it) } ?: "",
+                                                // Sori: Home shows a time-of-day greeting instead of "Home".
+                                                text =
+                                                    if (currentTitleRes == R.string.home) {
+                                                        soriGreeting()
+                                                    } else {
+                                                        currentTitleRes?.let { stringResource(it) } ?: ""
+                                                    },
                                                 style = MaterialTheme.typography.titleLarge,
+                                                maxLines = 1,
+                                                overflow = TextOverflow.Ellipsis,
                                             )
                                         },
                                         actions = {
@@ -1121,7 +1132,8 @@ class MainActivity : FragmentActivity() {
                                         scrollBehavior = topAppBarScrollBehavior,
                                         colors =
                                             TopAppBarDefaults.topAppBarColors(
-                                                containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
+                                                // Sori: the header blends into the page and only tints once content scrolls under it.
+                                                containerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.background,
                                                 scrolledContainerColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surfaceContainer,
                                                 titleContentColor = MaterialTheme.colorScheme.onSurface,
                                                 actionIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,

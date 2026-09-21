@@ -1,0 +1,497 @@
+{
+ "contents": {
+  "items": [
+   {
+    "lockupViewModel": {
+     "contentId": "27C4pfRsf9g",
+     "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+     "contentImage": {
+      "thumbnailViewModel": {
+       "overlays": [
+        {
+         "thumbnailBottomOverlayViewModel": {
+          "badges": [
+           {
+            "thumbnailBadgeViewModel": {
+             "text": "3:20"
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     "metadata": {
+      "lockupMetadataViewModel": {
+       "title": {
+        "content": "LE SSERAFIM (르세라핌) x ILLIT (아일릿) x KATSEYE (캣츠아이) 'ICONIC BY MISTAKE' Official MV"
+       },
+       "metadata": {
+        "contentMetadataViewModel": {
+         "metadataRows": [
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "HYBE LABELS 외 3명",
+              "styleRuns": [
+               {
+                "startIndex": 0,
+                "length": 16
+               },
+               {
+                "startIndex": 11,
+                "length": 1,
+                "styleRunExtensions": {
+                 "styleRunColorMapExtension": {
+                  "colorMap": [
+                   {
+                    "key": "USER_INTERFACE_THEME_DARK",
+                    "value": 4289374890
+                   },
+                   {
+                    "key": "USER_INTERFACE_THEME_LIGHT",
+                    "value": 4284506208
+                   }
+                  ]
+                 }
+                }
+               }
+              ],
+              "attachmentRuns": [
+               {
+                "startIndex": 11,
+                "element": {
+                 "type": {
+                  "imageType": {
+                   "image": {
+                    "sources": [
+                     {
+                      "clientResource": {
+                       "imageName": "CHECK_CIRCLE_FILLED"
+                      },
+                      "width": 14,
+                      "height": 14
+                     }
+                    ]
+                   }
+                  }
+                 },
+                 "properties": {
+                  "layoutProperties": {
+                   "height": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "width": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "margin": {
+                    "left": {
+                     "value": 4,
+                     "unit": "DIMENSION_UNIT_POINT"
+                    }
+                   }
+                  }
+                 }
+                },
+                "alignment": "ALIGNMENT_VERTICAL_CENTER"
+               }
+              ]
+             }
+            }
+           ]
+          },
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "조회수 1.6억회"
+             }
+            },
+            {
+             "text": {
+              "content": "3개월 전"
+             },
+             "accessibilityLabel": "3개월 전"
+            }
+           ]
+          }
+         ],
+         "delimiter": " • "
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "lockupViewModel": {
+     "contentId": "bMhDJ0S0OBA",
+     "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+     "contentImage": {
+      "thumbnailViewModel": {
+       "overlays": [
+        {
+         "thumbnailBottomOverlayViewModel": {
+          "badges": [
+           {
+            "thumbnailBadgeViewModel": {
+             "text": "2:27"
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     "metadata": {
+      "lockupMetadataViewModel": {
+       "title": {
+        "content": "ILLIT (아일릿) ‘It’s Me’ Official MV"
+       },
+       "metadata": {
+        "contentMetadataViewModel": {
+         "metadataRows": [
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "HYBE LABELS 및 ILLIT",
+              "styleRuns": [
+               {
+                "startIndex": 0,
+                "length": 19
+               },
+               {
+                "startIndex": 11,
+                "length": 1,
+                "styleRunExtensions": {
+                 "styleRunColorMapExtension": {
+                  "colorMap": [
+                   {
+                    "key": "USER_INTERFACE_THEME_DARK",
+                    "value": 4289374890
+                   },
+                   {
+                    "key": "USER_INTERFACE_THEME_LIGHT",
+                    "value": 4284506208
+                   }
+                  ]
+                 }
+                }
+               },
+               {
+                "startIndex": 19,
+                "styleRunExtensions": {
+                 "styleRunColorMapExtension": {
+                  "colorMap": [
+                   {
+                    "key": "USER_INTERFACE_THEME_LIGHT",
+                    "value": 4284506208
+                   },
+                   {
+                    "key": "USER_INTERFACE_THEME_DARK",
+                    "value": 4289374890
+                   }
+                  ]
+                 }
+                }
+               }
+              ],
+              "attachmentRuns": [
+               {
+                "startIndex": 11,
+                "element": {
+                 "type": {
+                  "imageType": {
+                   "image": {
+                    "sources": [
+                     {
+                      "clientResource": {
+                       "imageName": "CHECK_CIRCLE_FILLED"
+                      },
+                      "width": 14,
+                      "height": 14
+                     }
+                    ]
+                   }
+                  }
+                 },
+                 "properties": {
+                  "layoutProperties": {
+                   "height": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "width": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "margin": {
+                    "left": {
+                     "value": 4,
+                     "unit": "DIMENSION_UNIT_POINT"
+                    }
+                   }
+                  }
+                 }
+                },
+                "alignment": "ALIGNMENT_VERTICAL_CENTER"
+               },
+               {
+                "startIndex": 19,
+                "element": {
+                 "type": {
+                  "imageType": {
+                   "image": {
+                    "sources": [
+                     {
+                      "clientResource": {
+                       "imageName": "AUDIO_BADGE"
+                      },
+                      "width": 14,
+                      "height": 14
+                     }
+                    ]
+                   }
+                  }
+                 },
+                 "properties": {
+                  "layoutProperties": {
+                   "height": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "width": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "margin": {
+                    "left": {
+                     "value": 4,
+                     "unit": "DIMENSION_UNIT_POINT"
+                    }
+                   }
+                  }
+                 }
+                },
+                "alignment": "ALIGNMENT_VERTICAL_CENTER"
+               }
+              ]
+             }
+            }
+           ]
+          },
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "조회수 1.6억회"
+             }
+            },
+            {
+             "text": {
+              "content": "4개월 전"
+             },
+             "accessibilityLabel": "4개월 전"
+            }
+           ]
+          }
+         ],
+         "delimiter": " • "
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "lockupViewModel": {
+     "contentId": "CgCVZdcKcqY",
+     "contentType": "LOCKUP_CONTENT_TYPE_VIDEO",
+     "contentImage": {
+      "thumbnailViewModel": {
+       "overlays": [
+        {
+         "thumbnailBottomOverlayViewModel": {
+          "badges": [
+           {
+            "thumbnailBadgeViewModel": {
+             "text": "3:14"
+            }
+           }
+          ]
+         }
+        }
+       ]
+      }
+     },
+     "metadata": {
+      "lockupMetadataViewModel": {
+       "title": {
+        "content": "BLACKPINK - ‘뛰어(JUMP)’ M/V"
+       },
+       "metadata": {
+        "contentMetadataViewModel": {
+         "metadataRows": [
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "BLACKPINK",
+              "commandRuns": [
+               {
+                "startIndex": 0,
+                "length": 9,
+                "onTap": {
+                 "innertubeCommand": {
+                  "clickTrackingParams": "CKwHENTEDBgCIhMIib2kpvH_lgMVqDZ7Bx1F-yZwygEEZSjyRA==",
+                  "commandMetadata": {
+                   "webCommandMetadata": {
+                    "url": "/channel/UCOmHUn--16B90oW2L6FRR3A",
+                    "webPageType": "WEB_PAGE_TYPE_CHANNEL",
+                    "rootVe": 3611,
+                    "apiUrl": "/youtubei/v1/browse"
+                   }
+                  },
+                  "browseEndpoint": {
+                   "browseId": "UCOmHUn--16B90oW2L6FRR3A",
+                   "canonicalBaseUrl": "/channel/UCOmHUn--16B90oW2L6FRR3A"
+                  }
+                 }
+                }
+               }
+              ],
+              "styleRuns": [
+               {
+                "startIndex": 0,
+                "length": 9,
+                "weightLabel": "FONT_WEIGHT_NORMAL"
+               },
+               {
+                "startIndex": 9,
+                "styleRunExtensions": {
+                 "styleRunColorMapExtension": {
+                  "colorMap": [
+                   {
+                    "key": "USER_INTERFACE_THEME_LIGHT",
+                    "value": 4284506208
+                   },
+                   {
+                    "key": "USER_INTERFACE_THEME_DARK",
+                    "value": 4289374890
+                   }
+                  ]
+                 }
+                }
+               }
+              ],
+              "attachmentRuns": [
+               {
+                "startIndex": 9,
+                "length": 0,
+                "element": {
+                 "type": {
+                  "imageType": {
+                   "image": {
+                    "sources": [
+                     {
+                      "clientResource": {
+                       "imageName": "AUDIO_BADGE"
+                      },
+                      "width": 14,
+                      "height": 14
+                     }
+                    ]
+                   }
+                  }
+                 },
+                 "properties": {
+                  "layoutProperties": {
+                   "height": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "width": {
+                    "value": 14,
+                    "unit": "DIMENSION_UNIT_POINT"
+                   },
+                   "margin": {
+                    "left": {
+                     "value": 4,
+                     "unit": "DIMENSION_UNIT_POINT"
+                    }
+                   }
+                  }
+                 }
+                },
+                "alignment": "ALIGNMENT_VERTICAL_CENTER"
+               }
+              ]
+             }
+            }
+           ]
+          },
+          {
+           "metadataParts": [
+            {
+             "text": {
+              "content": "조회수 4.3억회"
+             }
+            },
+            {
+             "text": {
+              "content": "1년 전"
+             },
+             "accessibilityLabel": "1년 전"
+            }
+           ]
+          }
+         ],
+         "delimiter": " • "
+        }
+       }
+      }
+     }
+    }
+   },
+   {
+    "continuationItemRenderer": {
+     "continuationEndpoint": {
+      "continuationCommand": {
+       "token": "4qmFsgKHARItVkxSRENMQUs1dXlfbDdLNzhrNEVramNGb2poZDE2MTdybVVqWS1hZXQ2LXQwGihDQUY2RlZCVU9rVm5jek5QUjNoUFltdE9jR1JIVGtOVVVRJTNEJTNEmgIrUkRDTEFLNXV5X2w3Szc4azRFa2pjRm9qaGQxNjE3cm1ValktYWV0Ni10MA%3D%3D",
+       "request": "CONTINUATION_REQUEST_TYPE_BROWSE"
+      }
+     }
+    }
+   }
+  ]
+ },
+ "metadata": {
+  "playlistMetadataRenderer": {
+   "title": "파티를 위한 케이팝 댄스",
+   "description": "K-팝 파티 히트곡으로 신나게 분위기를 띄워보세요!"
+  }
+ },
+ "microformat": {
+  "microformatDataRenderer": {
+   "title": "파티를 위한 케이팝 댄스",
+   "thumbnail": {
+    "thumbnails": [
+     {
+      "url": "https://i9.ytimg.com/s_p/RDCLAK5uy_l7K78k4EkjcFojhd1617rmUjY-aet6-t0/default.jpg",
+      "width": 120
+     },
+     {
+      "url": "https://i9.ytimg.com/s_p/RDCLAK5uy_l7K78k4EkjcFojhd1617rmUjY-aet6-t0/maxresdefault.jpg",
+      "width": 1280
+     }
+    ]
+   }
+  }
+ }
+}

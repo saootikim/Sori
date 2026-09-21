@@ -81,6 +81,9 @@ import com.metrolist.music.constants.HideExplicitKey
 import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.db.entities.Album
 import com.metrolist.music.playback.queues.LocalAlbumRadio
+import com.metrolist.music.sori.ui.coverTopBarColors
+import com.metrolist.music.sori.ui.coverGradient
+import com.metrolist.music.sori.ui.rememberCoverColor
 import com.metrolist.music.ui.component.ClickableArtistText
 import com.metrolist.music.ui.component.IconButton
 import com.metrolist.music.ui.component.LocalMenuState
@@ -191,10 +194,12 @@ fun AlbumScreen(
         val albumWithSongs = albumWithSongs
         if (albumWithSongs != null && albumWithSongs.songs.isNotEmpty()) {
             item(key = "album_header") {
+                val soriCoverColor = rememberCoverColor(albumWithSongs.album.thumbnailUrl) // Sori
                 Column(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .coverGradient(soriCoverColor) // Sori: tint the header with the cover color
                             .padding(top = 8.dp, bottom = 20.dp),
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -520,7 +525,9 @@ fun AlbumScreen(
         }
     }
 
+    val soriBarCoverColor = rememberCoverColor(albumWithSongs?.album?.thumbnailUrl) // Sori
     TopAppBar(
+        colors = coverTopBarColors(soriBarCoverColor), // Sori: the bar continues the header's cover tint
         title = {
             if (inSelectMode) {
                 Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size))

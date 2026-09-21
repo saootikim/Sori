@@ -36,6 +36,8 @@ import com.metrolist.music.utils.SyncUtils
 import com.metrolist.music.utils.ArtistNameAliases
 import com.metrolist.music.utils.dataStore
 import com.metrolist.music.utils.get
+import com.metrolist.music.R
+import com.metrolist.music.sori.SoriArtistFallback
 import com.metrolist.music.utils.reportException
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -214,7 +216,8 @@ class ArtistViewModel @Inject constructor(
                         }
                         .filter { section -> section.items.isNotEmpty() }
 
-                    artistPage = resolvedPage.copy(sections = filteredSections)
+                    // Sori: add a popular-songs section and playable radio where YouTube Music left them out.
+                    artistPage = SoriArtistFallback.fill(resolvedPage.copy(sections = filteredSections), artistId, context.getString(R.string.sori_popular_songs))
                     // Cache page data + persist artist metadata
                     viewModelScope.launch(Dispatchers.IO) {
                         try {

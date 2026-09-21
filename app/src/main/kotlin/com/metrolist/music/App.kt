@@ -5,6 +5,7 @@
 
 package com.metrolist.music
 
+import com.metrolist.music.sori.LetterboxTrimInterceptor
 import android.app.ActivityManager
 import android.app.Application
 import android.app.NotificationChannel
@@ -32,6 +33,7 @@ import com.metrolist.music.constants.*
 import com.metrolist.music.di.ApplicationScope
 import com.metrolist.music.extensions.toEnum
 import com.metrolist.music.extensions.toInetSocketAddress
+import com.metrolist.music.sori.SoriDefaults
 import com.metrolist.music.utils.CrashHandler
 import com.metrolist.music.utils.ArtistNameAliases
 import com.metrolist.music.utils.InnerTubeXPlayer
@@ -90,6 +92,11 @@ class App :
         // Plant logging before extraction services initialize.
         Timber.plant(Timber.DebugTree())
         InnerTubeXPlayer.initialize(this)
+
+        // Sori: seed Sori's defaults once (only keys the user never set). See SoriDefaults.
+        applicationScope.launch(Dispatchers.IO) {
+            safeDataStoreEdit { SoriDefaults.applyTo(it) }
+        }
 
         // Pre-read Coil cache size on background to avoid runBlocking in newImageLoader
         applicationScope.launch(Dispatchers.IO) {
@@ -303,6 +310,8 @@ class App :
             .Builder(this)
             .apply {
                 crossfade(true)
+                // Sori: trim the black bars baked into YouTube video thumbnails.
+                components { add(LetterboxTrimInterceptor()) }
                 allowHardware(Build.VERSION.SDK_INT >= Build.VERSION_CODES.P)
                 // Memory cache for fast image loading (prevents network requests on recomposition)
                 memoryCache {

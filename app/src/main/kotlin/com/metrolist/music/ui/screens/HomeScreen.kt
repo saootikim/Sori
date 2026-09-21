@@ -145,6 +145,13 @@ import com.metrolist.music.ui.component.RandomizeGridItem
 import com.metrolist.music.ui.component.SongGridItem
 import com.metrolist.music.ui.component.SongListItem
 import com.metrolist.music.ui.component.SpeedDialGridItem
+import com.metrolist.music.sori.SoriHomeShelvesViewModel
+import com.metrolist.music.sori.ui.KeepAtTopUntilScrolled
+import com.metrolist.music.sori.ui.QuickAccessTileHeight
+import com.metrolist.music.sori.ui.SoriQuickAccessTile
+import com.metrolist.music.sori.ui.SoriShuffleTile
+import com.metrolist.music.sori.ui.soriHomeShelves
+import com.metrolist.music.sori.ui.soriHomeShelvesLoading
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.component.shimmer.GridItemPlaceHolder
@@ -681,6 +688,15 @@ fun HomeScreen(
     val episodesForLater by viewModel.episodesForLater.collectAsStateWithLifecycle()
 
     val isLoading: Boolean by viewModel.isLoading.collectAsStateWithLifecycle()
+
+    // Sori: search-backed shelves for when the home feed is unavailable (see SoriHomeShelves).
+    val soriShelvesViewModel: SoriHomeShelvesViewModel = hiltViewModel()
+    val soriShelves by soriShelvesViewModel.shelves.collectAsStateWithLifecycle()
+    val soriShelvesLoading by soriShelvesViewModel.isLoading.collectAsStateWithLifecycle()
+    val showSoriShelves = selectedChip == null && !isLoading && homePage?.sections.isNullOrEmpty()
+    LaunchedEffect(showSoriShelves) {
+        if (showSoriShelves) soriShelvesViewModel.ensureLoaded()
+    }
     val isMoodAndGenresLoading = isLoading && explorePage?.moodAndGenres == null
     val isRefreshing by viewModel.isRefreshing.collectAsStateWithLifecycle()
     val isRandomizing by viewModel.isRandomizing.collectAsStateWithLifecycle()
@@ -1135,7 +1151,8 @@ fun HomeScreen(
                     }
                 }
             }
-        }
+        }.sortedByDescending { it == HomeSection.SpeedDial } // Sori: quick access always opens home; the rest may shuffle
+    KeepAtTopUntilScrolled(lazylistState) // Sori: open home at its top while sections load
 
     LaunchedEffect(quickPicks) {
         quickPicksLazyGridState.scrollToItem(0)
@@ -1439,24 +1456,17 @@ fun HomeScreen(
                     when (section) {
                         HomeSection.SpeedDial -> {
                             speedDialItems.takeIf { it.isNotEmpty() }?.let { items ->
-                                item(key = "speed_dial_title") {
-                                    NavigationTitle(
-                                        title = stringResource(R.string.speed_dial),
-                                    )
-                                }
+                                // Sori: no title, quick access sits directly under the greeting.
 
                                 item(key = "speed_dial_list") {
-                                    val targetItemSize = 160.dp
                                     val availableWidth = maxWidth - 32.dp
-                                    val columns = (availableWidth / targetItemSize).toInt().coerceAtLeast(3)
-                                    val rows =
-                                        if (columns >= 6) {
-                                            1
-                                        } else if (columns >= 4) {
-                                            2
-                                        } else {
-                                            3
-                                        }
+                                    // Sori: Spotify-style quick access with wide tiles, 2 columns (4 on wide screens).
+                                    val columns = if (availableWidth < 600.dp) 2 else 4
+                                    val maxRows = if (columns == 2) 4 else 2
+                                    // Only as many rows as there are tiles (items + the shuffle tile), so a short
+                                    // list doesn't leave empty rows under the grid.
+                                    val rows = minOf(maxRows, (items.size + 1 + columns - 1) / columns)
+                                    val cellHeight = QuickAccessTileHeight + 8.dp
                                     val itemsPerPage = columns * rows
                                     val itemWidth = availableWidth / columns
 
@@ -1474,7 +1484,7 @@ fun HomeScreen(
                                             modifier =
                                                 Modifier
                                                     .fillMaxWidth()
-                                                    .height(itemWidth * rows),
+                                                    .height(cellHeight * rows),
                                         ) { page ->
                                             val pageStartIndex = page * itemsPerPage
                                             val pageItems = items.drop(pageStartIndex).take(itemsPerPage)
@@ -1485,17 +1495,18 @@ fun HomeScreen(
                                                         for (col in 0 until columns) {
                                                             val itemIndex = row * columns + col
 
-                                                            val isRandomizeSlot = (page == 0 && itemIndex == itemsPerPage - 1)
+                                                            // Sori: shuffle tile right after the last item (or the page's last slot).
+                                                            val isRandomizeSlot = (page == 0 && itemIndex == minOf(items.size, itemsPerPage - 1))
 
                                                             if (isRandomizeSlot) {
                                                                 Box(
                                                                     modifier =
                                                                         Modifier
                                                                             .width(itemWidth)
-                                                                            .height(itemWidth)
+                                                                            .height(cellHeight)
                                                                             .padding(4.dp),
                                                                 ) {
-                                                                    RandomizeGridItem(
+                                                                    SoriShuffleTile(
                                                                         isLoading = isRandomizing,
                                                                         onClick = {
                                                                             if (isRandomizing) {
@@ -1580,10 +1591,10 @@ fun HomeScreen(
                                                                     modifier =
                                                                         Modifier
                                                                             .width(itemWidth)
-                                                                            .height(itemWidth)
+                                                                            .height(cellHeight)
                                                                             .padding(4.dp),
                                                                 ) {
-                                                                    SpeedDialGridItem(
+                                                                    SoriQuickAccessTile(
                                                                         item = item,
                                                                         isPinned = isPinned,
                                                                         isActive =
@@ -2441,7 +2452,8 @@ fun HomeScreen(
                             if (selectedChip?.title?.contains("Podcast", ignoreCase = true) == true) {
                                 return@forEach
                             }
-                            explorePage?.moodAndGenres?.let { moodAndGenres ->
+                            // Sori: skip the section when the list is empty (it is for free users in Korea).
+                            explorePage?.moodAndGenres?.takeIf { it.isNotEmpty() }?.let { moodAndGenres ->
                                 item(key = "mood_and_genres_title") {
                                     NavigationTitle(
                                         title = stringResource(R.string.mood_and_genres),
@@ -2477,6 +2489,12 @@ fun HomeScreen(
                             }
                         }
                     }
+                }
+
+                // Sori: when YouTube Music's home feed is unavailable (Premium-only for free users in
+                // Korea), fill Home with search-backed shelves of featured playlists.
+                if (showSoriShelves) {
+                    if (soriShelves.isEmpty() && soriShelvesLoading) soriHomeShelvesLoading() else soriHomeShelves(soriShelves, ytGridItem)
                 }
 
                 // Only show shimmer during initial loading, not for pagination
@@ -2531,7 +2549,8 @@ fun HomeScreen(
             }
 
             HideOnScrollFAB(
-                visible = allLocalItems.isNotEmpty() || allYtItems.isNotEmpty(),
+                // Sori: no FAB on home; quick access already has a shuffle tile (music recognition stays on search).
+                visible = false && (allLocalItems.isNotEmpty() || allYtItems.isNotEmpty()),
                 lazyListState = lazylistState,
                 icon = R.drawable.shuffle,
                 onClick = {

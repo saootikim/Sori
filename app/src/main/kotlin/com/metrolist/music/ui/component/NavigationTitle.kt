@@ -65,6 +65,7 @@ fun NavigationTitle(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant, // Sori
                     overflow = TextOverflow.Ellipsis,
                 )
             }
@@ -73,7 +74,7 @@ fun NavigationTitle(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.onSurface, // Sori: white titles, accent kept for actions
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
             )
@@ -102,7 +103,7 @@ fun NavigationTitle(
             Icon(
                 painter = painterResource(R.drawable.arrow_forward),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.primary
+                tint = MaterialTheme.colorScheme.onSurfaceVariant // Sori
             )
         }
     }

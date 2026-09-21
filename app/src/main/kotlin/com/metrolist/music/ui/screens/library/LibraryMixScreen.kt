@@ -5,6 +5,7 @@
 
 package com.metrolist.music.ui.screens.library
 
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
@@ -1055,6 +1056,10 @@ fun LibraryMixScreen(
         // Always visible + button (no scroll hiding)
         FloatingActionButton(
             onClick = { showCreatePlaylistDialog = true },
+            // Sori: the screen's primary action wears the accent.
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
+            shape = CircleShape,
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .windowInsetsPadding(

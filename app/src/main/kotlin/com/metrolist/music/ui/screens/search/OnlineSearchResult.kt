@@ -101,6 +101,7 @@ import com.metrolist.music.ui.component.ChipsRow
 import com.metrolist.music.ui.component.EmptyPlaceholder
 import com.metrolist.music.ui.component.HideOnScrollFAB
 import com.metrolist.music.ui.component.LocalMenuState
+import com.metrolist.music.sori.searchSectionTitle
 import com.metrolist.music.ui.component.NavigationTitle
 import com.metrolist.music.ui.component.YouTubeListItem
 import com.metrolist.music.ui.component.shimmer.ListItemPlaceHolder
@@ -494,7 +495,7 @@ fun OnlineSearchResult(
                     if (searchFilter == null) {
                         searchSummary?.summaries?.forEach { summary ->
                             item {
-                                NavigationTitle(summary.title)
+                                NavigationTitle(searchSectionTitle(summary.title)) // Sori: localized group names
                             }
 
                             itemsIndexed(
