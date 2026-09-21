@@ -13,7 +13,7 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `app/src/main/kotlin/com/metrolist/music/utils/LoginPagePolicy.kt` (신규), `ui/screens/LoginScreen.kt` | 로그인 후 구매 페이지 등 다른 youtube.com 페이지에 멈추는 문제 수정 (Premium 체험 대상 계정) |
 | `ui/screens/settings/AboutScreen.kt`, `res/values{,-ko}/sori_strings.xml` (신규) | 소프트웨어 정보: 개발자 saootikim, "Metrolist 기반"·소스·라이선스 링크 (원작 개발자·기부·커뮤니티 링크 제거) |
 | `res/drawable/small_icon.xml` | 알림바·플레이어 기본 이미지·공유 이미지 로고를 Sori 아이콘으로 |
-| `sori/SoriDefaults.kt` + `App.kt` 한 줄 | Sori 기본값 시딩 (다크, 고정 브랜드 색, 클래식 플레이어, 그라데이션, 정사각 아트, 얇은 진행 막대). 사용자가 바꾼 키는 건드리지 않음 |
+| `sori/SoriDefaults.kt` + `App.kt` 한 줄 | Sori 기본값 시딩 (다크, 고정 브랜드 색, 클래식 플레이어, 그라데이션, 정사각 아트, 얇은 진행 막대, 한국어 가사 로마자 줄 끔). 사용자가 바꾼 키는 건드리지 않음 |
 | `ui/theme/SoriColors.kt`, `SoriTypography.kt`, `Theme.kt` | Sori 다크 팔레트(#121212 + 코랄), 글꼴 위계. 기본 색 = Sori 코랄 |
 | `ui/component/NavigationTitle.kt` | 섹션 제목 흰색, 라벨·화살표 회색 |
 | `sori/SoriGreeting.kt`, `sori/ui/QuickAccessTile.kt`, `HomeScreen.kt`, `MainActivity.kt` | Home 인사말, 2열 바로가기 타일 |

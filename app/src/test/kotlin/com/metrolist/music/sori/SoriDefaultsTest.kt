@@ -4,6 +4,7 @@ import androidx.datastore.preferences.core.mutablePreferencesOf
 import com.metrolist.music.constants.CropAlbumArtKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DynamicThemeKey
+import com.metrolist.music.constants.LyricsRomanizeList
 import com.metrolist.music.constants.MiniPlayerBackgroundStyle
 import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
@@ -54,6 +55,19 @@ class SoriDefaultsTest {
         assertEquals(MiniPlayerBackgroundStyle.GRADIENT.name, prefs[MiniPlayerBackgroundStyleKey])
         assertEquals(true, prefs[CropAlbumArtKey])
         assertEquals(SliderStyle.SLIM.name, prefs[SliderStyleKey])
+    }
+
+    @Test
+    fun koreanLyricsAreNotRomanized() {
+        val prefs = mutablePreferencesOf()
+        SoriDefaults.applyTo(prefs)
+
+        val languages = prefs[LyricsRomanizeList]!!.split(",").associate { it.substringBefore(":") to it.substringAfter(":").toBoolean() }
+        assertEquals(false, languages["Korean"])
+        // Every other language keeps upstream's default: a missing entry would read as disabled.
+        assertEquals(true, languages["Japanese"])
+        assertEquals(true, languages["Chinese"])
+        assertEquals(com.metrolist.music.ui.screens.settings.defaultList.size, languages.size)
     }
 
     @Test

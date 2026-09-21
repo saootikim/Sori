@@ -11,6 +11,7 @@ import androidx.datastore.preferences.core.intPreferencesKey
 import com.metrolist.music.constants.CropAlbumArtKey
 import com.metrolist.music.constants.DarkModeKey
 import com.metrolist.music.constants.DynamicThemeKey
+import com.metrolist.music.constants.LyricsRomanizeList
 import com.metrolist.music.constants.MiniPlayerBackgroundStyle
 import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
@@ -19,6 +20,7 @@ import com.metrolist.music.constants.SliderStyle
 import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
+import com.metrolist.music.ui.screens.settings.defaultList as romanizeLanguages
 
 /**
  * Sori's opinionated defaults (always-dark, fixed brand colors, classic now-playing layout).
@@ -29,7 +31,7 @@ import com.metrolist.music.ui.screens.settings.DarkMode
  */
 object SoriDefaults {
     /** Bump when adding defaults; each version is applied once. */
-    const val VERSION = 4
+    const val VERSION = 5
 
     val VersionKey = intPreferencesKey("sori_defaults_version")
 
@@ -46,6 +48,12 @@ object SoriDefaults {
             Pair(CropAlbumArtKey, true),
             // v4: thin seek bar.
             Pair(SliderStyleKey, SliderStyle.SLIM.name),
+            // v5: Korean users read Hangul; romanized lines under Korean lyrics are noise. The
+            // preference is the full list in the settings screen's format, other languages as upstream.
+            Pair(
+                LyricsRomanizeList,
+                romanizeLanguages.joinToString(",") { (lang, on) -> "$lang:${on && lang != "Korean"}" },
+            ),
         )
 
     /** Seeds missing defaults. Returns true when [prefs] was changed. */
