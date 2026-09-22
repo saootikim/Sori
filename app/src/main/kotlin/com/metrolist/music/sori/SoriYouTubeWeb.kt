@@ -16,6 +16,7 @@ import kotlinx.serialization.json.JsonObjectBuilder
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.put
 import kotlinx.serialization.json.putJsonObject
 import java.net.HttpURLConnection
@@ -34,20 +35,28 @@ internal object SoriYouTubeWeb {
     fun post(
         endpoint: String,
         fields: JsonObjectBuilder.() -> Unit,
+    ): String = postTo("$BASE$endpoint?prettyPrint=false", clientName = "WEB", clientVersion = CLIENT_VERSION, fields)
+
+    /** POSTs [fields] with an InnerTube context for [clientName] to any InnerTube [url]; returns the body. */
+    fun postTo(
+        url: String,
+        clientName: String,
+        clientVersion: String,
+        fields: JsonObjectBuilder.() -> Unit,
     ): String {
         val body =
             buildJsonObject {
                 putJsonObject("context") {
                     putJsonObject("client") {
-                        put("clientName", "WEB")
-                        put("clientVersion", CLIENT_VERSION)
+                        put("clientName", clientName)
+                        put("clientVersion", clientVersion)
                         put("hl", YouTube.locale.hl)
                         put("gl", YouTube.locale.gl)
                     }
                 }
                 fields()
             }.toString()
-        val connection = URL("$BASE$endpoint?prettyPrint=false").openConnection() as HttpURLConnection
+        val connection = URL(url).openConnection() as HttpURLConnection
         return try {
             connection.requestMethod = "POST"
             connection.connectTimeout = 10_000
@@ -56,7 +65,7 @@ internal object SoriYouTubeWeb {
             connection.setRequestProperty("Content-Type", "application/json")
             connection.setRequestProperty("User-Agent", USER_AGENT)
             connection.outputStream.use { it.write(body.toByteArray()) }
-            check(connection.responseCode == 200) { "youtube.com $endpoint returned HTTP ${connection.responseCode}" }
+            check(connection.responseCode == 200) { "$url returned HTTP ${connection.responseCode}" }
             connection.inputStream.bufferedReader().use { it.readText() }
         } finally {
             connection.disconnect()
@@ -91,6 +100,8 @@ internal fun videoSongItem(
 }
 
 internal fun JsonObject.string(key: String): String? = (this[key] as? JsonPrimitive)?.contentOrNull
+
+internal fun JsonObject.int(key: String): Int? = (this[key] as? JsonPrimitive)?.intOrNull
 
 internal fun JsonObject.path(vararg keys: String): JsonObject? =
     keys.fold(this as JsonObject?) { obj, key -> obj?.get(key) as? JsonObject }

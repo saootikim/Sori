@@ -147,10 +147,12 @@ import com.metrolist.music.ui.component.SongListItem
 import com.metrolist.music.ui.component.SpeedDialGridItem
 import com.metrolist.music.sori.SoriHomeShelvesViewModel
 import com.metrolist.music.sori.ui.KeepAtTopUntilScrolled
+import com.metrolist.music.sori.ui.rememberSoriDiscovery
 import com.metrolist.music.sori.ui.QuickAccessTileHeight
 import com.metrolist.music.sori.ui.SoriQuickAccessTile
 import com.metrolist.music.sori.ui.SoriShuffleTile
 import com.metrolist.music.sori.ui.soriHomeShelves
+import com.metrolist.music.sori.ui.soriDiscoveryShelves
 import com.metrolist.music.sori.ui.soriHomeShelvesLoading
 import com.metrolist.music.ui.component.YouTubeGridItem
 import com.metrolist.music.ui.component.YouTubeListItem
@@ -694,6 +696,7 @@ fun HomeScreen(
     val soriShelves by soriShelvesViewModel.shelves.collectAsStateWithLifecycle()
     val soriShelvesLoading by soriShelvesViewModel.isLoading.collectAsStateWithLifecycle()
     val showSoriShelves = selectedChip == null && !isLoading && homePage?.sections.isNullOrEmpty()
+    val soriDiscovery = rememberSoriDiscovery() // Sori: charts, mixes and new releases under quick access
     LaunchedEffect(showSoriShelves) {
         if (showSoriShelves) soriShelvesViewModel.ensureLoaded()
     }
@@ -1452,6 +1455,8 @@ fun HomeScreen(
                     }
                 }
 
+                // Sori: without quick access (new users), Sori's shelves open Home.
+                if (selectedChip == null && HomeSection.SpeedDial !in homeSections) soriDiscoveryShelves(soriDiscovery) { navController.navigate(it) }
                 homeSections.forEach { section ->
                     when (section) {
                         HomeSection.SpeedDial -> {
@@ -1770,6 +1775,7 @@ fun HomeScreen(
                                     }
                                 }
                             }
+                            soriDiscoveryShelves(soriDiscovery) { navController.navigate(it) } // Sori: right under quick access
                         }
 
                         HomeSection.QuickPicks -> {

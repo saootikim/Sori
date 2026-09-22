@@ -1,0 +1,229 @@
+{
+ "contents": {
+  "sectionListRenderer": {
+   "contents": [
+    {
+     "musicAnalyticsSectionRenderer": {
+      "content": {
+       "trackTypes": [
+        {
+         "endDate": "2026-09-17",
+         "trackViews": [
+          {
+           "id": "G:UqkTUtVI3pU",
+           "name": "Dear my crazy soulmate",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/dfTaw-LhxWVGPdbKfML-ybvDnOySHxxbyyK_yJDSxnP1GDgcaW0obc5ZeeS6cTpJ-lu-CyiyA_VyGZr2=w180-h180-l90-rj",
+              "width": 180,
+              "height": 180
+             }
+            ]
+           },
+           "encryptedVideoId": "RdUV9Ms5GM4",
+           "atvExternalVideoId": "IHIt9S2DWcQ",
+           "chartEntryMetadata": {
+            "currentPosition": 1,
+            "previousPosition": 25,
+            "percentViewsChange": 4.36088,
+            "periodsOnChart": 2
+           },
+           "artists": [
+            {
+             "kgMid": "/m/0fr0bhg",
+             "name": "아이유"
+            }
+           ],
+           "releaseDate": {
+            "year": 2026,
+            "month": 9,
+            "day": 10
+           }
+          },
+          {
+           "id": "G:pGyi7Hwe0WU",
+           "name": "BAD",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/OlsyF8L82chwdoVqON-g5H3BsEEgA0zSIYU_6SIZgMtLe0QzZPxzno91C6zJktuon6rjAv_UbmggkO_vyQ=w180-h180-l90-rj",
+              "width": 180,
+              "height": 180
+             }
+            ]
+           },
+           "encryptedVideoId": "-q_S27LbNKU",
+           "atvExternalVideoId": "3F9jlnANW08",
+           "chartEntryMetadata": {
+            "currentPosition": 3,
+            "previousPosition": 2,
+            "percentViewsChange": 0.114306234,
+            "periodsOnChart": 12
+           },
+           "artists": [
+            {
+             "kgMid": "/g/11fj327_sc",
+             "name": "에이티즈"
+            }
+           ],
+           "releaseDate": {
+            "year": 2026,
+            "month": 5,
+            "day": 22
+           }
+          },
+          {
+           "id": "G:QYw8eq9LgMk",
+           "name": "Unknown Planet",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/dfTaw-LhxWVGPdbKfML-ybvDnOySHxxbyyK_yJDSxnP1GDgcaW0obc5ZeeS6cTpJ-lu-CyiyA_VyGZr2=w180-h180-l90-rj",
+              "width": 180,
+              "height": 180
+             }
+            ]
+           },
+           "encryptedVideoId": "nP1xjFX86Po",
+           "atvExternalVideoId": "KHqDMwHpdy8",
+           "chartEntryMetadata": {
+            "currentPosition": 10,
+            "periodsOnChart": 1
+           },
+           "artists": [
+            {
+             "kgMid": "/m/0fr0bhg",
+             "name": "아이유"
+            }
+           ],
+           "releaseDate": {
+            "year": 2026,
+            "month": 9,
+            "day": 10
+           }
+          },
+          {
+           "id": "G:d7aAc1zk3uc",
+           "name": "소문의 낙원 (Live)",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/JwkGaClM5NXgaGueIN74yIpaiF2dlgcTlbU0C7hk7xUjJWClMsifJS-bEbYqYav2iEF5Wg7e_khs6OWV=w180-h180-l90-rj",
+              "width": 180,
+              "height": 180
+             }
+            ]
+           },
+           "encryptedVideoId": "6Xa1VDLACPo",
+           "atvExternalVideoId": "6Xa1VDLACPo",
+           "chartEntryMetadata": {
+            "currentPosition": 46,
+            "percentViewsChange": 0.16296756,
+            "periodsOnChart": 22
+           },
+           "artists": [
+            {
+             "kgMid": "/m/0swmqrj",
+             "name": "AKMU (악뮤)"
+            }
+           ],
+           "releaseDate": {
+            "year": 2026,
+            "month": 4,
+            "day": 2
+           }
+          },
+          {
+           "id": "G:dn2Ah7VYCRY",
+           "name": "Forever Has Always Been",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://i.ytimg.com/vi/JNy_pVfs6yQ/default.jpg",
+              "width": 120,
+              "height": 90
+             },
+             {
+              "url": "https://i.ytimg.com/vi/JNy_pVfs6yQ/mqdefault.jpg",
+              "width": 320,
+              "height": 180
+             },
+             {
+              "url": "https://i.ytimg.com/vi/JNy_pVfs6yQ/hqdefault.jpg",
+              "width": 480,
+              "height": 360
+             },
+             {
+              "url": "https://i.ytimg.com/vi/JNy_pVfs6yQ/sddefault.jpg",
+              "width": 640,
+              "height": 480
+             },
+             {
+              "url": "https://i.ytimg.com/vi/JNy_pVfs6yQ/maxresdefault.jpg",
+              "width": 1920,
+              "height": 1080
+             }
+            ]
+           },
+           "encryptedVideoId": "JNy_pVfs6yQ",
+           "chartEntryMetadata": {
+            "currentPosition": 47,
+            "previousPosition": 55,
+            "percentViewsChange": 0.20356902,
+            "periodsOnChart": 17
+           },
+           "artists": [
+            {
+             "kgMid": "/g/11lm6p2nvq",
+             "name": "리도어 (Redoor)"
+            }
+           ],
+           "releaseDate": {
+            "year": 2021,
+            "month": 1,
+            "day": 9
+           }
+          },
+          {
+           "id": "G:rX5UinXjaoE",
+           "name": "Pinball",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/qO6L6WFlgHmu92fYAl9_GP1pLIjuWSafC33gAOs4E1k5BwehYyiH0JEjBgsSOxy6ByQ6ItSCs8Bxrbk35g=w180-h180-l90-rj",
+              "width": 180,
+              "height": 180
+             }
+            ]
+           },
+           "encryptedVideoId": "B8JJ8RNM-60",
+           "atvExternalVideoId": "oP-WPpwBz80",
+           "chartEntryMetadata": {
+            "currentPosition": 28,
+            "previousPosition": 28,
+            "percentViewsChange": 0.1368204,
+            "periodsOnChart": 15
+           },
+           "artists": [
+            {
+             "kgMid": "/g/11y36j339b",
+             "name": "RESCENE (리센느)"
+            }
+           ],
+           "releaseDate": {
+            "year": 2024,
+            "month": 8,
+            "day": 27
+           }
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   ]
+  }
+ }
+}

@@ -69,4 +69,27 @@
     <string name="sori_other_results">Other results</string>
     <string name="sori_popular_songs">Popular</string>
     <string name="sori_sleep_timer_short">Timer</string>
+    <string name="sori_charts">Charts</string>
+    <string name="sori_charts_korea">Korea</string>
+    <string name="sori_charts_global">Global</string>
+    <string name="sori_charts_artists">Artists</string>
+    <string name="sori_charts_source">YouTube Charts</string>
+    <string name="sori_charts_week">Weekly · %1$s – %2$s</string>
+    <string name="sori_charts_this_week">Top songs this week</string>
+    <string name="sori_charts_korea_top">Korea Top 100</string>
+    <string name="sori_charts_global_top">Global Top 100</string>
+    <string name="sori_charts_load_failed">Could not load the chart.</string>
+    <string name="sori_chart_new">NEW</string>
+    <string name="sori_chart_reentry">RE</string>
+    <string name="sori_charts_date_pattern">MMM d</string>
+    <string name="sori_mixes_title">Made for you</string>
+    <string name="sori_mix_name">Daily Mix %1$d</string>
+    <string name="sori_mix_artists_more">%1$s and more</string>
+    <string name="sori_mix_missing">This mix is gone. New mixes arrive every day.</string>
+    <string name="sori_releases_title">New releases</string>
+    <string name="sori_releases_notify">New release notifications</string>
+    <string name="sori_releases_notify_desc">Once a day, when artists you listen to or follow release something</string>
+    <string name="sori_releases_empty">Nothing new yet. Follow artists you like to see their releases here.</string>
+    <string name="sori_releases_notification_one">%1$s released “%2$s”</string>
+    <string name="sori_releases_notification_more">%1$s released “%2$s”, plus %3$d more</string>
 </resources>

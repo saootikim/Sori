@@ -61,6 +61,7 @@ import com.metrolist.music.ui.screens.settings.integrations.IntegrationScreen
 import com.metrolist.music.ui.screens.settings.integrations.LastFMSettings
 import com.metrolist.music.ui.screens.settings.integrations.ListenTogetherSettings
 
+import com.metrolist.music.sori.ui.soriDestinations
 import com.metrolist.music.ui.screens.wrapped.WrappedScreen
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -132,6 +133,8 @@ fun NavGraphBuilder.navigationBuilder(
     composable("charts_screen") {
         ChartsScreen(navController)
     }
+
+    soriDestinations(navController) // Sori: Sori's own screens (charts, mixes, new releases)
 
     composable(
         route = "browse/{browseId}",

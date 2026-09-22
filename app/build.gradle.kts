@@ -257,6 +257,7 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.hilt.navigation)
     implementation(libs.datastore)
+    implementation(libs.work.runtime) // Sori: daily new-release check
 
     implementation(libs.compose.runtime)
     implementation(libs.compose.foundation)

@@ -44,4 +44,17 @@ class SoriBrowseSectionsTest {
         assertEquals(curated, load(Result.success(emptyList()), Result.success(emptyList())))
         assertEquals(curated, load(Result.failure(RuntimeException()), Result.failure(RuntimeException())))
     }
+
+    @Test
+    fun chartsTileLeadsTheFirstSection() {
+        val charts = SoriBrowseTile("Charts", 0xFF7C5CFF, route = "sori_charts")
+        val sections = curated + SoriBrowseSection("More", listOf(SoriBrowseTile("Jazz", 0xFF27856A, query = "jazz")))
+
+        val result = withLeadingTile(sections, charts)
+
+        assertEquals(listOf("Charts", "K-Pop"), result.first().tiles.map { it.title })
+        assertEquals(sections[1], result[1])
+        // Nothing to browse (all sources failed): the tile still gets a section of its own.
+        assertEquals(listOf(SoriBrowseSection("", listOf(charts))), withLeadingTile(emptyList(), charts))
+    }
 }

@@ -647,10 +647,10 @@ fun OnlineSearchScreen(
                 sections = soriBrowseSections,
                 onOpen = { tile ->
                     val endpoint = tile.endpoint
-                    if (endpoint != null) {
-                        navController.navigate("youtube_browse/${endpoint.browseId}?params=${endpoint.params}")
-                    } else {
-                        tile.query?.let(onSearch)
+                    when {
+                        tile.route != null -> navController.navigate(tile.route)
+                        endpoint != null -> navController.navigate("youtube_browse/${endpoint.browseId}?params=${endpoint.params}")
+                        else -> tile.query?.let(onSearch)
                     }
                 },
             )

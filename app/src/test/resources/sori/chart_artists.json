@@ -1,0 +1,75 @@
+{
+ "contents": {
+  "sectionListRenderer": {
+   "contents": [
+    {
+     "musicAnalyticsSectionRenderer": {
+      "content": {
+       "artists": [
+        {
+         "endDate": "2026-09-17",
+         "artistViews": [
+          {
+           "id": "/m/0fr0bhg",
+           "name": "아이유",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/Zp1AXiMpha0AGn66ACzmfEirLXXdRWE2EFyjz5ZV3MbPtXxQxquEJcWBIxWM_pqtgXeDZFbpq9clP9rh"
+             }
+            ]
+           },
+           "externalChannelId": "UC3SyT4_WLHzN7JmHQwKQZww",
+           "chartEntryMetadata": {
+            "currentPosition": 1,
+            "previousPosition": 4,
+            "percentViewsChange": 0.9452827,
+            "periodsOnChart": 522
+           }
+          },
+          {
+           "id": "/g/11y36j339b",
+           "name": "RESCENE (리센느)",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/FZA-rWIvn9keS8iE50HqS4SIMpSRBkcht4r2Cp_gw1qndscJfo_X8qbcwEETVdlMLQoQWlkC6A"
+             }
+            ]
+           },
+           "externalChannelId": "UCtKtCiaWRz-d3EZn2xd1mdA",
+           "chartEntryMetadata": {
+            "currentPosition": 2,
+            "previousPosition": 2,
+            "percentViewsChange": 0.12219629,
+            "periodsOnChart": 46
+           }
+          },
+          {
+           "id": "/m/049g_gp",
+           "name": "BIGBANG",
+           "thumbnail": {
+            "thumbnails": [
+             {
+              "url": "https://yt3.googleusercontent.com/X4IlIyw4Yjpl2qio5QA-uxj5vIa_EVSg5dyibJrmKcPrj0BKFcKYhKUTyacNbHaGHxP_zVYB3jv-Cv0"
+             }
+            ]
+           },
+           "externalChannelId": "UCzw-C7fNfs018R1FzIKnlaA",
+           "chartEntryMetadata": {
+            "currentPosition": 3,
+            "previousPosition": 1,
+            "percentViewsChange": -0.08178889,
+            "periodsOnChart": 522
+           }
+          }
+         ]
+        }
+       ]
+      }
+     }
+    }
+   ]
+  }
+ }
+}

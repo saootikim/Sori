@@ -53,11 +53,14 @@ class SoriBrowseViewModel
             val exploreTitle = context.getString(R.string.mood_and_genres)
             viewModelScope.launch(Dispatchers.IO) {
                 _sections.value =
-                    loadBrowseSections(
-                        full = { YouTube.moodAndGenres() },
-                        explore = { YouTube.explore().map { it.moodAndGenres } },
-                        exploreTitle = exploreTitle,
-                        curated = { SoriBrowseCatalog.sections(context) },
+                    withLeadingTile(
+                        loadBrowseSections(
+                            full = { YouTube.moodAndGenres() },
+                            explore = { YouTube.explore().map { it.moodAndGenres } },
+                            exploreTitle = exploreTitle,
+                            curated = { SoriBrowseCatalog.sections(context) },
+                        ),
+                        SoriBrowseCatalog.chartsTile(context),
                     )
             }
         }

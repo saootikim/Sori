@@ -68,4 +68,27 @@
     <string name="sori_other_results">기타 결과</string>
     <string name="sori_popular_songs">인기곡</string>
     <string name="sori_sleep_timer_short">타이머</string>
+    <string name="sori_charts">인기 차트</string>
+    <string name="sori_charts_korea">한국</string>
+    <string name="sori_charts_global">글로벌</string>
+    <string name="sori_charts_artists">아티스트</string>
+    <string name="sori_charts_source">YouTube 인기 차트</string>
+    <string name="sori_charts_week">주간 · %1$s~%2$s</string>
+    <string name="sori_charts_this_week">이번 주 인기곡</string>
+    <string name="sori_charts_korea_top">한국 인기곡 Top 100</string>
+    <string name="sori_charts_global_top">글로벌 인기곡 Top 100</string>
+    <string name="sori_charts_load_failed">차트를 불러오지 못했어요.</string>
+    <string name="sori_chart_new">NEW</string>
+    <string name="sori_chart_reentry">RE</string>
+    <string name="sori_charts_date_pattern">M월 d일</string>
+    <string name="sori_mixes_title">나를 위한 믹스</string>
+    <string name="sori_mix_name">데일리 믹스 %1$d</string>
+    <string name="sori_mix_artists_more">%1$s 외</string>
+    <string name="sori_mix_missing">이 믹스는 이제 없어요. 믹스는 매일 새로 만들어져요.</string>
+    <string name="sori_releases_title">새 발매</string>
+    <string name="sori_releases_notify">새 발매 알림</string>
+    <string name="sori_releases_notify_desc">자주 듣거나 구독한 아티스트가 새 곡을 내면 하루 한 번 알려줘요</string>
+    <string name="sori_releases_empty">아직 새 발매가 없어요. 좋아하는 아티스트를 구독하면 여기에 모여요.</string>
+    <string name="sori_releases_notification_one">%1$s의 새 발매: “%2$s”</string>
+    <string name="sori_releases_notification_more">%1$s의 “%2$s” 외 %3$d개 새 발매</string>
 </resources>
