@@ -82,4 +82,8 @@
     <string name="sori_chart_new">NEW</string>
     <string name="sori_chart_reentry">RE</string>
     <string name="sori_charts_date_pattern">MMM d</string>
+    <string name="sori_mixes_title">Made for you</string>
+    <string name="sori_mix_name">Daily Mix %1$d</string>
+    <string name="sori_mix_artists_more">%1$s and more</string>
+    <string name="sori_mix_missing">This mix is gone. New mixes arrive every day.</string>
 </resources>

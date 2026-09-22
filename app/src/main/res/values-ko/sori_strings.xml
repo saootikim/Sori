@@ -81,4 +81,8 @@
     <string name="sori_chart_new">NEW</string>
     <string name="sori_chart_reentry">RE</string>
     <string name="sori_charts_date_pattern">M월 d일</string>
+    <string name="sori_mixes_title">나를 위한 믹스</string>
+    <string name="sori_mix_name">데일리 믹스 %1$d</string>
+    <string name="sori_mix_artists_more">%1$s 외</string>
+    <string name="sori_mix_missing">이 믹스는 이제 없어요. 믹스는 매일 새로 만들어져요.</string>
 </resources>

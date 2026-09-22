@@ -7,6 +7,8 @@ package com.metrolist.music.sori.ui
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.navArgument
 import androidx.navigation.compose.composable
 
 const val SORI_CHARTS_ROUTE = "sori_charts"
@@ -15,5 +17,11 @@ const val SORI_CHARTS_ROUTE = "sori_charts"
 fun NavGraphBuilder.soriDestinations(navController: NavController) {
     composable(SORI_CHARTS_ROUTE) {
         SoriChartsScreen(navController)
+    }
+    composable(
+        route = "sori_mix/{number}",
+        arguments = listOf(navArgument("number") { type = NavType.IntType }),
+    ) { entry ->
+        SoriDailyMixScreen(navController, number = entry.arguments?.getInt("number") ?: 1)
     }
 }

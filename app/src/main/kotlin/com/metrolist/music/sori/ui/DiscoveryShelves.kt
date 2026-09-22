@@ -17,6 +17,9 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyHorizontalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
@@ -36,6 +39,8 @@ import com.metrolist.music.sori.ChartLoad
 import com.metrolist.music.sori.SoriChart
 import com.metrolist.music.sori.SoriChartEntry
 import com.metrolist.music.sori.SoriChartsViewModel
+import com.metrolist.music.sori.SoriDailyMix
+import com.metrolist.music.sori.SoriDailyMixViewModel
 import com.metrolist.music.ui.component.NavigationTitle
 import com.metrolist.music.ui.utils.SnapLayoutInfoProvider
 
@@ -43,14 +48,20 @@ private const val CHART_SHELF_SIZE = 20
 
 /** Everything Sori adds to Home below quick access. */
 data class SoriDiscovery(
+    val mixes: List<SoriDailyMix>,
     val koreaChart: SoriChart<SoriChartEntry>?,
 )
 
 @Composable
 fun rememberSoriDiscovery(): SoriDiscovery {
+    val mixes: SoriDailyMixViewModel = hiltViewModel()
     val charts: SoriChartsViewModel = hiltViewModel()
+    val dailyMixes by mixes.mixes.collectAsStateWithLifecycle()
     val korea by charts.korea.collectAsStateWithLifecycle()
-    return SoriDiscovery(koreaChart = (korea as? ChartLoad.Loaded)?.chart)
+    return SoriDiscovery(
+        mixes = dailyMixes.orEmpty(),
+        koreaChart = (korea as? ChartLoad.Loaded)?.chart,
+    )
 }
 
 /** Sori's Home shelves, meant to sit right under quick access. */
@@ -58,6 +69,24 @@ fun LazyListScope.soriDiscoveryShelves(
     discovery: SoriDiscovery,
     onNavigate: (String) -> Unit,
 ) {
+    if (discovery.mixes.isNotEmpty()) {
+        item(key = "sori_mixes_title") {
+            NavigationTitle(title = stringResource(R.string.sori_mixes_title))
+        }
+        item(key = "sori_mixes_row") {
+            LazyRow(
+                contentPadding =
+                    WindowInsets.systemBars
+                        .only(WindowInsetsSides.Horizontal)
+                        .asPaddingValues(),
+                modifier = Modifier.padding(start = 6.dp),
+            ) {
+                items(discovery.mixes, key = { "sori_mix_${it.number}" }) { mix ->
+                    DailyMixCard(mix) { onNavigate(soriMixRoute(mix.number)) }
+                }
+            }
+        }
+    }
     discovery.koreaChart?.takeIf { it.entries.isNotEmpty() }?.let { chart ->
         item(key = "sori_chart_title") {
             NavigationTitle(
