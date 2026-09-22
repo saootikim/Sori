@@ -85,4 +85,10 @@
     <string name="sori_mix_name">데일리 믹스 %1$d</string>
     <string name="sori_mix_artists_more">%1$s 외</string>
     <string name="sori_mix_missing">이 믹스는 이제 없어요. 믹스는 매일 새로 만들어져요.</string>
+    <string name="sori_releases_title">새 발매</string>
+    <string name="sori_releases_notify">새 발매 알림</string>
+    <string name="sori_releases_notify_desc">자주 듣거나 구독한 아티스트가 새 곡을 내면 하루 한 번 알려줘요</string>
+    <string name="sori_releases_empty">아직 새 발매가 없어요. 좋아하는 아티스트를 구독하면 여기에 모여요.</string>
+    <string name="sori_releases_notification_one">%1$s의 새 발매: “%2$s”</string>
+    <string name="sori_releases_notification_more">%1$s의 “%2$s” 외 %3$d개 새 발매</string>
 </resources>

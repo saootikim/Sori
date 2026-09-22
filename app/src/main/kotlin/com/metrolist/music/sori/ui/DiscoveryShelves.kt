@@ -41,6 +41,8 @@ import com.metrolist.music.sori.SoriChartEntry
 import com.metrolist.music.sori.SoriChartsViewModel
 import com.metrolist.music.sori.SoriDailyMix
 import com.metrolist.music.sori.SoriDailyMixViewModel
+import com.metrolist.music.sori.SoriRelease
+import com.metrolist.music.sori.SoriReleaseRadarViewModel
 import com.metrolist.music.ui.component.NavigationTitle
 import com.metrolist.music.ui.utils.SnapLayoutInfoProvider
 
@@ -50,17 +52,21 @@ private const val CHART_SHELF_SIZE = 20
 data class SoriDiscovery(
     val mixes: List<SoriDailyMix>,
     val koreaChart: SoriChart<SoriChartEntry>?,
+    val releases: List<SoriRelease>,
 )
 
 @Composable
 fun rememberSoriDiscovery(): SoriDiscovery {
     val mixes: SoriDailyMixViewModel = hiltViewModel()
     val charts: SoriChartsViewModel = hiltViewModel()
+    val releases: SoriReleaseRadarViewModel = hiltViewModel()
     val dailyMixes by mixes.mixes.collectAsStateWithLifecycle()
     val korea by charts.korea.collectAsStateWithLifecycle()
+    val radar by releases.radar.collectAsStateWithLifecycle()
     return SoriDiscovery(
         mixes = dailyMixes.orEmpty(),
         koreaChart = (korea as? ChartLoad.Loaded)?.chart,
+        releases = radar.orEmpty(),
     )
 }
 
@@ -97,6 +103,27 @@ fun LazyListScope.soriDiscoveryShelves(
         }
         item(key = "sori_chart_grid") {
             ChartShelf(chart.entries, stringResource(R.string.sori_charts_korea_top))
+        }
+    }
+    if (discovery.releases.isNotEmpty()) {
+        item(key = "sori_releases_title") {
+            NavigationTitle(
+                title = stringResource(R.string.sori_releases_title),
+                onClick = { onNavigate(SORI_RELEASES_ROUTE) },
+            )
+        }
+        item(key = "sori_releases_row") {
+            LazyRow(
+                contentPadding =
+                    WindowInsets.systemBars
+                        .only(WindowInsetsSides.Horizontal)
+                        .asPaddingValues(),
+                modifier = Modifier.padding(start = 6.dp),
+            ) {
+                items(discovery.releases, key = { "sori_release_${it.release.id}" }) { release ->
+                    ReleaseCard(release) { onNavigate(albumRoute(release)) }
+                }
+            }
         }
     }
 }

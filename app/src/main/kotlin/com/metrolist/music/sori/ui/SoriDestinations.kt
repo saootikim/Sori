@@ -24,4 +24,7 @@ fun NavGraphBuilder.soriDestinations(navController: NavController) {
     ) { entry ->
         SoriDailyMixScreen(navController, number = entry.arguments?.getInt("number") ?: 1)
     }
+    composable(SORI_RELEASES_ROUTE) {
+        SoriReleaseRadarScreen(navController)
+    }
 }

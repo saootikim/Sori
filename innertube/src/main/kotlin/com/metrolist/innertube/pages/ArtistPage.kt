@@ -1,5 +1,6 @@
 package com.metrolist.innertube.pages
 
+import com.metrolist.innertube.utils.releaseYear
 import com.metrolist.innertube.models.Album
 import com.metrolist.innertube.models.AlbumItem
 import com.metrolist.innertube.models.Artist
@@ -187,7 +188,7 @@ data class ArtistPage(
                             ?.anyWatchEndpoint?.playlistId ?: return null,
                         title = renderer.title.runs?.firstOrNull()?.text ?: return null,
                         artists = null,
-                        year = renderer.subtitle?.runs?.lastOrNull()?.text?.toIntOrNull(),
+                        year = releaseYear(renderer.subtitle?.runs?.lastOrNull()?.text), // Sori: "2026년" too
                         thumbnail = renderer.thumbnailRenderer.getThumbnailUrl() ?: return null,
                         explicit = renderer.subtitleBadges?.find {
                             it.musicInlineBadgeRenderer?.icon?.iconType == "MUSIC_EXPLICIT_BADGE"

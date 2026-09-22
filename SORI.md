@@ -35,6 +35,11 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `ui/player/Player.kt`, `ui/player/Queue.kt` | 공유·메뉴 버튼은 반투명, 재생 버튼만 흰색. 수면 타이머 라벨을 "타이머"로 줄임 (길어서 흘러가던 문제) |
 | `sori/ui/KeepAtTop.kt`, `HomeScreen.kt` | 바로가기는 항상 Home 맨 위 (원본은 섹션 순서를 섞음), 섹션이 늦게 와도 Home이 맨 위에서 열림, Home FAB 제거 (셔플 타일과 중복) |
 | `res/values-ko/sori_translations.xml` (신규) | 원본에 한국어가 없는 문자열 번역. 원본이 같은 번역을 추가하면 중복 리소스로 빌드가 실패하니 여기서 지운다 |
+| `sori/SoriCharts.kt`, `SoriChartsViewModel.kt`, `sori/ui/ChartsScreen.kt`, `ChartRows.kt`, `SoriBrowseCatalog.kt`, `OnlineSearchScreen.kt` | 인기 차트: charts.youtube.com 주간 Top 100 (한국·글로벌)과 인기 아티스트. 곡은 정사각 표지의 곡 버전으로 재생. 검색 "모두 둘러보기" 첫 타일 |
+| `sori/SoriDailyMix.kt`, `SoriDailyMixRepository.kt`, `sori/ui/DailyMixScreen.kt` | 나를 위한 믹스: 많이 들은 아티스트별로 즐겨 듣는 곡 + youtube.com 믹스, 하루 한 번 만들어 `files/sori/daily_mixes.json`에 저장 |
+| `sori/SoriReleaseRadar.kt`, `SoriReleaseRadarRepository.kt`, `sori/ui/ReleaseRadarScreen.kt`, `App.kt` 한 줄, `libs.versions.toml`·`app/build.gradle.kts` (work-runtime) | 새 발매: 구독·자주 듣는 아티스트 페이지를 하루 한 번 확인 (Home 또는 WorkManager). 아티스트별 첫 확인은 기준선. 새로 생기면 알림 (끌 수 있음) |
+| `sori/ui/DiscoveryShelves.kt`, `sori/ui/SoriDestinations.kt`, `HomeScreen.kt`, `NavigationBuilder.kt` | Home 바로가기 아래 믹스·인기곡·새 발매 선반, Sori 화면 라우트 |
+| `innertube/.../utils/SoriYear.kt`, `pages/ArtistPage.kt`, `ArtistItemsPage.kt`, `LibraryPage.kt` | 앨범 연도 파싱을 "2026년" 같은 현지화 표기에도 맞춤 (원래 한국어에서 항상 null) |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 

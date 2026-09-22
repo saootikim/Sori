@@ -34,6 +34,7 @@ import com.metrolist.music.di.ApplicationScope
 import com.metrolist.music.extensions.toEnum
 import com.metrolist.music.extensions.toInetSocketAddress
 import com.metrolist.music.sori.SoriDefaults
+import com.metrolist.music.sori.SoriReleaseWork
 import com.metrolist.music.utils.CrashHandler
 import com.metrolist.music.utils.ArtistNameAliases
 import com.metrolist.music.utils.InnerTubeXPlayer
@@ -94,6 +95,7 @@ class App :
         InnerTubeXPlayer.initialize(this)
 
         // Sori: seed Sori's defaults once (only keys the user never set). See SoriDefaults.
+        applicationScope.launch(Dispatchers.IO) { SoriReleaseWork.sync(this@App) } // Sori: daily new-release check
         applicationScope.launch(Dispatchers.IO) {
             safeDataStoreEdit { SoriDefaults.applyTo(it) }
         }

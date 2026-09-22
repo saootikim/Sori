@@ -1,5 +1,6 @@
 package com.metrolist.innertube.pages
 
+import com.metrolist.innertube.utils.releaseYear
 import com.metrolist.innertube.models.Album
 import com.metrolist.innertube.models.AlbumItem
 import com.metrolist.innertube.models.Artist
@@ -29,7 +30,7 @@ data class LibraryPage(
                         ?.watchPlaylistEndpoint?.playlistId ?: return null,
                     title = renderer.title.runs?.firstOrNull()?.text ?: return null,
                     artists = parseArtists(renderer.subtitle?.runs),
-                    year = renderer.subtitle?.runs?.lastOrNull()?.text?.toIntOrNull(),
+                    year = releaseYear(renderer.subtitle?.runs?.lastOrNull()?.text), // Sori: "2026년" too
                     thumbnail = renderer.thumbnailRenderer.getThumbnailUrl()
                         ?: return null,
                     explicit = renderer.subtitleBadges?.find {
