@@ -10,19 +10,31 @@ import androidx.annotation.StringRes
 import com.metrolist.innertube.models.BrowseEndpoint
 import com.metrolist.innertube.pages.MoodAndGenres
 import com.metrolist.music.R
+import com.metrolist.music.sori.ui.SORI_CHARTS_ROUTE
 
-/** One colored tile on the search screen's browse grid. Opens a YouTube Music page or runs a search. */
+/** One colored tile on the search screen's browse grid. Opens a YouTube Music page, a Sori screen or runs a search. */
 data class SoriBrowseTile(
     val title: String,
     val color: Long,
     val endpoint: BrowseEndpoint? = null,
     val query: String? = null,
+    /** Navigation route of a Sori screen. */
+    val route: String? = null,
 )
 
 data class SoriBrowseSection(
     val title: String,
     val tiles: List<SoriBrowseTile>,
 )
+
+/** [tile] first in the first section, whichever source the sections came from. */
+fun withLeadingTile(
+    sections: List<SoriBrowseSection>,
+    tile: SoriBrowseTile,
+): List<SoriBrowseSection> {
+    val first = sections.firstOrNull() ?: return listOf(SoriBrowseSection("", listOf(tile)))
+    return listOf(first.copy(tiles = listOf(tile) + first.tiles)) + sections.drop(1)
+}
 
 fun MoodAndGenres.toBrowseSection() =
     SoriBrowseSection(
@@ -62,6 +74,14 @@ object SoriBrowseCatalog {
             Entry(R.string.sori_browse_jazz, R.string.sori_browse_jazz_query, 0xFF27856A),
             Entry(R.string.sori_browse_classical, R.string.sori_browse_classical_query, 0xFF7D4B32),
             Entry(R.string.sori_browse_2000s, R.string.sori_browse_2000s_query, 0xFFB49BC8),
+        )
+
+    /** Opens Sori's charts screen (YouTube's weekly charts). */
+    fun chartsTile(context: Context) =
+        SoriBrowseTile(
+            title = context.getString(R.string.sori_charts),
+            color = 0xFF7C5CFF,
+            route = SORI_CHARTS_ROUTE,
         )
 
     fun sections(context: Context): List<SoriBrowseSection> =

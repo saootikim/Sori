@@ -69,4 +69,17 @@
     <string name="sori_other_results">Other results</string>
     <string name="sori_popular_songs">Popular</string>
     <string name="sori_sleep_timer_short">Timer</string>
+    <string name="sori_charts">Charts</string>
+    <string name="sori_charts_korea">Korea</string>
+    <string name="sori_charts_global">Global</string>
+    <string name="sori_charts_artists">Artists</string>
+    <string name="sori_charts_source">YouTube Charts</string>
+    <string name="sori_charts_week">Weekly · %1$s – %2$s</string>
+    <string name="sori_charts_this_week">Top songs this week</string>
+    <string name="sori_charts_korea_top">Korea Top 100</string>
+    <string name="sori_charts_global_top">Global Top 100</string>
+    <string name="sori_charts_load_failed">Could not load the chart.</string>
+    <string name="sori_chart_new">NEW</string>
+    <string name="sori_chart_reentry">RE</string>
+    <string name="sori_charts_date_pattern">MMM d</string>
 </resources>
