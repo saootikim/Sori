@@ -166,7 +166,7 @@ fun SoriReleaseRadarScreen(
                             .fillMaxWidth()
                             .clickable {
                                 setNotify(!notify)
-                                scope.launch { SoriReleaseWork.sync(context) }
+                                scope.launch { SoriReleaseWork.sync(context, enabled = !notify) }
                             }.padding(horizontal = 16.dp, vertical = 12.dp),
                 ) {
                     Column(modifier = Modifier.weight(1f)) {
@@ -181,7 +181,7 @@ fun SoriReleaseRadarScreen(
                         checked = notify,
                         onCheckedChange = {
                             setNotify(it)
-                            scope.launch { SoriReleaseWork.sync(context) }
+                            scope.launch { SoriReleaseWork.sync(context, enabled = it) }
                         },
                     )
                 }

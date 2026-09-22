@@ -195,9 +195,15 @@ object SoriReleaseWork {
     private const val CHANNEL_ID = "sori_releases"
     private const val NOTIFICATION_ID = 2601
 
-    /** Schedules or cancels the daily check to match the user's setting. */
-    suspend fun sync(context: Context) {
-        val enabled = context.dataStore.data.first()[SoriReleaseNotifyKey] ?: true
+    /**
+     * Schedules or cancels the daily check to match the user's setting. Pass [enabled] when the
+     * setting was just changed: the preference write may not have landed yet.
+     */
+    suspend fun sync(
+        context: Context,
+        enabled: Boolean? = null,
+    ) {
+        val enabled = enabled ?: context.dataStore.data.first()[SoriReleaseNotifyKey] ?: true
         val work = WorkManager.getInstance(context)
         if (!enabled) {
             work.cancelUniqueWork(WORK_NAME)
