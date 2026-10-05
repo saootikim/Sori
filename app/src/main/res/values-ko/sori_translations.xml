@@ -72,4 +72,6 @@
     <string name="theme_mode">테마 모드</string>
     <string name="color_palette">색상 팔레트</string>
     <string name="use_system_colors">시스템 색상 사용</string>
+    <string name="top_result">상위 검색결과</string>
+    <string name="other">기타 결과</string>
 </resources>

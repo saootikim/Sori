@@ -23,6 +23,7 @@ import com.metrolist.innertube.pages.SearchSummaryPage
 import com.metrolist.music.constants.HideExplicitKey
 import com.metrolist.music.constants.HideVideoSongsKey
 import com.metrolist.music.constants.HideYoutubeShortsKey
+import com.metrolist.music.constants.PauseSearchHistoryKey
 import com.metrolist.music.models.ItemsPage
 import com.metrolist.music.utils.SearchRoutes
 import com.metrolist.music.utils.dataStore
@@ -89,7 +90,7 @@ constructor(
     private suspend fun loadSummaryPage() {
         if (summaryPage == null) {
             YouTube
-                .searchSummary(query)
+                .searchSummary(query, recordSearchHistory = !context.dataStore.get(PauseSearchHistoryKey, false))
                 .onSuccess { page ->
                     val resolvedItems = resolveSearchMetadata(page.summaries.flatMap { it.items })
                     var offset = 0
@@ -140,7 +141,9 @@ constructor(
                 } else {
                     if (viewStateMap[filter.value] == null) {
                         // Sori: empty song results fall back to music videos (see SongSearchFallback).
-                        searchWithSongFallback(query, filter) { q, f -> YouTube.search(q, f) }
+                        searchWithSongFallback(query, filter) { q, f ->
+                            YouTube.search(q, f, recordSearchHistory = !context.dataStore.get(PauseSearchHistoryKey, false))
+                        }
                             .onSuccess { result ->
                                 val resolvedItems = resolveSearchMetadata(result.items)
                                 val hideExplicit = context.dataStore.get(HideExplicitKey, false)
@@ -171,7 +174,10 @@ constructor(
             val viewState = viewStateMap[filterValue] ?: return@launch
             val continuation = viewState.continuation ?: return@launch
             val searchResult =
-                YouTube.searchContinuation(continuation).getOrNull() ?: return@launch
+                YouTube.searchContinuation(
+                    continuation,
+                    recordSearchHistory = !context.dataStore.get(PauseSearchHistoryKey, false),
+                ).getOrNull() ?: return@launch
             val resolvedItems = resolveSearchMetadata(searchResult.items)
             val hideExplicit = context.dataStore.get(HideExplicitKey, false)
             val hideVideoSongs = context.dataStore.get(HideVideoSongsKey, false)
