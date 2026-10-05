@@ -164,6 +164,9 @@ import com.metrolist.music.extensions.togglePlayPause
 import com.metrolist.music.extensions.toggleRepeatMode
 import com.metrolist.music.listentogether.RoomRole
 import com.metrolist.music.models.MediaMetadata
+import com.metrolist.music.sori.ui.SoriVideoMode
+import com.metrolist.music.sori.ui.SoriVideoTimeSync
+import com.metrolist.music.sori.ui.soriEffectiveIsPlaying
 import com.metrolist.music.ui.component.BottomSheet
 import com.metrolist.music.ui.component.BottomSheetState
 import com.metrolist.music.ui.component.LocalBottomSheetPageState
@@ -362,7 +365,7 @@ fun BottomSheetPlayer(
     }
 
     // Use Cast state when casting, otherwise local player
-    val effectiveIsPlaying = if (isCasting) castIsPlaying else isPlaying
+    val effectiveIsPlaying = soriEffectiveIsPlaying(if (isCasting) castIsPlaying else isPlaying) // Sori: the video's while it shows
 
     // Use State objects for position/duration to pass to MiniPlayer without causing recomposition
     // These states persist across playback state changes to ensure continuous progress updates.
@@ -394,6 +397,7 @@ fun BottomSheetPlayer(
     var sliderPosition by remember {
         mutableStateOf<Long?>(null)
     }
+    SoriVideoTimeSync({ sliderPosition }) { videoPosition, videoDuration -> position = videoPosition; duration = videoDuration } // Sori: the time bar works the video while it shows
     // Track when we last manually set position to avoid Cast overwriting it
     var lastManualSeekTime by remember { mutableLongStateOf(0L) }
 
@@ -1621,6 +1625,7 @@ fun BottomSheetPlayer(
 
                             FilledIconButton(
                                 onClick = {
+                                    if (SoriVideoMode.togglePlayPause()) return@FilledIconButton // Sori: plays/pauses the video while it shows
                                     if (isListenTogetherGuest) {
                                         playerConnection.toggleMute()
                                         return@FilledIconButton
@@ -1764,6 +1769,7 @@ fun BottomSheetPlayer(
                                         .clip(RoundedCornerShape(playPauseRoundness))
                                         .background(textButtonColor)
                                         .clickable {
+                                            if (SoriVideoMode.togglePlayPause()) return@clickable // Sori: plays/pauses the video while it shows
                                             if (isListenTogetherGuest) {
                                                 playerConnection.toggleMute()
                                                 return@clickable

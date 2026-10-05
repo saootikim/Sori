@@ -54,12 +54,14 @@ import com.metrolist.music.sori.SoriMusicVideo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.dropWhile
 import kotlinx.coroutines.flow.first
+import java.lang.ref.WeakReference
 
 /**
  * YouTube Music's Song / Video switch. The video is youtube.com's own player in a WebView over
- * the album art. The app's player pauses while the video shows; the page reports the video's
- * time twice a second, so whatever ends the video (the Song button, collapsing the player,
- * leaving the app, playback started elsewhere) continues the song from that point.
+ * the album art. The app's player pauses while the video shows and the player's time bar and
+ * play button work the video instead. The page reports the video's time twice a second, so
+ * whatever ends the video (the Song button, collapsing the player, leaving the app, playback
+ * started elsewhere) continues the song from that point.
  */
 object SoriVideoMode {
     data class Showing(
@@ -70,19 +72,27 @@ object SoriVideoMode {
         val autoplay: Boolean,
     )
 
+    data class VideoTime(
+        val positionMs: Long,
+        val durationMs: Long,
+    )
+
     val showing = MutableStateFlow<Showing?>(null)
 
-    @Volatile private var videoSeconds: Double? = null
+    /** Where the video is; null until it has started. */
+    val videoTime = MutableStateFlow<VideoTime?>(null)
 
     /** Whether the video is playing; null until it has started. */
     val videoPlaying = MutableStateFlow<Boolean?>(null)
+
+    internal var webView = WeakReference<WebView>(null)
 
     fun enter(
         playerConnection: PlayerConnection,
         songId: String,
         videoId: String,
     ) {
-        videoSeconds = null
+        videoTime.value = null
         videoPlaying.value = null
         val playing = playerConnection.player.playWhenReady
         val position = playerConnection.player.currentPosition
@@ -94,10 +104,28 @@ object SoriVideoMode {
         from: Showing,
         seconds: Double,
         playing: Boolean,
+        durationSeconds: Double,
     ) {
         if (showing.value != from) return
-        videoSeconds = seconds
+        videoTime.value = VideoTime((seconds * 1000).toLong(), (durationSeconds * 1000).toLong())
         videoPlaying.value = playing
+    }
+
+    /** The player's play button while the video shows; false when no video shows. */
+    fun togglePlayPause(): Boolean {
+        if (showing.value == null) return false
+        val view = webView.get() ?: return false
+        view.evaluateJavascript(TOGGLE_JS, null)
+        return true
+    }
+
+    /** A position picked on the player's time bar while the video shows. */
+    fun seek(positionMs: Long) {
+        if (showing.value == null) return
+        val view = webView.get() ?: return
+        view.evaluateJavascript("$SEEK_JS(${positionMs / 1000.0})", null)
+        // Shown right away; the page's next report confirms it.
+        videoTime.value?.let { videoTime.value = it.copy(positionMs = positionMs) }
     }
 
     /**
@@ -110,14 +138,22 @@ object SoriVideoMode {
     ) {
         val current = showing.value ?: return
         showing.value = null
-        val seconds = videoSeconds
-        if (seconds != null && seconds >= 0 && playerConnection.mediaMetadata.value?.id == current.songId) {
-            var position = (seconds * 1000).toLong()
+        val time = videoTime.value
+        if (time != null && playerConnection.mediaMetadata.value?.id == current.songId) {
+            var position = time.positionMs
             playerConnection.player.duration.takeIf { it > 0 }?.let { position = position.coerceAtMost(it - 1000) }
             playerConnection.seekTo(position.coerceAtLeast(0))
         }
         if (!alreadyPlaying && (videoPlaying.value ?: current.autoplay)) playerConnection.play()
     }
+
+    // Both work on the IFrame player and on the mobile watch page's <video>.
+    private const val TOGGLE_JS =
+        "(function(){var v=document.querySelector('video');if(v){if(v.paused)v.play();else v.pause();return;}" +
+            "var p=window.YT&&YT.get&&YT.get('p');if(p){if(p.getPlayerState()===1)p.pauseVideo();else p.playVideo();}})()"
+    private const val SEEK_JS =
+        "(function(s){var v=document.querySelector('video');if(v){v.currentTime=s;return;}" +
+            "var p=window.YT&&YT.get&&YT.get('p');if(p)p.seekTo(s,true);})"
 
     /** The video finished: on to the next song, like the end of a song. */
     internal fun ended(
@@ -243,17 +279,23 @@ fun SoriVideoPane(
                 .size(size)
                 .clip(RoundedCornerShape(cornerRadius))
                 .background(Color.Black)
-                // Keeps swipes on the video from changing the song underneath.
+                // Being hit is enough to keep swipes from reaching the album art pager underneath.
+                // Nothing is consumed: consumed moves make Compose cancel the WebView's touches.
                 .pointerInput(Unit) {
                     awaitPointerEventScope {
-                        while (true) awaitPointerEvent().changes.forEach { it.consume() }
+                        while (true) awaitPointerEvent()
                     }
                 },
         contentAlignment = Alignment.Center,
     ) {
         AndroidView(
-            factory = { context -> soriVideoWebView(context, showing, playerConnection) },
-            onRelease = { it.destroy() },
+            factory = { context ->
+                soriVideoWebView(context, showing, playerConnection).also { SoriVideoMode.webView = WeakReference(it) }
+            },
+            onRelease = { view ->
+                if (SoriVideoMode.webView.get() === view) SoriVideoMode.webView.clear()
+                view.destroy()
+            },
             modifier = Modifier.fillMaxWidth().aspectRatio(16f / 9f),
         )
     }
@@ -291,7 +333,8 @@ private fun soriVideoWebView(
                 fun onTime(
                     seconds: Double,
                     playing: Boolean,
-                ) = SoriVideoMode.report(showing, seconds, playing)
+                    durationSeconds: Double,
+                ) = SoriVideoMode.report(showing, seconds, playing, durationSeconds)
 
                 @JavascriptInterface
                 fun onEnded() = main.post { SoriVideoMode.ended(playerConnection, showing) }
@@ -317,7 +360,7 @@ private const val WATCH_PAGE = "https://m.youtube.com/watch"
 
 private const val WATCH_PAGE_REPORTER =
     "(function(){if(window.soriPoll)return;window.soriPoll=setInterval(function(){" +
-        "var v=document.querySelector('video');if(!v)return;Sori.onTime(v.currentTime,!v.paused&&!v.ended);" +
+        "var v=document.querySelector('video');if(!v)return;Sori.onTime(v.currentTime,!v.paused&&!v.ended,v.duration||0);" +
         "if(v.ended&&!window.soriEnded){window.soriEnded=true;Sori.onEnded();}},500);})()"
 
 // Only a started video reports its time (a cued one says 0). Ending right after it started means
@@ -343,7 +386,7 @@ private fun iframePlayerHtml(
             if($autoplay){e.target.seekTo($startSeconds,true);e.target.playVideo();}
             setInterval(function(){
               var st=e.target.getPlayerState();
-              if(st===1||st===2||st===3)Sori.onTime(e.target.getCurrentTime(),st===1);
+              if(st===1||st===2||st===3)Sori.onTime(e.target.getCurrentTime(),st===1,e.target.getDuration()||0);
             },500);
           },
           onStateChange:function(e){

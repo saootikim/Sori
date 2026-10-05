@@ -40,7 +40,7 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/SoriReleaseRadar.kt`, `SoriReleaseRadarRepository.kt`, `sori/ui/ReleaseRadarScreen.kt`, `App.kt` 한 줄, `libs.versions.toml`·`app/build.gradle.kts` (work-runtime) | 새 발매: 구독·자주 듣는 아티스트 페이지를 하루 한 번 확인 (Home 또는 WorkManager). 아티스트별 첫 확인은 기준선. 새로 생기면 알림 (끌 수 있음) |
 | `sori/ui/DiscoveryShelves.kt`, `sori/ui/SoriDestinations.kt`, `HomeScreen.kt`, `NavigationBuilder.kt` | Home 바로가기 아래 믹스·인기곡·새 발매 선반, Sori 화면 라우트 |
 | `innertube/.../utils/SoriYear.kt`, `pages/ArtistPage.kt`, `ArtistItemsPage.kt`, `LibraryPage.kt` | 앨범 연도 파싱을 "2026년" 같은 현지화 표기에도 맞춤 (원래 한국어에서 항상 null) |
-| `sori/SoriMusicVideo.kt`, `sori/ui/SongVideoSwitch.kt`, `ui/player/Thumbnail.kt` 두 줄, `sori_strings.xml` | 재생 화면 노래/동영상 전환: youtube.com 검색으로 공식 뮤직비디오를 찾고 (YouTube Music의 짝 영상 정보는 무료·비로그인에 안 옴), 표지 자리에 youtube.com 플레이어(WebView)로 재생. 노래로 돌아오거나 플레이어를 접거나 앱을 나가면 영상 위치부터 노래로 이어서 재생 |
+| `sori/SoriMusicVideo.kt`, `sori/ui/SongVideoSwitch.kt`, `sori/ui/VideoControls.kt`, `ui/player/Thumbnail.kt` 두 줄, `ui/player/Player.kt` 네 줄, `sori_strings.xml` | 재생 화면 노래/동영상 전환: youtube.com 검색으로 공식 뮤직비디오를 찾고 (YouTube Music의 짝 영상 정보는 무료·비로그인에 안 옴), 표지 자리에 youtube.com 플레이어(WebView)로 재생. 영상일 때는 플레이어의 시간바와 재생 버튼이 영상을 조작. 노래로 돌아오거나 플레이어를 접거나 앱을 나가면 영상 위치부터 노래로 이어서 재생 |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 
