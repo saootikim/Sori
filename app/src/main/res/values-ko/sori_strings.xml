@@ -91,4 +91,6 @@
     <string name="sori_releases_notification_more">%1$s의 “%2$s” 외 %3$d개 새 발매</string>
     <string name="sori_song">노래</string>
     <string name="sori_video">동영상</string>
+    <string name="sori_lyrics_preview">가사 미리보기</string>
+    <string name="sori_lyrics_show_all">전체 보기</string>
 </resources>

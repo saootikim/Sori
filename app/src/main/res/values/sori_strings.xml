@@ -92,4 +92,6 @@
     <string name="sori_releases_notification_more">%1$s released “%2$s”, plus %3$d more</string>
     <string name="sori_song">Song</string>
     <string name="sori_video">Video</string>
+    <string name="sori_lyrics_preview">Lyrics preview</string>
+    <string name="sori_lyrics_show_all">Show all</string>
 </resources>

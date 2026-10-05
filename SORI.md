@@ -41,6 +41,7 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/ui/DiscoveryShelves.kt`, `sori/ui/SoriDestinations.kt`, `HomeScreen.kt`, `NavigationBuilder.kt` | Home 바로가기 아래 믹스·인기곡·새 발매 선반, Sori 화면 라우트 |
 | `innertube/.../utils/SoriYear.kt`, `pages/ArtistPage.kt`, `ArtistItemsPage.kt`, `LibraryPage.kt` | 앨범 연도 파싱을 "2026년" 같은 현지화 표기에도 맞춤 (원래 한국어에서 항상 null) |
 | `sori/SoriMusicVideo.kt`, `sori/ui/SongVideoSwitch.kt`, `sori/ui/VideoControls.kt`, `ui/player/Thumbnail.kt` 두 줄, `ui/player/Player.kt` 네 줄, `sori_strings.xml` | 재생 화면 노래/동영상 전환: youtube.com 검색으로 공식 뮤직비디오를 찾고 (YouTube Music의 짝 영상 정보는 무료·비로그인에 안 옴), 표지 자리에 youtube.com 플레이어(WebView)로 재생. 영상일 때는 플레이어의 시간바와 재생 버튼이 영상을 조작. 노래로 돌아오거나 플레이어를 접거나 앱을 나가면 영상 위치부터 노래로 이어서 재생 |
+| `sori/SoriLyricsPreview.kt`, `sori/ui/LyricsPreviewCard.kt`, `ui/player/Player.kt` 세로 분기를 감싸는 두 줄, `sori/ui/BrowseAll.kt` (`darkenForWhiteText`), `sori_strings.xml` | 가사 미리보기: 세로 재생 화면을 위로 밀면 앨범 색 카드에 지금 부르는 줄 주변 가사 (재생에 맞춰 넘어감, 4초 넘는 간주는 ♪). 평소엔 카드 윗부분이 대기열 띠 위로 살짝 보임. 누르면 전체 가사. 카드가 가사를 직접 불러오고, 못 찾은 결과는 저장하지 않음 (오프라인 "없음"이 굳지 않게) |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 
