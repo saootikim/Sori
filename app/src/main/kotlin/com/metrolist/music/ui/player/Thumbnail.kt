@@ -82,6 +82,8 @@ import com.metrolist.music.constants.SeekExtraSeconds
 import com.metrolist.music.constants.SwipeThumbnailKey
 import com.metrolist.music.constants.ThumbnailCornerRadius
 import com.metrolist.music.listentogether.RoomRole
+import com.metrolist.music.sori.ui.SoriSongVideoSwitch
+import com.metrolist.music.sori.ui.SoriVideoPane
 import com.metrolist.music.ui.component.CastButton
 import com.metrolist.music.utils.rememberEnumPreference
 import com.metrolist.music.utils.rememberPreference
@@ -340,6 +342,7 @@ fun Thumbnail(
                         albumTitle = mediaMetadata?.album?.title,
                         textColor = textBackgroundColor
                     )
+                    if (!isListenTogetherGuest) SoriSongVideoSwitch(textColor = textBackgroundColor) // Sori: Song / Video
                 }
                 
                 // Thumbnail content
@@ -407,6 +410,7 @@ fun Thumbnail(
                             )
                         }
                     }
+                    SoriVideoPane(size = dimensions.thumbnailSize, cornerRadius = dimensions.cornerRadius) // Sori: video over the art
                 }
             }
         }

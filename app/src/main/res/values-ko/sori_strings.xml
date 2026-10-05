@@ -64,8 +64,6 @@
     <string name="sori_shelf_ballad_query">발라드 명곡</string>
     <string name="sori_shelf_party">신나는 파티</string>
     <string name="sori_shelf_party_query">파티 댄스 음악</string>
-    <string name="sori_top_result">상위 검색결과</string>
-    <string name="sori_other_results">기타 결과</string>
     <string name="sori_popular_songs">인기곡</string>
     <string name="sori_sleep_timer_short">타이머</string>
     <string name="sori_charts">인기 차트</string>
@@ -91,4 +89,6 @@
     <string name="sori_releases_empty">아직 새 발매가 없어요. 좋아하는 아티스트를 구독하면 여기에 모여요.</string>
     <string name="sori_releases_notification_one">%1$s의 새 발매: “%2$s”</string>
     <string name="sori_releases_notification_more">%1$s의 “%2$s” 외 %3$d개 새 발매</string>
+    <string name="sori_song">노래</string>
+    <string name="sori_video">동영상</string>
 </resources>
