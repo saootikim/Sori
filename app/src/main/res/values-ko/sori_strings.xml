@@ -89,4 +89,6 @@
     <string name="sori_releases_empty">아직 새 발매가 없어요. 좋아하는 아티스트를 구독하면 여기에 모여요.</string>
     <string name="sori_releases_notification_one">%1$s의 새 발매: “%2$s”</string>
     <string name="sori_releases_notification_more">%1$s의 “%2$s” 외 %3$d개 새 발매</string>
+    <string name="sori_song">노래</string>
+    <string name="sori_video">동영상</string>
 </resources>

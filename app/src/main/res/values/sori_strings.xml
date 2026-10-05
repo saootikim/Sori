@@ -90,4 +90,6 @@
     <string name="sori_releases_empty">Nothing new yet. Follow artists you like to see their releases here.</string>
     <string name="sori_releases_notification_one">%1$s released “%2$s”</string>
     <string name="sori_releases_notification_more">%1$s released “%2$s”, plus %3$d more</string>
+    <string name="sori_song">Song</string>
+    <string name="sori_video">Video</string>
 </resources>
