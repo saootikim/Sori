@@ -39,12 +39,15 @@ import com.metrolist.music.sori.SoriBrowseTile
 const val MaxTileLuminance = 0.28f
 
 /** YouTube Music's genre stripe color, darkened (hue kept) until white text is readable on it. */
-fun browseTileColor(stripeColor: Long): Color {
-    var color = Color(stripeColor.toInt()).copy(alpha = 1f)
-    while (color.luminance() > MaxTileLuminance) {
-        color = Color(red = color.red * 0.9f, green = color.green * 0.9f, blue = color.blue * 0.9f)
+fun browseTileColor(stripeColor: Long): Color = darkenForWhiteText(Color(stripeColor.toInt()))
+
+/** [color] darkened, hue kept, until white text is readable on it. */
+fun darkenForWhiteText(color: Color): Color {
+    var darkened = color.copy(alpha = 1f)
+    while (darkened.luminance() > MaxTileLuminance) {
+        darkened = Color(red = darkened.red * 0.9f, green = darkened.green * 0.9f, blue = darkened.blue * 0.9f)
     }
-    return color
+    return darkened
 }
 
 /**

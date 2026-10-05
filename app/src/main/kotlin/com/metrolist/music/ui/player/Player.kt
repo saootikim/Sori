@@ -164,6 +164,8 @@ import com.metrolist.music.extensions.togglePlayPause
 import com.metrolist.music.extensions.toggleRepeatMode
 import com.metrolist.music.listentogether.RoomRole
 import com.metrolist.music.models.MediaMetadata
+import com.metrolist.music.sori.ui.SoriLyricsPreviewCard
+import com.metrolist.music.sori.ui.SoriPlayerScroll
 import com.metrolist.music.sori.ui.SoriVideoMode
 import com.metrolist.music.sori.ui.SoriVideoTimeSync
 import com.metrolist.music.sori.ui.soriEffectiveIsPlaying
@@ -1928,6 +1930,7 @@ fun BottomSheetPlayer(
                     targetValue = if (isFullScreen) 0.dp else queueSheetState.collapsedBound,
                     label = "bottomPadding",
                 )
+                SoriPlayerScroll(state, scrollable = !showInlineLyrics && !isFullScreen, stripHeight = queueSheetState.collapsedBound, below = { SoriLyricsPreviewCard({ effectivePosition }, gradientColors.firstOrNull(), queueSheetState.collapsedBound, onOpenLyrics = { showInlineLyrics = true }) }) { // Sori: lyrics preview card under the player
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                     modifier =
@@ -1972,6 +1975,7 @@ fun BottomSheetPlayer(
 
                     Spacer(Modifier.height(30.dp))
                 }
+                } // Sori
             }
         }
 
