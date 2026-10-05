@@ -9,6 +9,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.view.ViewGroup
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
 import android.webkit.WebView
@@ -37,6 +38,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
@@ -64,14 +66,16 @@ object SoriVideoMode {
         val songId: String,
         val videoId: String,
         val startMs: Long,
+        // The video starts the way the song was: playing, or paused at the song's position.
+        val autoplay: Boolean,
     )
 
     val showing = MutableStateFlow<Showing?>(null)
 
     @Volatile private var videoSeconds: Double? = null
 
-    @Volatile private var videoPlaying: Boolean? = null
-    private var songWasPlaying = false
+    /** Whether the video is playing; null until it has started. */
+    val videoPlaying = MutableStateFlow<Boolean?>(null)
 
     fun enter(
         playerConnection: PlayerConnection,
@@ -79,11 +83,11 @@ object SoriVideoMode {
         videoId: String,
     ) {
         videoSeconds = null
-        videoPlaying = null
-        songWasPlaying = playerConnection.player.playWhenReady
+        videoPlaying.value = null
+        val playing = playerConnection.player.playWhenReady
         val position = playerConnection.player.currentPosition
         playerConnection.pause()
-        showing.value = Showing(songId, videoId, position)
+        showing.value = Showing(songId, videoId, position, autoplay = playing)
     }
 
     internal fun report(
@@ -93,7 +97,7 @@ object SoriVideoMode {
     ) {
         if (showing.value != from) return
         videoSeconds = seconds
-        videoPlaying = playing
+        videoPlaying.value = playing
     }
 
     /**
@@ -112,7 +116,7 @@ object SoriVideoMode {
             playerConnection.player.duration.takeIf { it > 0 }?.let { position = position.coerceAtMost(it - 1000) }
             playerConnection.seekTo(position.coerceAtLeast(0))
         }
-        if (!alreadyPlaying && (videoPlaying ?: songWasPlaying)) playerConnection.play()
+        if (!alreadyPlaying && (videoPlaying.value ?: current.autoplay)) playerConnection.play()
     }
 
     /** The video finished: on to the next song, like the end of a song. */
@@ -210,6 +214,14 @@ fun SoriVideoPane(
         playerConnection.isPlaying.dropWhile { it }.first { it }
         SoriVideoMode.leave(playerConnection, alreadyPlaying = true)
     }
+    // Like a video app, the screen stays on while the video plays. This uses the view's flag, not
+    // the window flag that the player and lyrics screens set and clear.
+    val view = LocalView.current
+    val videoPlaying by SoriVideoMode.videoPlaying.collectAsState()
+    DisposableEffect(view, videoPlaying) {
+        view.keepScreenOn = videoPlaying == true
+        onDispose { view.keepScreenOn = false }
+    }
     // A WebView can't play in the background, and the pane goes away when the player collapses
     // or the song changes: in all of these the song continues instead.
     val lifecycleOwner = LocalLifecycleOwner.current
@@ -256,6 +268,9 @@ private fun soriVideoWebView(
     val main = Handler(Looper.getMainLooper())
     val startSeconds = showing.startMs / 1000.0
     return WebView(context).apply {
+        // AndroidView's default WRAP_CONTENT makes WebView lay pages out with a zero viewport
+        // height, which collapses the player's height: 100% to nothing.
+        layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         setBackgroundColor(android.graphics.Color.BLACK)
         settings.javaScriptEnabled = true
         settings.domStorageEnabled = true
@@ -294,7 +309,7 @@ private fun soriVideoWebView(
             "Sori",
         )
         val origin = "https://${context.packageName}"
-        loadDataWithBaseURL(origin, iframePlayerHtml(showing.videoId, startSeconds, origin), "text/html", "utf-8", null)
+        loadDataWithBaseURL(origin, iframePlayerHtml(showing.videoId, startSeconds, showing.autoplay, origin), "text/html", "utf-8", null)
     }
 }
 
@@ -305,10 +320,12 @@ private const val WATCH_PAGE_REPORTER =
         "var v=document.querySelector('video');if(!v)return;Sori.onTime(v.currentTime,!v.paused&&!v.ended);" +
         "if(v.ended&&!window.soriEnded){window.soriEnded=true;Sori.onEnded();}},500);})()"
 
-// A start past the video's end (a song longer than its video) starts the video from the top.
+// Only a started video reports its time (a cued one says 0). Ending right after it started means
+// it started past its end (a song longer than its video), so it plays from the top instead.
 private fun iframePlayerHtml(
     videoId: String,
     startSeconds: Double,
+    autoplay: Boolean,
     origin: String,
 ): String =
     """
@@ -317,18 +334,25 @@ private fun iframePlayerHtml(
     </head><body><div id="p"></div>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script>
-    var player;
+    var playingSince=0;
     function onYouTubeIframeAPIReady(){
-      player=new YT.Player('p',{videoId:'$videoId',
-        playerVars:{autoplay:1,playsinline:1,rel:0,origin:'$origin'},
+      new YT.Player('p',{videoId:'$videoId',
+        playerVars:{autoplay:${if (autoplay) 1 else 0},start:${startSeconds.toInt()},playsinline:1,rel:0,origin:'$origin'},
         events:{
           onReady:function(e){
-            var d=e.target.getDuration(),s=$startSeconds;
-            if(d&&s>d-5)s=0;
-            e.target.seekTo(s,true);e.target.playVideo();
-            setInterval(function(){Sori.onTime(e.target.getCurrentTime(),e.target.getPlayerState()===1);},500);
+            if($autoplay){e.target.seekTo($startSeconds,true);e.target.playVideo();}
+            setInterval(function(){
+              var st=e.target.getPlayerState();
+              if(st===1||st===2||st===3)Sori.onTime(e.target.getCurrentTime(),st===1);
+            },500);
           },
-          onStateChange:function(e){if(e.data===0)Sori.onEnded();},
+          onStateChange:function(e){
+            if(e.data===1&&!playingSince)playingSince=Date.now();
+            if(e.data===0){
+              if(!playingSince||Date.now()-playingSince<3000){e.target.seekTo(0,true);e.target.playVideo();}
+              else Sori.onEnded();
+            }
+          },
           onError:function(e){Sori.onError(e.data);}
         }});
     }
