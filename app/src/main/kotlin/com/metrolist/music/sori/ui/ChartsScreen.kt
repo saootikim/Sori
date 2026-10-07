@@ -5,7 +5,6 @@
 
 package com.metrolist.music.sori.ui
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -13,7 +12,6 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -260,19 +258,10 @@ private fun ChartLoading() {
 
 @Composable
 private fun ChartError(onRetry: () -> Unit) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(32.dp),
+    SoriEmptyState(
+        icon = R.drawable.trending_up,
+        text = stringResource(R.string.sori_charts_load_failed),
     ) {
-        Text(
-            text = stringResource(R.string.sori_charts_load_failed),
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Spacer(Modifier.height(8.dp))
         TextButton(onClick = onRetry) { Text(stringResource(R.string.retry)) }
     }
 }

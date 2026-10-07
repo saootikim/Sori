@@ -239,6 +239,7 @@ fun SoriLyricsPreviewCard(
                         .windowInsetsPadding(WindowInsets.systemBars.only(WindowInsetsSides.Horizontal))
                         .padding(horizontal = 16.dp)
                         .fillMaxWidth()
+                        .soriPressScale()
                         .clip(RoundedCornerShape(16.dp))
                         .background(cardColor)
                         .clickable(onClick = onOpenLyrics)

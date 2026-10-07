@@ -103,6 +103,7 @@ private fun BrowseTile(
     Box(
         modifier =
             modifier
+                .soriPressScale()
                 .height(96.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .clickable(onClick = onClick)

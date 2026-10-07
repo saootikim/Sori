@@ -169,6 +169,8 @@ import com.metrolist.music.sori.ui.SoriPlayerScroll
 import com.metrolist.music.sori.ui.SoriVideoMode
 import com.metrolist.music.sori.ui.SoriVideoTimeSync
 import com.metrolist.music.sori.ui.soriEffectiveIsPlaying
+import com.metrolist.music.sori.ui.soriLikeHaptic
+import com.metrolist.music.sori.ui.soriTapHaptic
 import com.metrolist.music.ui.component.BottomSheet
 import com.metrolist.music.ui.component.BottomSheetState
 import com.metrolist.music.ui.component.LocalBottomSheetPageState
@@ -1770,6 +1772,7 @@ fun BottomSheetPlayer(
                                         .size(72.dp)
                                         .clip(RoundedCornerShape(playPauseRoundness))
                                         .background(textButtonColor)
+                                        .soriTapHaptic() // Sori: a tick on tap
                                         .clickable {
                                             if (SoriVideoMode.togglePlayPause()) return@clickable // Sori: plays/pauses the video while it shows
                                             if (isListenTogetherGuest) {
@@ -1842,7 +1845,8 @@ fun BottomSheetPlayer(
                                         Modifier
                                             .size(32.dp)
                                             .padding(4.dp)
-                                            .align(Alignment.Center),
+                                            .align(Alignment.Center)
+                                            .soriLikeHaptic(), // Sori: a tick on tap
                                     onClick = playerConnection::toggleLike,
                                 )
                             }
