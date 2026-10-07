@@ -355,6 +355,7 @@ enum class AddToPlaylistPosition(
 }
 
 enum class MixSortType {
+    RECENTLY_PLAYED, // Sori: Spotify-style recents (sori/SoriLibraryRecents.kt)
     CREATE_DATE,
     NAME,
     LAST_UPDATED,

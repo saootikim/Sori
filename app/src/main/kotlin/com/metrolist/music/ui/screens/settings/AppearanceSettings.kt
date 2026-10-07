@@ -620,7 +620,7 @@ fun AppearanceSettings(
             },
             title = stringResource(R.string.default_lib_chips),
             current = defaultChip,
-            values = LibraryFilter.values().toList(),
+            values = LibraryFilter.values().toList() - LibraryFilter.DOWNLOADED, // Sori: a shortcut, not a view
             valueText = {
                 when (it) {
                     LibraryFilter.SONGS -> stringResource(R.string.songs)
@@ -628,7 +628,7 @@ fun AppearanceSettings(
                     LibraryFilter.ALBUMS -> stringResource(R.string.albums)
                     LibraryFilter.PLAYLISTS -> stringResource(R.string.playlists)
                     LibraryFilter.PODCASTS -> stringResource(R.string.filter_podcasts)
-                    LibraryFilter.LIBRARY -> stringResource(R.string.filter_library)
+                    LibraryFilter.LIBRARY, LibraryFilter.DOWNLOADED -> stringResource(R.string.filter_library) // Sori
                 }
             },
         )
@@ -1585,7 +1585,7 @@ fun AppearanceSettings(
                                     LibraryFilter.ALBUMS -> stringResource(R.string.albums)
                                     LibraryFilter.PLAYLISTS -> stringResource(R.string.playlists)
                                     LibraryFilter.PODCASTS -> stringResource(R.string.filter_podcasts)
-                                    LibraryFilter.LIBRARY -> stringResource(R.string.filter_library)
+                                    LibraryFilter.LIBRARY, LibraryFilter.DOWNLOADED -> stringResource(R.string.filter_library) // Sori
                                 },
                             )
                         },

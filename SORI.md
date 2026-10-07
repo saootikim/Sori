@@ -46,6 +46,8 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `sori/SoriGreeting.kt` (`soriTopBarTitle`), `MainActivity.kt` 한 줄 (인사말 연결 지점) | 보관함 상단 제목 "내 라이브러리" (탭 이름은 "보관함" 유지) |
 | `sori/ui/SoriEmptyState.kt`, 차트·믹스·새 발매 화면 | 실패·빈 화면을 아이콘 + 가운데 정렬 문구 (+ 다시 시도)로 통일. 로딩은 원래부터 원본 shimmer |
 | `app/src/foss/res/values-ko/sori_ko_copy.xml` (신규) | 번역투 원본 한국어 문구 다듬기 ("당신은", "성공적으로", "을(를)", "다운로드 됨" 등 33개) |
+| `sori/SoriLibraryRecents.kt`, `constants/PreferenceKeys.kt` (`MixSortType.RECENTLY_PLAYED` 한 줄), `library/LibraryMixScreen.kt` 세 줄, `SoriDefaults` v6 | 보관함 "최근 재생" 정렬 (기본값): 마지막으로 들은 때와 추가한 때 중 늦은 쪽 순서. 재생 기록이 곡 단위라 앨범·아티스트·재생목록은 그 안의 곡을 마지막으로 들은 때로 계산 (재생목록은 다른 데서 들은 것도 포함) |
+| `sori/SoriLibraryShortcut.kt`, `constants/LibraryFilter.kt` (`DOWNLOADED` 한 줄), `library/LibraryScreen.kt` 세 줄, `settings/AppearanceSettings.kt` 세 줄 | 보관함 "다운로드됨" 칩: 누르면 다운로드한 노래 화면으로 가는 지름길 (칩 선택은 그대로, 기본 칩 설정 목록에는 없음) |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 

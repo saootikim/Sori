@@ -10,6 +10,8 @@ import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
 import com.metrolist.music.constants.SliderStyle
+import com.metrolist.music.constants.MixSortType
+import com.metrolist.music.constants.MixSortTypeKey
 import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
@@ -84,6 +86,18 @@ class SoriDefaultsTest {
         assertEquals(DarkMode.OFF.name, prefs[DarkModeKey])
         assertEquals(MiniPlayerBackgroundStyle.GRADIENT.name, prefs[MiniPlayerBackgroundStyleKey])
         assertEquals(SoriDefaults.VERSION, prefs[SoriDefaults.VersionKey])
+    }
+
+    @Test
+    fun libraryOpensOnRecentsUnlessASortWasChosen() {
+        val fresh = mutablePreferencesOf()
+        SoriDefaults.applyTo(fresh)
+        assertEquals(MixSortType.RECENTLY_PLAYED.name, fresh[MixSortTypeKey])
+
+        // A v5 user who picked "name" keeps it.
+        val chosen = mutablePreferencesOf(SoriDefaults.VersionKey to 5, MixSortTypeKey to MixSortType.NAME.name)
+        assertTrue(SoriDefaults.applyTo(chosen))
+        assertEquals(MixSortType.NAME.name, chosen[MixSortTypeKey])
     }
 
     @Test
