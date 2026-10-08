@@ -143,6 +143,7 @@ fun DailyMixCard(
     Column(
         modifier =
             Modifier
+                .soriPressScale()
                 .width(160.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .clickable(onClick = onClick)
@@ -288,10 +289,10 @@ fun SoriDailyMixScreen(
                 }
 
             else ->
-                Text(
+                SoriEmptyState(
+                    icon = R.drawable.queue_music,
                     text = stringResource(R.string.sori_mix_missing),
-                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(padding).padding(32.dp),
+                    modifier = Modifier.padding(padding),
                 )
         }
     }

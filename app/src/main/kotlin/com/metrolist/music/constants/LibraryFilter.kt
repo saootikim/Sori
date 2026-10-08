@@ -12,4 +12,5 @@ enum class LibraryFilter {
     PLAYLISTS,
     PODCASTS,
     LIBRARY,
+    DOWNLOADED, // Sori: a chip that opens the downloaded songs (sori/SoriLibraryShortcut.kt)
 }

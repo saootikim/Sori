@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Sori: natural Korean for upstream strings whose translation reads like a translation
+    ("당신은", "성공적으로", "을(를)", "됨" spacing). Flavor resources override main's, and upstream
+    has no res folder in this flavor, so merges never conflict here. Keep the format arguments
+    exactly as in the upstream string.
+-->
+<resources>
+    <!-- Library and song filters -->
+    <string name="filter_liked">좋아요</string>
+    <string name="filter_downloaded">다운로드됨</string>
+    <string name="filter_bookmarked">북마크됨</string>
+    <string name="downloaded_songs">다운로드한 노래</string>
+
+    <!-- Song menus: the player calls the queue 대기열 -->
+    <string name="play_next">다음에 재생</string>
+    <string name="add_to_queue">대기열에 추가</string>
+
+    <!-- Home -->
+    <string name="similar_to">이 아티스트와 비슷한 음악</string>
+    <string name="daily_discover_because_you_listen_to">%1$s 팬이라면</string>
+
+    <!-- Messages -->
+    <string name="removed_song_from_playlist">\"%s\" 곡을 재생목록에서 삭제했습니다</string>
+    <string name="backup_create_success">백업을 만들었습니다</string>
+    <string name="export_success">재생목록을 내보냈습니다</string>
+    <string name="swipe_song_to_remove">곡을 옆으로 밀면 재생목록에서 삭제됩니다</string>
+    <string name="casting_to">%s에서 재생 중</string>
+    <string name="share_desc">이 항목의 링크 공유</string>
+    <string name="update_channel_desc">새 버전이 나오면 알려 줍니다</string>
+    <string name="lyrics_provider_priority_desc">끌어서 순서를 바꾸세요. 위에 있는 제공자부터 가사를 찾습니다</string>
+
+    <!-- Listen Together -->
+    <string name="listen_together_you_are_host">호스트로 참여 중</string>
+    <string name="listen_together_you_are_guest">게스트로 참여 중</string>
+    <string name="listen_together_suggestion_received">%1$s 님의 추천: %2$s</string>
+    <string name="listen_together_notification_channel_desc">Listen Together 알림</string>
+
+    <!-- Year in review -->
+    <string name="wrapped_top_album_title">가장 많이 들은 앨범은</string>
+    <string name="wrapped_top_artist_title">올해 가장 많이 들은 아티스트는</string>
+    <string name="wrapped_top_5_albums_title">가장 많이 들은 앨범 Top 5</string>
+    <string name="wrapped_top_artist_listening_time">총 %d분 동안 들었어요!</string>
+    <string name="wrapped_top_song_listening_time">총 %d분 동안 들었어요!</string>
+    <string name="wrapped_playlist_ready">나만을 위한 재생목록이 준비됐어요!</string>
+    <string name="wrapped_ready_subtitle">올해 사랑한 음악을 만나 보세요…</string>
+    <string name="wrapped_total_albums_title">올해 감상한</string>
+    <string name="wrapped_total_artists_title">올해 만난</string>
+    <string name="wrapped_total_songs_title">올해 즐겨 들은</string>
+</resources>

@@ -98,6 +98,7 @@ import com.metrolist.music.ui.component.PlaylistGridItem
 import com.metrolist.music.ui.component.PlaylistListItem
 import com.metrolist.music.ui.component.SongGridItem
 import com.metrolist.music.ui.component.SongListItem
+import com.metrolist.music.sori.rememberSoriLibraryRecency
 import com.metrolist.music.ui.component.SortHeader
 import com.metrolist.music.ui.menu.AlbumMenu
 import com.metrolist.music.ui.menu.ArtistMenu
@@ -135,6 +136,7 @@ fun LibraryMixScreen(
             MixSortType.CREATE_DATE,
         )
     val (sortDescending, onSortDescendingChange) = rememberPreference(MixSortDescendingKey, true)
+    val soriRecency = rememberSoriLibraryRecency(sortType == MixSortType.RECENTLY_PLAYED) // Sori: recents sort
     val gridItemSize by rememberEnumPreference(GridItemsSizeKey, GridItemSize.BIG)
 
     val (ytmSync) = rememberPreference(YtmSyncKey, true)
@@ -247,6 +249,7 @@ fun LibraryMixScreen(
     }
     allItems =
         when (sortType) {
+            MixSortType.RECENTLY_PLAYED -> allItems.sortedBy { soriRecency.of(it) } // Sori: last played or added
             MixSortType.CREATE_DATE -> {
                 allItems.sortedBy { item ->
                     when (item) {
@@ -393,6 +396,7 @@ fun LibraryMixScreen(
                 onSortDescendingChange = onSortDescendingChange,
                 sortTypeText = { sortType ->
                     when (sortType) {
+                        MixSortType.RECENTLY_PLAYED -> R.string.sori_sort_recents // Sori
                         MixSortType.CREATE_DATE -> R.string.sort_by_create_date
                         MixSortType.LAST_UPDATED -> R.string.sort_by_last_updated
                         MixSortType.NAME -> R.string.sort_by_name

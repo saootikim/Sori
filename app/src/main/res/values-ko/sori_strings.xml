@@ -93,4 +93,6 @@
     <string name="sori_video">동영상</string>
     <string name="sori_lyrics_preview">가사 미리보기</string>
     <string name="sori_lyrics_show_all">전체 보기</string>
+    <string name="sori_my_library">내 라이브러리</string>
+    <string name="sori_sort_recents">최근 재생</string>
 </resources>

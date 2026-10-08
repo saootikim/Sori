@@ -122,6 +122,8 @@ import coil3.toBitmap
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import com.metrolist.music.ui.theme.PlayerColorExtractor
+import com.metrolist.music.sori.ui.soriLikeHaptic
+import com.metrolist.music.sori.ui.soriTapHaptic
 
 /**
  * Stable wrapper for progress state - reads values only during draw phase
@@ -561,6 +563,7 @@ private fun NewMiniPlayerPlayButton(
                     .size(40.dp)
                     .clip(CircleShape)
                     .border(1.dp, outlineColor.copy(alpha = 0.3f), CircleShape)
+                    .soriTapHaptic() // Sori: a tick on tap
                     .clickable {
                         if (isListenTogetherGuest) {
                             playerConnection.toggleMute()
@@ -1110,7 +1113,8 @@ private fun FavoriteButton(
                 ).background(
                     color = if (isLiked) errorColor.copy(alpha = 0.1f) else Color.Transparent,
                     shape = CircleShape,
-                ).clickable { playerConnection.service.toggleLike() },
+                ).soriLikeHaptic() // Sori: a tick on tap
+                .clickable { playerConnection.service.toggleLike() },
     ) {
         Icon(
             painter = painterResource(if (isLiked) R.drawable.favorite else R.drawable.favorite_border),

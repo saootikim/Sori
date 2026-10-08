@@ -20,6 +20,19 @@ fun greetingPeriod(hour: Int): GreetingPeriod =
         else -> GreetingPeriod.NIGHT
     }
 
+/**
+ * The top bar title for a top-level screen: a greeting on Home, "Your library" on the library
+ * (the tab keeps its short name), the screen's own name elsewhere.
+ */
+@Composable
+fun soriTopBarTitle(titleRes: Int?): String =
+    when (titleRes) {
+        R.string.home -> soriGreeting()
+        R.string.filter_library -> stringResource(R.string.sori_my_library)
+        null -> ""
+        else -> stringResource(titleRes)
+    }
+
 /** Time-of-day greeting shown as the Home title. */
 @Composable
 fun soriGreeting(): String =

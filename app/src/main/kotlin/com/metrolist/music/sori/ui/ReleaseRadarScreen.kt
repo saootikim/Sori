@@ -91,6 +91,7 @@ fun ReleaseCard(
     Column(
         modifier =
             Modifier
+                .soriPressScale()
                 .width(150.dp)
                 .clip(RoundedCornerShape(8.dp))
                 .clickable(onClick = onClick)
@@ -194,10 +195,9 @@ fun SoriReleaseRadarScreen(
 
                 radar.orEmpty().isEmpty() ->
                     item(key = "empty") {
-                        Text(
+                        SoriEmptyState(
+                            icon = R.drawable.album,
                             text = stringResource(R.string.sori_releases_empty),
-                            color = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 24.dp),
                         )
                     }
 

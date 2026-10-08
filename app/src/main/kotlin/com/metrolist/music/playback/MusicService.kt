@@ -884,6 +884,7 @@ class MusicService :
                     .first() == null
             ) {
                 val lyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
+                com.metrolist.music.sori.lyrics.SoriLyricsRetry.markChecked(this@MusicService, mediaMetadata.id) // Sori
                 database.query {
                     upsert(
                         LyricsEntity(

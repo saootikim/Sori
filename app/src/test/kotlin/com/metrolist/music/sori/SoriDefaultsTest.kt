@@ -10,6 +10,9 @@ import com.metrolist.music.constants.MiniPlayerBackgroundStyleKey
 import com.metrolist.music.constants.PlayerBackgroundStyle
 import com.metrolist.music.constants.PlayerBackgroundStyleKey
 import com.metrolist.music.constants.SliderStyle
+import com.metrolist.music.constants.MixSortType
+import com.metrolist.music.constants.MixSortTypeKey
+import com.metrolist.music.constants.TranslateLanguageKey
 import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
@@ -87,6 +90,18 @@ class SoriDefaultsTest {
     }
 
     @Test
+    fun libraryOpensOnRecentsUnlessASortWasChosen() {
+        val fresh = mutablePreferencesOf()
+        SoriDefaults.applyTo(fresh)
+        assertEquals(MixSortType.RECENTLY_PLAYED.name, fresh[MixSortTypeKey])
+
+        // A v5 user who picked "name" keeps it.
+        val chosen = mutablePreferencesOf(SoriDefaults.VersionKey to 5, MixSortTypeKey to MixSortType.NAME.name)
+        assertTrue(SoriDefaults.applyTo(chosen))
+        assertEquals(MixSortType.NAME.name, chosen[MixSortTypeKey])
+    }
+
+    @Test
     fun runsOnlyOncePerVersion() {
         val prefs = mutablePreferencesOf()
         SoriDefaults.applyTo(prefs)
@@ -94,5 +109,16 @@ class SoriDefaultsTest {
 
         assertFalse(SoriDefaults.applyTo(prefs))
         assertEquals(null, prefs[DarkModeKey])
+    }
+
+    @Test
+    fun lyricsTranslateIntoKoreanUnlessALanguageWasChosen() {
+        val fresh = mutablePreferencesOf()
+        SoriDefaults.applyTo(fresh)
+        assertEquals("ko", fresh[TranslateLanguageKey])
+
+        val chosen = mutablePreferencesOf(SoriDefaults.VersionKey to 6, TranslateLanguageKey to "ja")
+        SoriDefaults.applyTo(chosen)
+        assertEquals("ja", chosen[TranslateLanguageKey])
     }
 }

@@ -193,7 +193,9 @@ object LyricsTranslationHelper {
                 try {
                     // Validate inputs
                     val effectiveApiKey = if (provider == "DeepL") deeplApiKey else apiKey
-                    if (effectiveApiKey.isBlank()) {
+                    // Sori: no key means the free translator, not an error.
+                    val soriFree = com.metrolist.music.sori.lyrics.SoriFreeTranslate.applies(provider, apiKey, deeplApiKey)
+                    if (effectiveApiKey.isBlank() && !soriFree) {
                         _status.value = TranslationStatus.Error(context.getString(com.metrolist.music.R.string.ai_error_api_key_required))
                         return@launch
                     }
@@ -275,7 +277,9 @@ object LyricsTranslationHelper {
                             ?: targetLanguage
 
                     val result =
-                        if (provider == "DeepL") {
+                        if (soriFree) { // Sori
+                            com.metrolist.music.sori.lyrics.SoriFreeTranslate.translate(fullText, targetLanguage)
+                        } else if (provider == "DeepL") {
                             Timber.d("Using DeepL for translation")
                             // DeepL only supports translation mode
                             DeepLService.translate(

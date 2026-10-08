@@ -169,6 +169,8 @@ import com.metrolist.music.sori.ui.SoriPlayerScroll
 import com.metrolist.music.sori.ui.SoriVideoMode
 import com.metrolist.music.sori.ui.SoriVideoTimeSync
 import com.metrolist.music.sori.ui.soriEffectiveIsPlaying
+import com.metrolist.music.sori.ui.soriLikeHaptic
+import com.metrolist.music.sori.ui.soriTapHaptic
 import com.metrolist.music.ui.component.BottomSheet
 import com.metrolist.music.ui.component.BottomSheetState
 import com.metrolist.music.ui.component.LocalBottomSheetPageState
@@ -1770,6 +1772,7 @@ fun BottomSheetPlayer(
                                         .size(72.dp)
                                         .clip(RoundedCornerShape(playPauseRoundness))
                                         .background(textButtonColor)
+                                        .soriTapHaptic() // Sori: a tick on tap
                                         .clickable {
                                             if (SoriVideoMode.togglePlayPause()) return@clickable // Sori: plays/pauses the video while it shows
                                             if (isListenTogetherGuest) {
@@ -1842,7 +1845,8 @@ fun BottomSheetPlayer(
                                         Modifier
                                             .size(32.dp)
                                             .padding(4.dp)
-                                            .align(Alignment.Center),
+                                            .align(Alignment.Center)
+                                            .soriLikeHaptic(), // Sori: a tick on tap
                                     onClick = playerConnection::toggleLike,
                                 )
                             }
@@ -2060,11 +2064,23 @@ fun InlineLyricsView(
                         )
                     val lyricsHelper = entryPoint.lyricsHelper()
                     val fetchedLyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
+                    com.metrolist.music.sori.lyrics.SoriLyricsRetry.markChecked(context, mediaMetadata.id) // Sori
                     database.query {
                         upsert(LyricsEntity(mediaMetadata.id, fetchedLyricsWithProvider.lyrics, fetchedLyricsWithProvider.provider))
                     }
                 } catch (e: Exception) {
                     // Handle error
+                }
+            }
+        }
+        // Sori: a saved "not found" (often from being offline) is looked up again once per run.
+        if (mediaMetadata != null && com.metrolist.music.sori.lyrics.SoriLyricsRetry.shouldRetry(currentLyrics, mediaMetadata.id)) {
+            withContext(Dispatchers.IO) {
+                runCatching {
+                    val helper = EntryPointAccessors.fromApplication(
+                        context.applicationContext, com.metrolist.music.di.LyricsHelperEntryPoint::class.java,
+                    ).lyricsHelper()
+                    com.metrolist.music.sori.lyrics.SoriLyricsRetry.retry(context, database, helper, mediaMetadata)
                 }
             }
         }
@@ -2100,6 +2116,7 @@ fun InlineLyricsView(
                     )
                 val lyricsHelper = entryPoint.lyricsHelper()
                 val fetched = lyricsHelper.getLyrics(nextMetadata)
+                com.metrolist.music.sori.lyrics.SoriLyricsRetry.markChecked(context, nextId) // Sori
                 database.query {
                     upsert(LyricsEntity(nextId, fetched.lyrics, fetched.provider))
                 }

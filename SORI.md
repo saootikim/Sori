@@ -42,6 +42,19 @@ Sori는 [Metrolist](https://github.com/MetrolistGroup/Metrolist)(GPL-3.0)를 포
 | `innertube/.../utils/SoriYear.kt`, `pages/ArtistPage.kt`, `ArtistItemsPage.kt`, `LibraryPage.kt` | 앨범 연도 파싱을 "2026년" 같은 현지화 표기에도 맞춤 (원래 한국어에서 항상 null) |
 | `sori/SoriMusicVideo.kt`, `sori/ui/SongVideoSwitch.kt`, `sori/ui/VideoControls.kt`, `ui/player/Thumbnail.kt` 두 줄, `ui/player/Player.kt` 네 줄, `sori_strings.xml` | 재생 화면 노래/동영상 전환: youtube.com 검색으로 공식 뮤직비디오를 찾고 (YouTube Music의 짝 영상 정보는 무료·비로그인에 안 옴), 표지 자리에 youtube.com 플레이어(WebView)로 재생. 영상일 때는 플레이어의 시간바와 재생 버튼이 영상을 조작. 노래로 돌아오거나 플레이어를 접거나 앱을 나가면 영상 위치부터 노래로 이어서 재생 |
 | `sori/SoriLyricsPreview.kt`, `sori/ui/LyricsPreviewCard.kt`, `ui/player/Player.kt` 세로 분기를 감싸는 두 줄, `sori/ui/BrowseAll.kt` (`darkenForWhiteText`), `sori_strings.xml` | 가사 미리보기: 세로 재생 화면을 위로 밀면 앨범 색 카드에 지금 부르는 줄 주변 가사 (재생에 맞춰 넘어감, 4초 넘는 간주는 ♪). 평소엔 카드 윗부분이 대기열 띠 위로 살짝 보임. 누르면 전체 가사. 카드가 가사를 직접 불러오고, 못 찾은 결과는 저장하지 않음 (오프라인 "없음"이 굳지 않게) |
+| `sori/ui/TouchFeedback.kt`, Sori 타일·카드 파일들, `ui/player/Player.kt`·`ui/player/MiniPlayer.kt` 각 두 줄 | 손맛: Sori 타일·카드(바로가기, 랜덤 재생, 장르, 믹스, 새 발매, 가사 카드)를 누르면 살짝 줄어듦. 재생·좋아요 버튼(플레이어, 미니 플레이어)을 탭하면 가벼운 진동. 둘 다 터치를 지켜보기만 해서 원래 클릭 코드는 그대로 |
+| `sori/SoriGreeting.kt` (`soriTopBarTitle`), `MainActivity.kt` 한 줄 (인사말 연결 지점) | 보관함 상단 제목 "내 라이브러리" (탭 이름은 "보관함" 유지) |
+| `sori/ui/SoriEmptyState.kt`, 차트·믹스·새 발매 화면 | 실패·빈 화면을 아이콘 + 가운데 정렬 문구 (+ 다시 시도)로 통일. 로딩은 원래부터 원본 shimmer |
+| `app/src/foss/res/values-ko/sori_ko_copy.xml` (신규) | 번역투 원본 한국어 문구 다듬기 ("당신은", "성공적으로", "을(를)", "다운로드 됨" 등 33개) |
+| `sori/SoriLibraryRecents.kt`, `constants/PreferenceKeys.kt` (`MixSortType.RECENTLY_PLAYED` 한 줄), `library/LibraryMixScreen.kt` 세 줄, `SoriDefaults` v6 | 보관함 "최근 재생" 정렬 (기본값): 마지막으로 들은 때와 추가한 때 중 늦은 쪽 순서. 재생 기록이 곡 단위라 앨범·아티스트·재생목록은 그 안의 곡을 마지막으로 들은 때로 계산 (재생목록은 다른 데서 들은 것도 포함) |
+| `sori/SoriLibraryShortcut.kt`, `constants/LibraryFilter.kt` (`DOWNLOADED` 한 줄), `library/LibraryScreen.kt` 세 줄, `settings/AppearanceSettings.kt` 세 줄 | 보관함 "다운로드됨" 칩: 누르면 다운로드한 노래 화면으로 가는 지름길 (칩 선택은 그대로, 기본 칩 설정 목록에는 없음) |
+| `app/src/main/baseline-prof.txt` (생성 결과만 커밋) | Baseline Profile: 첫 실행과 Home 스크롤 코드를 미리 컴파일 (Note20 콜드 스타트 중간값 412 ms → 333 ms). 다시 만들려면 로컬 브랜치 `tools/baseline-profile`에서 폰 연결 후 `./gradlew :app:generateFossReleaseBaselineProfile`, 결과 `app/src/fossRelease/generated/baselineProfiles/baseline-prof.txt`를 이 경로로 복사. 측정 앱은 `com.saootikim.sori.benchmark`로 따로 설치돼 진짜 Sori를 건드리지 않음 |
+| `sori/lyrics/SoriLrc.kt`, `lyrics/LyricsUtils.kt` 세 곳 | 가사 파싱: `[0:12.5]`·`[00:12]`·`[00:12:34]` 같은 시간 표기를 표준으로 바꿔 읽음 (원래 빈 화면), `[offset:]` 적용 (원래 버림). 줄 단위 가사에 단어별 추정 시간을 넣어 단어 하이라이트 (일본어·중국어는 글자 단위) |
+| `sori/lyrics/SoriLyricsPicker.kt`, `lyrics/LyricsHelper.kt` 한 블록 | 가사 고르기: 켜진 출처에 동시에 묻고 순위로 고름 (곡 길이에 맞는 단어 싱크 > 줄 싱크 > 일반 텍스트 > 곡보다 15초 넘게 긴 싱크). 원래는 순서대로 묻고 처음 찾은 것을 씀. 원본 반복문은 병합용으로 남겨 둠 |
+| `sori/lyrics/SoriLyricsTitle.kt`, `LyricsUtils.cleanTitleForSearch` | 가사 검색 제목에서 전각 괄호 (【】「」 등), feat., "- Remastered" 같은 꼬리 제거 |
+| `sori/lyrics/SoriLyricsRetry.kt`, `ui/player/Player.kt` 세 곳, `playback/MusicService.kt` 한 줄 | 저장된 "가사 없음"을 앱 실행마다 한 번 다시 찾음 (오프라인일 땐 연결될 때까지 기다림). 찾았을 때만 저장 |
+| `sori/lyrics/SoriFreeTranslate.kt`, `lyrics/LyricsTranslationHelper.kt` 두 곳, `OriginalLyrics.kt`·`ExperimentalLyrics.kt`·`LyricsMenu.kt` 각 한 줄, `SoriDefaults` v7 | 가사 번역: API 키가 없으면 Google 번역 웹 엔드포인트(키 없음)로 번역. 기본 번역 언어 한국어 |
+| `sori/lyrics/SoriKana.kt`, `LyricsUtils.romanizeJapanese` 한 줄 | 일본어 가사 발음을 로마자 대신 한글로 (愛してる → 아이시테루) |
 | `.github/workflows/release.yml` | GitHub 기본 러너 사용, FOSS 빌드만, 결과물 `Sori.apk` |
 | `.gitignore` | `*.jks`, `*.keystore` 제외 |
 
@@ -49,8 +62,8 @@ Kotlin 패키지(`com.metrolist.music`)는 그대로 둔다. 바꾸면 원본을
 
 ## 버전 규칙
 
-- `versionName`: Sori 자체 번호. 버그 수정은 `1.0.1`, 기능 추가는 `1.1.0` 식으로 올린다.
-- `versionCode`: 릴리스마다 1씩 올린다 (1.0.0 = `15303`, 1.1.0 = `15304`, 1.2.0 = `15305`, 1.3.0 = `15306`, 1.4.0 = `15307`). 이전 릴리스보다 작으면 덮어쓰기 업데이트가 안 된다.
+- `versionName`: Sori 자체 번호. 앞자리는 앱 대규모 업그레이드, 가운데는 기능 추가 (`1.1.0`), 끝자리는 버그 수정 (`1.0.1`).
+- `versionCode`: 릴리스마다 1씩 올린다 (1.0.0 = `15303`, 1.1.0 = `15304`, 1.2.0 = `15305`, 1.3.0 = `15306`, 1.4.0 = `15307`, 1.5.0 = `15308`). 이전 릴리스보다 작으면 덮어쓰기 업데이트가 안 된다.
 - 원본을 병합할 때 원본의 `versionCode`와 `versionName` 줄은 버리고 Sori 값을 유지한다.
 - 앱은 릴리스 제목(= versionName)이 자기 버전보다 크면 업데이트 알림을 띄운다.
 - 13.7.0.1 / 13.7.0.2 설치본은 1.0.0을 새 버전으로 인식하지 못한다. 그래서 한 번은 링크(`https://github.com/saootikim/Sori/releases/latest/download/Sori.apk`)로 직접 받아서 덮어쓰기 설치해야 한다. 로그인과 데이터는 유지된다.
@@ -86,6 +99,7 @@ git push origin main
 - Sori 코드는 `com.metrolist.music.sori` 패키지와 `ui/theme/Sori*.kt` 새 파일에 둔다.
 - 원본 파일에는 호출 한두 줄만 넣고 `// Sori:` 주석을 단다. 원본을 병합할 때 충돌이 나면 이 주석을 찾으면 된다.
 - 기본값은 원본의 `defaultValue`를 고치지 않고 `SoriDefaults`로 시딩한다. 기본값을 추가하려면 `VERSION`을 올린다.
+- 원본에 이미 있는 한국어 번역을 고칠 때는 같은 이름으로 `app/src/foss/res/values-ko/sori_ko_copy.xml`에 넣는다. foss flavor 리소스가 main을 덮어쓰고, 원본에는 이 폴더가 없어서 병합 충돌이 없다. 원본에 한국어가 아예 없는 문자열은 `values-ko/sori_translations.xml`에 넣는다.
 
 ## 로컬 빌드
 

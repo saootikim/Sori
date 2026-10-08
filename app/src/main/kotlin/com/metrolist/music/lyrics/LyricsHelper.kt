@@ -67,6 +67,16 @@ constructor(
             return LyricsWithProvider(LYRICS_NOT_FOUND, PROVIDER_NONE)
         }
 
+        // Sori: all providers at once, best-ranked lyrics win (see SoriLyricsPicker).
+        withTimeoutOrNull(MAX_LYRICS_FETCH_MS) {
+            com.metrolist.music.sori.lyrics.SoriLyricsPicker.pick(
+                context, orderedProviders.filter { it.isEnabled(context) }, mediaMetadata.id,
+                LyricsUtils.cleanTitleForSearch(mediaMetadata.title), mediaMetadata.artists.joinToString { it.name },
+                mediaMetadata.duration, mediaMetadata.album?.title,
+            )
+        }?.let { return LyricsWithProvider(it.lyrics, it.provider) }
+        if (com.metrolist.music.sori.lyrics.SoriLyricsPicker.ENABLED) return LyricsWithProvider(LYRICS_NOT_FOUND, PROVIDER_NONE)
+
         val result = withTimeoutOrNull(MAX_LYRICS_FETCH_MS) {
             val cleanedTitle = LyricsUtils.cleanTitleForSearch(mediaMetadata.title)
             val enabledProviders = orderedProviders.filter { it.isEnabled(context) }

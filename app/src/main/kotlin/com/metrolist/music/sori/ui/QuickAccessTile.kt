@@ -64,6 +64,7 @@ fun SoriQuickAccessTile(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             Modifier
+                .soriPressScale()
                 .fillMaxSize()
                 .clip(TileShape)
                 .then(modifier)
@@ -130,6 +131,7 @@ fun SoriShuffleTile(
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             modifier
+                .soriPressScale()
                 .fillMaxSize()
                 .clip(TileShape)
                 .clickable(onClick = onClick)

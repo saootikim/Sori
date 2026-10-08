@@ -20,6 +20,7 @@ import com.metrolist.music.constants.ChipSortTypeKey
 import com.metrolist.music.constants.LibraryFilter
 import com.metrolist.music.constants.LibraryViewType
 import com.metrolist.music.constants.PlaylistViewTypeKey
+import com.metrolist.music.sori.soriLibraryShortcut
 import com.metrolist.music.ui.component.ChipsRow
 import com.metrolist.music.utils.rememberEnumPreference
 
@@ -39,9 +40,11 @@ fun LibraryScreen() {
                     LibraryFilter.ALBUMS to stringResource(R.string.filter_albums),
                     LibraryFilter.ARTISTS to stringResource(R.string.filter_artists),
                     LibraryFilter.PODCASTS to stringResource(R.string.filter_podcasts),
+                    LibraryFilter.DOWNLOADED to stringResource(R.string.filter_downloaded), // Sori
                 ),
                 currentValue = filterType,
                 onValueUpdate = {
+                    if (soriLibraryShortcut(navController, it)) return@ChipsRow // Sori: Downloaded opens its screen
                     filterType = if (filterType == it) LibraryFilter.LIBRARY else it
                 },
                 modifier = Modifier.weight(1f),
@@ -51,7 +54,7 @@ fun LibraryScreen() {
 
     Box(modifier = Modifier.fillMaxSize()) {
         when (filterType) {
-            LibraryFilter.LIBRARY -> LibraryMixScreen(
+            LibraryFilter.LIBRARY, LibraryFilter.DOWNLOADED -> LibraryMixScreen( // Sori: DOWNLOADED is never kept selected
                 navController = navController,
                 filterContent = filterContent,
                 viewType = libraryViewType,

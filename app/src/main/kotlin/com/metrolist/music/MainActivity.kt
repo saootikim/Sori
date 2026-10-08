@@ -197,7 +197,7 @@ import com.metrolist.music.ui.screens.settings.ChangelogScreen
 import com.metrolist.music.ui.screens.settings.DarkMode
 import com.metrolist.music.ui.screens.settings.NavigationTab
 import com.metrolist.music.ui.theme.ColorSaver
-import com.metrolist.music.sori.soriGreeting
+import com.metrolist.music.sori.soriTopBarTitle
 import com.metrolist.music.ui.theme.DefaultThemeColor
 import com.metrolist.music.ui.theme.MetrolistTheme
 import com.metrolist.music.ui.theme.extractThemeColor
@@ -1065,13 +1065,8 @@ class MainActivity : FragmentActivity() {
                                     TopAppBar(
                                         title = {
                                             Text(
-                                                // Sori: Home shows a time-of-day greeting instead of "Home".
-                                                text =
-                                                    if (currentTitleRes == R.string.home) {
-                                                        soriGreeting()
-                                                    } else {
-                                                        currentTitleRes?.let { stringResource(it) } ?: ""
-                                                    },
+                                                // Sori: Home shows a time-of-day greeting, the library "Your library".
+                                                text = soriTopBarTitle(currentTitleRes),
                                                 style = MaterialTheme.typography.titleLarge,
                                                 maxLines = 1,
                                                 overflow = TextOverflow.Ellipsis,
