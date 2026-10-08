@@ -32,7 +32,8 @@ private val BACKGROUND_REGEX = "^\\{bg\\}".toRegex()
 @Suppress("RegExpRedundantEscape")
 object LyricsUtils {
     fun cleanTitleForSearch(title: String): String {
-        return title.replace(Regex("\\s*[(\\[].*?[)\\]]"), "").trim()
+        // Sori: also full-width brackets, feat., and "- Remastered"-style suffixes.
+        return com.metrolist.music.sori.lyrics.SoriLyricsTitle.clean(title)
     }
 
     fun filterLyricsCreditLines(lyrics: String): String {
@@ -413,6 +414,8 @@ object LyricsUtils {
 
     fun parseLyrics(lyrics: String): List<LyricsEntry> {
         if (lyrics.isBlank()) return emptyList()
+        // Sori: odd time tags and [offset:] are normalized first (they used to parse to nothing).
+        if (com.metrolist.music.sori.lyrics.SoriLrc.needsPrepare(lyrics)) return parseLyrics(com.metrolist.music.sori.lyrics.SoriLrc.prepare(lyrics))
 
         // Fast unescape
         val unescapedLyrics = if (lyrics.contains('\\') || lyrics.startsWith("\"")) {
@@ -742,7 +745,8 @@ object LyricsUtils {
             }
             i++
         }
-        return result.sorted()
+        // Sori: line-synced lines get estimated word timings for word-by-word highlighting.
+        return com.metrolist.music.sori.lyrics.SoriLrc.fillWords(result.sorted())
     }
 
     private fun parseWordTimestamps(data: String): List<WordTimestamp>? {
@@ -880,6 +884,8 @@ object LyricsUtils {
             } else {
                 null
             }
+            // Sori: Hangul pronunciation (아이시테루) instead of romaji.
+            if (com.metrolist.music.sori.lyrics.SoriKana.ENABLED) return@mapIndexed com.metrolist.music.sori.lyrics.SoriKana.toHangul(currentReading)
             katakanaToRomaji(currentReading, nextTokenReading)
         }
         romanizedTokens.joinToString(" ")

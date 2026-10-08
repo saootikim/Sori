@@ -12,6 +12,7 @@ import com.metrolist.music.constants.PlayerBackgroundStyleKey
 import com.metrolist.music.constants.SliderStyle
 import com.metrolist.music.constants.MixSortType
 import com.metrolist.music.constants.MixSortTypeKey
+import com.metrolist.music.constants.TranslateLanguageKey
 import com.metrolist.music.constants.SliderStyleKey
 import com.metrolist.music.constants.UseNewPlayerDesignKey
 import com.metrolist.music.ui.screens.settings.DarkMode
@@ -108,5 +109,16 @@ class SoriDefaultsTest {
 
         assertFalse(SoriDefaults.applyTo(prefs))
         assertEquals(null, prefs[DarkModeKey])
+    }
+
+    @Test
+    fun lyricsTranslateIntoKoreanUnlessALanguageWasChosen() {
+        val fresh = mutablePreferencesOf()
+        SoriDefaults.applyTo(fresh)
+        assertEquals("ko", fresh[TranslateLanguageKey])
+
+        val chosen = mutablePreferencesOf(SoriDefaults.VersionKey to 6, TranslateLanguageKey to "ja")
+        SoriDefaults.applyTo(chosen)
+        assertEquals("ja", chosen[TranslateLanguageKey])
     }
 }

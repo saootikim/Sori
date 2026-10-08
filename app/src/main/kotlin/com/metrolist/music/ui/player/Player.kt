@@ -2064,11 +2064,23 @@ fun InlineLyricsView(
                         )
                     val lyricsHelper = entryPoint.lyricsHelper()
                     val fetchedLyricsWithProvider = lyricsHelper.getLyrics(mediaMetadata)
+                    com.metrolist.music.sori.lyrics.SoriLyricsRetry.markChecked(context, mediaMetadata.id) // Sori
                     database.query {
                         upsert(LyricsEntity(mediaMetadata.id, fetchedLyricsWithProvider.lyrics, fetchedLyricsWithProvider.provider))
                     }
                 } catch (e: Exception) {
                     // Handle error
+                }
+            }
+        }
+        // Sori: a saved "not found" (often from being offline) is looked up again once per run.
+        if (mediaMetadata != null && com.metrolist.music.sori.lyrics.SoriLyricsRetry.shouldRetry(currentLyrics, mediaMetadata.id)) {
+            withContext(Dispatchers.IO) {
+                runCatching {
+                    val helper = EntryPointAccessors.fromApplication(
+                        context.applicationContext, com.metrolist.music.di.LyricsHelperEntryPoint::class.java,
+                    ).lyricsHelper()
+                    com.metrolist.music.sori.lyrics.SoriLyricsRetry.retry(context, database, helper, mediaMetadata)
                 }
             }
         }
@@ -2104,6 +2116,7 @@ fun InlineLyricsView(
                     )
                 val lyricsHelper = entryPoint.lyricsHelper()
                 val fetched = lyricsHelper.getLyrics(nextMetadata)
+                com.metrolist.music.sori.lyrics.SoriLyricsRetry.markChecked(context, nextId) // Sori
                 database.query {
                     upsert(LyricsEntity(nextId, fetched.lyrics, fetched.provider))
                 }
